@@ -35,6 +35,8 @@
 			this.labelBettaLabel = new System.Windows.Forms.Label();
 			this.labelInitialXLabel = new System.Windows.Forms.Label();
 			this.labelInitialYLabel = new System.Windows.Forms.Label();
+			this.graphSystemOscillogram2 = new Graph.GraphSystemOscillogram();
+			this.graphSystemOscillogram1 = new Graph.GraphSystemOscillogram();
 			this.graph1 = new Graph.GraphSystemBehavior();
 			((System.ComponentModel.ISupportInitialize)(this.trackBarAlfa)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.trackBarBetta)).BeginInit();
@@ -44,17 +46,18 @@
 			// 
 			// trackBarAlfa
 			// 
-			this.trackBarAlfa.Location = new System.Drawing.Point(594, 38);
-			this.trackBarAlfa.Maximum = 300;
+			this.trackBarAlfa.Location = new System.Drawing.Point(556, 21);
+			this.trackBarAlfa.Maximum = 500;
 			this.trackBarAlfa.Name = "trackBarAlfa";
 			this.trackBarAlfa.Size = new System.Drawing.Size(104, 45);
 			this.trackBarAlfa.TabIndex = 1;
 			this.trackBarAlfa.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+			this.trackBarAlfa.MouseEnter += new System.EventHandler(this.trackBarAlfa_MouseEnter);
 			// 
 			// labelAlfaValue
 			// 
 			this.labelAlfaValue.AutoSize = true;
-			this.labelAlfaValue.Location = new System.Drawing.Point(743, 38);
+			this.labelAlfaValue.Location = new System.Drawing.Point(705, 21);
 			this.labelAlfaValue.Name = "labelAlfaValue";
 			this.labelAlfaValue.Size = new System.Drawing.Size(13, 13);
 			this.labelAlfaValue.TabIndex = 2;
@@ -62,8 +65,9 @@
 			// 
 			// trackBarBetta
 			// 
-			this.trackBarBetta.Location = new System.Drawing.Point(594, 89);
+			this.trackBarBetta.Location = new System.Drawing.Point(556, 72);
 			this.trackBarBetta.Maximum = 300;
+			this.trackBarBetta.Minimum = -300;
 			this.trackBarBetta.Name = "trackBarBetta";
 			this.trackBarBetta.Size = new System.Drawing.Size(104, 45);
 			this.trackBarBetta.TabIndex = 3;
@@ -71,7 +75,7 @@
 			// 
 			// trackBarInitialX
 			// 
-			this.trackBarInitialX.Location = new System.Drawing.Point(594, 140);
+			this.trackBarInitialX.Location = new System.Drawing.Point(556, 123);
 			this.trackBarInitialX.Maximum = 100;
 			this.trackBarInitialX.Name = "trackBarInitialX";
 			this.trackBarInitialX.Size = new System.Drawing.Size(104, 45);
@@ -81,7 +85,7 @@
 			// 
 			// trackBarInitialY
 			// 
-			this.trackBarInitialY.Location = new System.Drawing.Point(594, 179);
+			this.trackBarInitialY.Location = new System.Drawing.Point(556, 162);
 			this.trackBarInitialY.Maximum = 100;
 			this.trackBarInitialY.Name = "trackBarInitialY";
 			this.trackBarInitialY.Size = new System.Drawing.Size(104, 45);
@@ -92,7 +96,7 @@
 			// labelBettaValue
 			// 
 			this.labelBettaValue.AutoSize = true;
-			this.labelBettaValue.Location = new System.Drawing.Point(743, 89);
+			this.labelBettaValue.Location = new System.Drawing.Point(705, 72);
 			this.labelBettaValue.Name = "labelBettaValue";
 			this.labelBettaValue.Size = new System.Drawing.Size(13, 13);
 			this.labelBettaValue.TabIndex = 6;
@@ -101,7 +105,7 @@
 			// labelInitalXValue
 			// 
 			this.labelInitalXValue.AutoSize = true;
-			this.labelInitalXValue.Location = new System.Drawing.Point(743, 140);
+			this.labelInitalXValue.Location = new System.Drawing.Point(705, 123);
 			this.labelInitalXValue.Name = "labelInitalXValue";
 			this.labelInitalXValue.Size = new System.Drawing.Size(13, 13);
 			this.labelInitalXValue.TabIndex = 7;
@@ -110,7 +114,7 @@
 			// labelInitialYValue
 			// 
 			this.labelInitialYValue.AutoSize = true;
-			this.labelInitialYValue.Location = new System.Drawing.Point(743, 179);
+			this.labelInitialYValue.Location = new System.Drawing.Point(705, 162);
 			this.labelInitialYValue.Name = "labelInitialYValue";
 			this.labelInitialYValue.Size = new System.Drawing.Size(35, 13);
 			this.labelInitialYValue.TabIndex = 8;
@@ -119,7 +123,7 @@
 			// labelAlfaLabel
 			// 
 			this.labelAlfaLabel.AutoSize = true;
-			this.labelAlfaLabel.Location = new System.Drawing.Point(533, 38);
+			this.labelAlfaLabel.Location = new System.Drawing.Point(495, 21);
 			this.labelAlfaLabel.Name = "labelAlfaLabel";
 			this.labelAlfaLabel.Size = new System.Drawing.Size(25, 13);
 			this.labelAlfaLabel.TabIndex = 9;
@@ -128,7 +132,7 @@
 			// labelBettaLabel
 			// 
 			this.labelBettaLabel.AutoSize = true;
-			this.labelBettaLabel.Location = new System.Drawing.Point(533, 89);
+			this.labelBettaLabel.Location = new System.Drawing.Point(495, 72);
 			this.labelBettaLabel.Name = "labelBettaLabel";
 			this.labelBettaLabel.Size = new System.Drawing.Size(32, 13);
 			this.labelBettaLabel.TabIndex = 10;
@@ -137,7 +141,7 @@
 			// labelInitialXLabel
 			// 
 			this.labelInitialXLabel.AutoSize = true;
-			this.labelInitialXLabel.Location = new System.Drawing.Point(533, 149);
+			this.labelInitialXLabel.Location = new System.Drawing.Point(495, 132);
 			this.labelInitialXLabel.Name = "labelInitialXLabel";
 			this.labelInitialXLabel.Size = new System.Drawing.Size(38, 13);
 			this.labelInitialXLabel.TabIndex = 11;
@@ -146,11 +150,41 @@
 			// labelInitialYLabel
 			// 
 			this.labelInitialYLabel.AutoSize = true;
-			this.labelInitialYLabel.Location = new System.Drawing.Point(533, 179);
+			this.labelInitialYLabel.Location = new System.Drawing.Point(495, 162);
 			this.labelInitialYLabel.Name = "labelInitialYLabel";
 			this.labelInitialYLabel.Size = new System.Drawing.Size(38, 13);
 			this.labelInitialYLabel.TabIndex = 12;
 			this.labelInitialYLabel.Text = "InitialY";
+			// 
+			// graphSystemOscillogram2
+			// 
+			this.graphSystemOscillogram2.axisXlabel = "x";
+			this.graphSystemOscillogram2.axisYlabel = "y";
+			this.graphSystemOscillogram2.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+			this.graphSystemOscillogram2.graphHist = false;
+			this.graphSystemOscillogram2.IsAxisVisible = true;
+			this.graphSystemOscillogram2.Location = new System.Drawing.Point(767, 204);
+			this.graphSystemOscillogram2.MoveButtonsExist = true;
+			this.graphSystemOscillogram2.Name = "graphSystemOscillogram2";
+			this.graphSystemOscillogram2.scatterGraph = false;
+			this.graphSystemOscillogram2.Size = new System.Drawing.Size(464, 150);
+			this.graphSystemOscillogram2.TabIndex = 14;
+			this.graphSystemOscillogram2.ZoomButtonsExist = true;
+			// 
+			// graphSystemOscillogram1
+			// 
+			this.graphSystemOscillogram1.axisXlabel = "x";
+			this.graphSystemOscillogram1.axisYlabel = "y";
+			this.graphSystemOscillogram1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+			this.graphSystemOscillogram1.graphHist = false;
+			this.graphSystemOscillogram1.IsAxisVisible = true;
+			this.graphSystemOscillogram1.Location = new System.Drawing.Point(767, 18);
+			this.graphSystemOscillogram1.MoveButtonsExist = true;
+			this.graphSystemOscillogram1.Name = "graphSystemOscillogram1";
+			this.graphSystemOscillogram1.scatterGraph = false;
+			this.graphSystemOscillogram1.Size = new System.Drawing.Size(464, 150);
+			this.graphSystemOscillogram1.TabIndex = 13;
+			this.graphSystemOscillogram1.ZoomButtonsExist = true;
 			// 
 			// graph1
 			// 
@@ -159,16 +193,16 @@
 			this.graph1.axisYlabel = "y";
 			this.graph1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
 			this.graph1.betta = 0D;
-			this.graph1.graphHist = false;
+			this.graph1.graphHist = true;
 			this.graph1.GrowthX = 0D;
 			this.graph1.GrowthY = 0D;
 			this.graph1.initialX = 0D;
 			this.graph1.initialY = 0D;
 			this.graph1.IsAxisVisible = true;
-			this.graph1.Location = new System.Drawing.Point(27, 13);
+			this.graph1.Location = new System.Drawing.Point(12, 12);
 			this.graph1.MoveButtonsExist = true;
 			this.graph1.Name = "graph1";
-			this.graph1.scatterGraph = false;
+			this.graph1.scatterGraph = true;
 			this.graph1.Size = new System.Drawing.Size(464, 363);
 			this.graph1.TabIndex = 0;
 			this.graph1.ZoomButtonsExist = true;
@@ -177,7 +211,9 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(931, 388);
+			this.ClientSize = new System.Drawing.Size(1243, 388);
+			this.Controls.Add(this.graphSystemOscillogram2);
+			this.Controls.Add(this.graphSystemOscillogram1);
 			this.Controls.Add(this.labelInitialYLabel);
 			this.Controls.Add(this.labelInitialXLabel);
 			this.Controls.Add(this.labelBettaLabel);
@@ -218,6 +254,8 @@
 		private System.Windows.Forms.Label labelBettaLabel;
 		private System.Windows.Forms.Label labelInitialXLabel;
 		private System.Windows.Forms.Label labelInitialYLabel;
+		private Graph.GraphSystemOscillogram graphSystemOscillogram1;
+		private Graph.GraphSystemOscillogram graphSystemOscillogram2;
 
 	}
 }

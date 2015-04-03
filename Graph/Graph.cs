@@ -902,6 +902,6 @@ namespace Graph
 
 		}
     }
-    public enum Axes : int {x = 0, y = 1 };
-    public enum MoveAttributes : int {percents, usersCoordinates};
+    
+    
 }
