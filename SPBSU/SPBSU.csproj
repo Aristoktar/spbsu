@@ -32,7 +32,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -64,6 +72,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -75,12 +84,26 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj">
+      <Project>{01235a08-0493-4b29-afa8-b279232a365f}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DynamicCompiling\DynamicCompiling.csproj">
+      <Project>{61e1d4a0-c776-486c-9268-65d02b4ff25e}</Project>
+      <Name>DynamicCompiling</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Graph\Graph.csproj">
       <Project>{d6c4ce0d-a36e-469e-b58c-23ee8d6966cf}</Project>
       <Name>Graph</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SPBSU.Dynamic\SPBSU.Dynamic.csproj">
+      <Project>{114ba428-1d06-4910-a4af-a05aa7833da2}</Project>
+      <Name>SPBSU.Dynamic</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

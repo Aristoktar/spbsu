@@ -428,12 +428,17 @@ namespace Graph
         /// </summary>
         protected void draw()
         {
-            this.calculate();
+			if ( this.checkBoxZoomrRecalc.Checked) {
+
+				this.calculate ();
+			}
             this.createGraphImage();
             this.Refresh();
         }
 		public void Redraw () {
-			this.draw ();
+			this.calculate ();
+			this.createGraphImage();
+            this.Refresh();
 		}
         protected virtual void createGraphImage()
         {

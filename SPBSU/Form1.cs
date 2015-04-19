@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DynamicCompiling;
+using SPBSU.Dynamic;
 
 namespace SPBSU {
 	public partial class Form1 : Form {
@@ -19,8 +21,14 @@ namespace SPBSU {
 			this.graph1.betta = 1 + (double) ( this.trackBarBetta.Value ) / 100;
 			this.graph1.initialX = (double) ( this.trackBarInitialX.Value ) / 100;
 			this.graph1.initialY = (double) ( this.trackBarInitialY.Value ) / 100;
-			this.graph1.setData ( 1 , 0 , 1 , 0);
-			OscillatorRedraw ();
+			//this.graph1.setData ( 1 , 0 , 1 , 0 );
+			//OscillatorRedraw ();
+
+			// Data.DataProvider d = new Data.DataProvider ()  ;
+			// MessageBox.Show ( d.EquationsSetsQuery.First ().Name );
+			
+		
+			
 		}
 
 		private void OscillatorRedraw () {
@@ -68,6 +76,24 @@ namespace SPBSU {
 
 		private void trackBarAlfa_MouseEnter ( object sender , EventArgs e ) {
 			(sender as TrackBar).Focus ();
+		}
+
+		private void checkBoxScatterPlot_CheckedChanged ( object sender , EventArgs e ) {
+			if ( ( sender as CheckBox ).Checked ) {
+				this.graph1.scatterGraph = true;
+			}
+			else {
+				this.graph1.scatterGraph = false;
+			}
+			this.graph1.Redraw ();
+		}
+
+		private void button1_Click ( object sender , EventArgs e ) {
+			string inp = this.textBox1.Text.ToLower ().Replace("sin","Math.Sin");
+			
+			//Main.run (inp);
+			FormDynamicEquations form = new FormDynamicEquations ();
+			form.Show ();
 		}
 	}
 }

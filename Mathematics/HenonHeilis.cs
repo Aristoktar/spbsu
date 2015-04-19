@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mathematics
-{
-    public class Class1
-    {
-    }
+namespace Mathematics {
+	public static class HenonHeilis {
+
+	}
 }
