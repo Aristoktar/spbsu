@@ -23,18 +23,35 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent () {
+			this.checkBoxScatter = new System.Windows.Forms.CheckBox();
 			this.SuspendLayout();
+			// 
+			// checkBoxScatter
+			// 
+			this.checkBoxScatter.AutoSize = true;
+			this.checkBoxScatter.Location = new System.Drawing.Point(66, 343);
+			this.checkBoxScatter.Name = "checkBoxScatter";
+			this.checkBoxScatter.Size = new System.Drawing.Size(81, 17);
+			this.checkBoxScatter.TabIndex = 1;
+			this.checkBoxScatter.Text = "Scatter Plot";
+			this.checkBoxScatter.UseVisualStyleBackColor = true;
+			this.checkBoxScatter.CheckedChanged += new System.EventHandler(this.checkBoxScatter_CheckedChanged);
 			// 
 			// GraphDynamicType
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.checkBoxScatter);
 			this.Name = "GraphDynamicType";
 			this.Load += new System.EventHandler(this.GraphDynamicType_Load);
+			this.Controls.SetChildIndex(this.checkBoxScatter, 0);
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
 		#endregion
+
+		private System.Windows.Forms.CheckBox checkBoxScatter;
 	}
 }

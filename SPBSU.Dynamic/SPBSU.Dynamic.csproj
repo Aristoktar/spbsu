@@ -44,6 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EditPatameterValuesArea.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditPatameterValuesArea.Designer.cs">
+      <DependentUpon>EditPatameterValuesArea.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormDynamicEquations.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -52,6 +58,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="EditPatameterValuesArea.resx">
+      <DependentUpon>EditPatameterValuesArea.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormDynamicEquations.resx">
       <DependentUpon>FormDynamicEquations.cs</DependentUpon>
     </EmbeddedResource>

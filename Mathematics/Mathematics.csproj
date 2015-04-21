@@ -43,6 +43,8 @@
     <Compile Include="Analysis\FunctionInfo.cs" />
     <Compile Include="Delegates.cs" />
     <Compile Include="HenonHeilis.cs" />
+    <Compile Include="Intergration\Euler.cs" />
+    <Compile Include="Intergration\IntegrationType.cs" />
     <Compile Include="Intergration\RungeKutta.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

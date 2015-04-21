@@ -436,9 +436,17 @@ namespace Graph
             this.Refresh();
         }
 		public void Redraw () {
+			Stopwatch s = new Stopwatch ();
+			s.Start ();
 			this.calculate ();
+			s.Stop ();
+			s.Restart ();
 			this.createGraphImage();
+			s.Stop ();
+			s.Restart ();
             this.Refresh();
+			s.Stop ();
+			s.Restart ();
 		}
         protected virtual void createGraphImage()
         {
