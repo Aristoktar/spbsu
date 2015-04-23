@@ -41,6 +41,13 @@ namespace SPBSU.Dynamic {
 		private void buttonOk_Click ( object sender , EventArgs e ) {
 			this.TrackBarToEdit.Minimum = (int)(this.numericUpDownMin.Value*(decimal)Math.Pow(10,(double)this.numericUpDownMin.DecimalPlaces));
 			this.TrackBarToEdit.Maximum = (int)(this.numericUpDownMax.Value*(decimal)Math.Pow(10,(double)this.numericUpDownMax.DecimalPlaces));
+			this.TrackBarToEdit.SmallChange = ( this.TrackBarToEdit.Maximum - this.TrackBarToEdit.Minimum ) / 10;
+			this.TrackBarToEdit.LargeChange = ( this.TrackBarToEdit.Maximum - this.TrackBarToEdit.Minimum ) / 10;
+			this.Close ();
+		}
+
+		private void buttonCancel_Click ( object sender , EventArgs e ) {
+			this.Close ();
 		}
 	}
 }

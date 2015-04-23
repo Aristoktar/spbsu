@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Reflection;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Graph
 {
@@ -78,7 +79,10 @@ namespace Graph
         protected double yMinValue;
         protected double yMaxValue;
         protected List<PointF> zoomList;
-        protected Bitmap imgGraph;
+		protected Bitmap imgGraph {
+			get;
+			set;
+		}
         protected Bitmap imgAxesAndLabels;
         protected Bitmap imgOut;
         
@@ -100,6 +104,8 @@ namespace Graph
         protected double deltaXs;
         protected double deltaYs;
         private bool buttonsInited = false;
+
+		private Thread RedrawThread;
 
         public Graph()
         {
@@ -195,10 +201,11 @@ namespace Graph
             
             //e.Graphics.FillRectangle(new SolidBrush(this.BackColor), new Rectangle(new Point(0, 0), this.Size));
             //e.Graphics.FillRectangle(Brushes.White, new Rectangle(point1, size1));
+			//if (this.RedrawThread ==null || !this.RedrawThread.IsAlive ) {
 
-            this.createAxesAndLabelsImage();
-            e.Graphics.DrawImage(this.imgAxesAndLabels, new Rectangle(0, 0, this.Width, this.Height));
-            
+				this.createAxesAndLabelsImage ();
+				e.Graphics.DrawImage ( this.imgAxesAndLabels , new Rectangle ( 0 , 0 , this.Width , this.Height ) );
+			//}
             /*
             if (this.IsAxisVisible)
             {
@@ -397,7 +404,7 @@ namespace Graph
             double yEnd = this.PixelToUsers(yMax, Axes.y);
             double xStart = this.PixelToUsers(xMin, Axes.x);
             double xEnd = this.PixelToUsers(xMax, Axes.x);
-            if (yEnd - yStart < minDeltaUsers || xEnd - xStart < minDeltaUsers)
+            if (Math.Abs(yEnd - yStart) < minDeltaUsers || Math.Abs( xEnd - xStart) < minDeltaUsers)
             {
                 this.zoomList = new List<PointF>();
                 MessageBox.Show("reached maximun zoom");
@@ -409,7 +416,7 @@ namespace Graph
             this.xMinValue = xStart;
             this.zoomList = new List<PointF>();
             
-            this.draw();
+            this.Draw();
         }
         public void setData(double xMax, double xMin, double yMax, double yMin, string equationString = "")
         {
@@ -419,34 +426,51 @@ namespace Graph
             this.yMinValue = yMin;
             this.equation = equationString;
             InitializeComponent1();
-            this.draw();
+            this.Draw();
         }
+
+		private void DrawThreading () {
+			if ( this.checkBoxZoomrRecalc.Checked ) {
+
+				this.calculate ();
+			}
+			this.createGraphImage ();
+			//this.Invalidate ();
+		}
         /// <summary>
         /// use it to re-calculate and redraw
         /// if you do not want to re-calculate values-
         /// use Refersh() or Invalidate();
         /// </summary>
-        protected void draw()
+        protected void Draw()
         {
-			if ( this.checkBoxZoomrRecalc.Checked) {
-
-				this.calculate ();
+			if ( this.RedrawThread != null && this.RedrawThread.IsAlive ) {
+				this.RedrawThread.Abort ();
 			}
-            this.createGraphImage();
-            this.Refresh();
+			this.RedrawThread = new Thread ( DrawThreading );
+			this.RedrawThread.Start ();
         }
-		public void Redraw () {
+
+		private void RedrawThreading () {
+
 			Stopwatch s = new Stopwatch ();
 			s.Start ();
 			this.calculate ();
 			s.Stop ();
 			s.Restart ();
-			this.createGraphImage();
+			this.createGraphImage ();
 			s.Stop ();
 			s.Restart ();
-            this.Refresh();
+			//this.Invalidate ();
 			s.Stop ();
 			s.Restart ();
+		}
+		public void Redraw () {
+			if ( this.RedrawThread != null && this.RedrawThread.IsAlive ) {
+				this.RedrawThread.Abort ();
+			}
+			this.RedrawThread = new Thread ( RedrawThreading);
+			this.RedrawThread.Start ();
 		}
         protected virtual void createGraphImage()
         {
@@ -599,7 +623,7 @@ namespace Graph
             this.yMaxValue += deltaY;
             this.xMaxValue += deltaX;
             this.xMinValue -= deltaX;
-            this.draw();
+            this.Draw();
         }
         /// <summary>
         /// Zoom In graph for 110 percent
@@ -616,7 +640,7 @@ namespace Graph
                 this.yMaxValue -= deltaY;
                 this.xMaxValue -= deltaX;
                 this.xMinValue += deltaX;
-                this.draw();
+                this.Draw();
             }
         }
         public void moveLeft(double moveValue = 25, MoveAttributes mAttr = MoveAttributes.percents)
@@ -636,7 +660,7 @@ namespace Graph
                 default:
                     break;
             }
-            this.draw();
+            this.Draw();
         }
         public void moveRight(double moveValue = 25, MoveAttributes mAttr = MoveAttributes.percents)
         {
@@ -655,7 +679,7 @@ namespace Graph
                 default:
                     break;
             }
-            this.draw();
+            this.Draw();
         }
         public void moveUp(double moveValue = 25, MoveAttributes mAttr = MoveAttributes.percents)
         {
@@ -674,7 +698,7 @@ namespace Graph
                 default:
                     break;
             }
-            this.draw();
+            this.Draw();
         }
         public void moveDown(double moveValue = 25, MoveAttributes mAttr = MoveAttributes.percents)
         {
@@ -693,7 +717,7 @@ namespace Graph
                 default:
                     break;
             }
-            this.draw();
+            this.Draw();
         }
         protected override void OnMouseWheel(MouseEventArgs e)
         {

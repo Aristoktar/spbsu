@@ -7,7 +7,7 @@ using Mathematics.Delegates;
 
 namespace Mathematics.Intergration {
 	public static class Euler {
-		public static Dictionary<string , List<double>> Integrate ( Dictionary<string , functionD> functions , double t0 , Dictionary<string , double> f0 , int iterationsCount = 100000 ) {
+		public static Dictionary<string , List<double>> Integrate ( Dictionary<string , functionD> functions , double t0 , Dictionary<string , double> f0 ,Dictionary<string , double> parameters=null, int iterationsCount = 100000 ) {
 
 			Dictionary<string , List<double>> output = new Dictionary<string , List<double>> ();
 			foreach ( var func in functions ) {
@@ -22,7 +22,7 @@ namespace Mathematics.Intergration {
 			for ( int i = 0 ; i < iterationsCount ; i++ ) {
 				var tempF = new Dictionary<string , double> ( f );
 				foreach ( var key in functions.Keys ) {
-					f[key] = f[key] + h * functions[key].Invoke ( t , tempF );
+					f[key] = f[key] + h * functions[key].Invoke ( t , tempF,parameters );
 					output[key].Add ( f[key] );
 				}
 				tOut.Add (t);

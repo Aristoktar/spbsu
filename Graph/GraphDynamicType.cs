@@ -35,6 +35,10 @@ namespace Graph {
 			get;
 			set;
 		}
+		public Dictionary<string , double> Parameters {
+			get;
+			set;
+		}
 		protected override void calculate () {
 			//base.calculate ();
 			if ( UseDynamicFunctions ) {
@@ -44,7 +48,7 @@ namespace Graph {
 						solution = RungeKutta.Integrate4 ( this.functionsD , t0 , f0 );
 						break;
 					case IntegrationType.EulerMethod:
-						solution = Euler.Integrate ( this.functionsD , t0 , f0 );
+						solution = Euler.Integrate ( this.functionsD , t0 , f0,Parameters);
 						break;
 					case Mathematics.Intergration.IntegrationType.EulerMethodSymplectic:
 						solution = Euler.IntegrateSymplectic ( this.functionsD , t0 , f0 );
@@ -57,9 +61,10 @@ namespace Graph {
 			}
 			
 		}
-		public void InitFunctionsD ( Dictionary<string , string> functions ) {
+		public void InitFunctionsD ( Dictionary<string , string> functions, Dictionary<string , double> parameters) {
 			this.UseDynamicFunctions = true;
-			Compilator compilator = new Compilator ( functions );
+			Compilator compilator = new Compilator ( functions , parameters );
+			this.Parameters = parameters;
 			this.functionsD = compilator.GetFuncs ();
 		}
 
@@ -87,6 +92,37 @@ namespace Graph {
 		private void checkBoxScatter_CheckedChanged ( object sender , EventArgs e ) {
 			if ( this.checkBoxScatter.Checked ) this.scatterGraph = true;
 			else this.scatterGraph = false;
+			this.Redraw ();
+		}
+
+		private void buttonZoom100_Click ( object sender , EventArgs e ) {
+			
+			this.xMinValue = this.dataX
+				.Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
+					.Min();
+			this.xMaxValue = this.dataX
+				.Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
+					.Max ();
+			this.yMaxValue = this.dataY
+				.Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
+					.Max ();
+			this.yMinValue = this.dataY
+				.Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
+					.Min ();
+				//if ( Double.IsInfinity ( xMinValue ) || Double.IsNaN ( xMinValue ) ) {
+				//	xMinValue = -1000;
+				//	xMinValue = dataX.Where(a=)
+				//}
+				//if ( Double.IsInfinity ( xMaxValue ) || Double.IsNaN ( xMaxValue ) ) {
+				//	xMaxValue = 1000;
+				//}
+				//if ( Double.IsInfinity ( yMinValue ) || Double.IsNaN ( yMinValue ) ) {
+				//	yMinValue = -1000;
+				//}
+				//if ( Double.IsInfinity ( yMaxValue ) || Double.IsNaN ( yMaxValue ) ) {
+				//	yMaxValue = 1000;
+				//}
+			
 			this.Redraw ();
 		}
 	}

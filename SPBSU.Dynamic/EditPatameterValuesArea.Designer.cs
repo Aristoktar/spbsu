@@ -68,7 +68,6 @@
 			this.numericUpDownMin.Name = "numericUpDownMin";
 			this.numericUpDownMin.Size = new System.Drawing.Size(83, 20);
 			this.numericUpDownMin.TabIndex = 2;
-			
 			// 
 			// numericUpDownMax
 			// 
@@ -92,7 +91,6 @@
             0,
             0,
             0});
-			
 			// 
 			// buttonOk
 			// 
@@ -112,6 +110,7 @@
 			this.buttonCancel.TabIndex = 5;
 			this.buttonCancel.Text = "Cancel";
 			this.buttonCancel.UseVisualStyleBackColor = true;
+			this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
 			// 
 			// EditPatameterValuesArea
 			// 

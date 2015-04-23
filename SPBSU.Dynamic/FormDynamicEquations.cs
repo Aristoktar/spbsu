@@ -226,7 +226,7 @@ namespace SPBSU.Dynamic {
 					Eques.Add ( Variables[i].Text , Equations[i].Text );
 					initials.Add ( Variables[i].Text , Convert.ToDouble ( Initials[i].Text ) );
 				}
-				
+				Dictionary<string , double> parameters = this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble(b.Value.Text) );
 
 				//Compilator compilator = new Compilator ( Eques );
 				//var funcs= compilator.GetFuncs ();
@@ -241,7 +241,7 @@ namespace SPBSU.Dynamic {
 					
 				//}
 				//var w =RungeKutta.Integrate4 ( funcs , 0 , new Dictionary<string , double> () { { "x" , 0 } } );
-				this.graphSystemBehavior1.InitFunctionsD (Eques);
+				this.graphSystemBehavior1.InitFunctionsD (Eques,parameters);
 				this.graphSystemBehavior1.SetAxisToShow ( this.listBoxX.SelectedItem.ToString () , this.listBoxY.SelectedItem.ToString () );
 				this.graphSystemBehavior1.f0 = initials;
 				this.graphSystemBehavior1.t0 = Convert.ToDouble ( this.textBoxt0.Text );
@@ -334,9 +334,15 @@ namespace SPBSU.Dynamic {
 			
 		}
 
-		private void trackBarParameter_Scroll ( object sender , EventArgs e ) {
+
+		
+		private void trackBarParameter_Scroll ( object sender , EventArgs e ){
+			
 			string key = this.ParamterTrackBars.FirstOrDefault ( a => a.Value == ( sender as TrackBar ) ).Key;
-			this.ParamterTextBoxes[key].Text = ( sender as TrackBar ).Value.ToString ();
+			this.ParamterTextBoxes[key].Text = ((double)( sender as TrackBar ).Value/10000).ToString ();
+			this.graphSystemBehavior1.Parameters = this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble ( b.Value.Text ) );
+			this.graphSystemBehavior1.Redraw ();
+			
 		}
 
 		private void radioButtonRungeKutta4_CheckedChanged ( object sender , EventArgs e ) {

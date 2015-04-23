@@ -57,8 +57,8 @@
 			this.buttonB = new System.Windows.Forms.Button();
 			this.radioButtonRungeKutta4 = new System.Windows.Forms.RadioButton();
 			this.radioButtonEuler = new System.Windows.Forms.RadioButton();
-			this.graphSystemBehavior1 = new Graph.GraphDynamicType();
 			this.radioButtonEulerSymplectic = new System.Windows.Forms.RadioButton();
+			this.graphSystemBehavior1 = new Graph.GraphDynamicType();
 			((System.ComponentModel.ISupportInitialize)(this.trackBarA)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.trackBarB)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.trackBarC)).BeginInit();
@@ -199,88 +199,129 @@
 			// 
 			// trackBarA
 			// 
+			this.trackBarA.LargeChange = 2000;
 			this.trackBarA.Location = new System.Drawing.Point(956, 53);
+			this.trackBarA.Maximum = 50000;
+			this.trackBarA.Minimum = -50000;
 			this.trackBarA.Name = "trackBarA";
 			this.trackBarA.Size = new System.Drawing.Size(104, 45);
+			this.trackBarA.SmallChange = 1000;
 			this.trackBarA.TabIndex = 15;
+			this.trackBarA.TickFrequency = 2000;
 			this.trackBarA.Scroll += new System.EventHandler(this.trackBarParameter_Scroll);
 			// 
 			// trackBarB
 			// 
+			this.trackBarB.LargeChange = 2000;
 			this.trackBarB.Location = new System.Drawing.Point(956, 99);
+			this.trackBarB.Maximum = 50000;
+			this.trackBarB.Minimum = -50000;
 			this.trackBarB.Name = "trackBarB";
 			this.trackBarB.Size = new System.Drawing.Size(104, 45);
+			this.trackBarB.SmallChange = 1000;
 			this.trackBarB.TabIndex = 16;
+			this.trackBarB.TickFrequency = 2000;
+			this.trackBarB.Scroll += new System.EventHandler(this.trackBarParameter_Scroll);
 			// 
 			// trackBarC
 			// 
+			this.trackBarC.LargeChange = 2000;
 			this.trackBarC.Location = new System.Drawing.Point(956, 150);
+			this.trackBarC.Maximum = 50000;
+			this.trackBarC.Minimum = -50000;
 			this.trackBarC.Name = "trackBarC";
 			this.trackBarC.Size = new System.Drawing.Size(104, 45);
+			this.trackBarC.SmallChange = 1000;
 			this.trackBarC.TabIndex = 17;
+			this.trackBarC.TickFrequency = 2000;
+			this.trackBarC.Scroll += new System.EventHandler(this.trackBarParameter_Scroll);
 			// 
 			// trackBarD
 			// 
+			this.trackBarD.LargeChange = 2000;
 			this.trackBarD.Location = new System.Drawing.Point(956, 201);
+			this.trackBarD.Maximum = 50000;
+			this.trackBarD.Minimum = -50000;
 			this.trackBarD.Name = "trackBarD";
 			this.trackBarD.Size = new System.Drawing.Size(104, 45);
+			this.trackBarD.SmallChange = 1000;
 			this.trackBarD.TabIndex = 18;
+			this.trackBarD.TickFrequency = 2000;
+			this.trackBarD.Scroll += new System.EventHandler(this.trackBarParameter_Scroll);
 			// 
 			// trackBarE
 			// 
+			this.trackBarE.LargeChange = 2000;
 			this.trackBarE.Location = new System.Drawing.Point(956, 252);
+			this.trackBarE.Maximum = 50000;
+			this.trackBarE.Minimum = -50000;
 			this.trackBarE.Name = "trackBarE";
 			this.trackBarE.Size = new System.Drawing.Size(104, 45);
+			this.trackBarE.SmallChange = 1000;
 			this.trackBarE.TabIndex = 19;
+			this.trackBarE.TickFrequency = 2000;
+			this.trackBarE.Scroll += new System.EventHandler(this.trackBarParameter_Scroll);
 			// 
 			// trackBarF
 			// 
+			this.trackBarF.LargeChange = 2000;
 			this.trackBarF.Location = new System.Drawing.Point(956, 306);
+			this.trackBarF.Maximum = 50000;
+			this.trackBarF.Minimum = -50000;
 			this.trackBarF.Name = "trackBarF";
 			this.trackBarF.Size = new System.Drawing.Size(104, 45);
+			this.trackBarF.SmallChange = 1000;
 			this.trackBarF.TabIndex = 20;
+			this.trackBarF.TickFrequency = 2000;
+			this.trackBarF.Scroll += new System.EventHandler(this.trackBarParameter_Scroll);
 			// 
 			// textBoxA
 			// 
 			this.textBoxA.Location = new System.Drawing.Point(1067, 55);
 			this.textBoxA.Name = "textBoxA";
-			this.textBoxA.Size = new System.Drawing.Size(33, 20);
+			this.textBoxA.Size = new System.Drawing.Size(48, 20);
 			this.textBoxA.TabIndex = 21;
+			this.textBoxA.Text = "0";
 			// 
 			// textBoxE
 			// 
 			this.textBoxE.Location = new System.Drawing.Point(1067, 252);
 			this.textBoxE.Name = "textBoxE";
-			this.textBoxE.Size = new System.Drawing.Size(33, 20);
+			this.textBoxE.Size = new System.Drawing.Size(48, 20);
 			this.textBoxE.TabIndex = 22;
+			this.textBoxE.Text = "0";
 			// 
 			// textBoxD
 			// 
 			this.textBoxD.Location = new System.Drawing.Point(1067, 201);
 			this.textBoxD.Name = "textBoxD";
-			this.textBoxD.Size = new System.Drawing.Size(33, 20);
+			this.textBoxD.Size = new System.Drawing.Size(48, 20);
 			this.textBoxD.TabIndex = 23;
+			this.textBoxD.Text = "0";
 			// 
 			// textBoxC
 			// 
 			this.textBoxC.Location = new System.Drawing.Point(1067, 150);
 			this.textBoxC.Name = "textBoxC";
-			this.textBoxC.Size = new System.Drawing.Size(33, 20);
+			this.textBoxC.Size = new System.Drawing.Size(48, 20);
 			this.textBoxC.TabIndex = 24;
+			this.textBoxC.Text = "0";
 			// 
 			// textBoxB
 			// 
 			this.textBoxB.Location = new System.Drawing.Point(1067, 99);
 			this.textBoxB.Name = "textBoxB";
-			this.textBoxB.Size = new System.Drawing.Size(33, 20);
+			this.textBoxB.Size = new System.Drawing.Size(48, 20);
 			this.textBoxB.TabIndex = 25;
+			this.textBoxB.Text = "0";
 			// 
 			// textBoxF
 			// 
 			this.textBoxF.Location = new System.Drawing.Point(1067, 306);
 			this.textBoxF.Name = "textBoxF";
-			this.textBoxF.Size = new System.Drawing.Size(33, 20);
+			this.textBoxF.Size = new System.Drawing.Size(48, 20);
 			this.textBoxF.TabIndex = 26;
+			this.textBoxF.Text = "0";
 			// 
 			// buttonA
 			// 
@@ -349,7 +390,6 @@
 			this.radioButtonRungeKutta4.Name = "radioButtonRungeKutta4";
 			this.radioButtonRungeKutta4.Size = new System.Drawing.Size(88, 17);
 			this.radioButtonRungeKutta4.TabIndex = 35;
-			this.radioButtonRungeKutta4.TabStop = true;
 			this.radioButtonRungeKutta4.Text = "RungeKutta4";
 			this.radioButtonRungeKutta4.UseVisualStyleBackColor = true;
 			this.radioButtonRungeKutta4.CheckedChanged += new System.EventHandler(this.radioButtonRungeKutta4_CheckedChanged);
@@ -367,6 +407,17 @@
 			this.radioButtonEuler.UseVisualStyleBackColor = true;
 			this.radioButtonEuler.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
 			// 
+			// radioButtonEulerSymplectic
+			// 
+			this.radioButtonEulerSymplectic.AutoSize = true;
+			this.radioButtonEulerSymplectic.Location = new System.Drawing.Point(796, 178);
+			this.radioButtonEulerSymplectic.Name = "radioButtonEulerSymplectic";
+			this.radioButtonEulerSymplectic.Size = new System.Drawing.Size(100, 17);
+			this.radioButtonEulerSymplectic.TabIndex = 37;
+			this.radioButtonEulerSymplectic.Text = "EulerSymplectic";
+			this.radioButtonEulerSymplectic.UseVisualStyleBackColor = true;
+			this.radioButtonEulerSymplectic.CheckedChanged += new System.EventHandler(this.radioButtonEulerSymplectic_CheckedChanged);
+			// 
 			// graphSystemBehavior1
 			// 
 			this.graphSystemBehavior1.axisXlabel = "x";
@@ -380,24 +431,13 @@
 			this.graphSystemBehavior1.Location = new System.Drawing.Point(12, 12);
 			this.graphSystemBehavior1.MoveButtonsExist = true;
 			this.graphSystemBehavior1.Name = "graphSystemBehavior1";
+			this.graphSystemBehavior1.Parameters = null;
 			this.graphSystemBehavior1.scatterGraph = false;
 			this.graphSystemBehavior1.Size = new System.Drawing.Size(464, 363);
 			this.graphSystemBehavior1.t0 = 0D;
 			this.graphSystemBehavior1.TabIndex = 0;
 			this.graphSystemBehavior1.UseDynamicFunctions = false;
 			this.graphSystemBehavior1.ZoomButtonsExist = true;
-			// 
-			// radioButtonEulerSymplectic
-			// 
-			this.radioButtonEulerSymplectic.AutoSize = true;
-			this.radioButtonEulerSymplectic.Location = new System.Drawing.Point(796, 178);
-			this.radioButtonEulerSymplectic.Name = "radioButtonEulerSymplectic";
-			this.radioButtonEulerSymplectic.Size = new System.Drawing.Size(100, 17);
-			this.radioButtonEulerSymplectic.TabIndex = 37;
-			this.radioButtonEulerSymplectic.TabStop = true;
-			this.radioButtonEulerSymplectic.Text = "EulerSymplectic";
-			this.radioButtonEulerSymplectic.UseVisualStyleBackColor = true;
-			this.radioButtonEulerSymplectic.CheckedChanged += new System.EventHandler(this.radioButtonEulerSymplectic_CheckedChanged);
 			// 
 			// FormDynamicEquations
 			// 

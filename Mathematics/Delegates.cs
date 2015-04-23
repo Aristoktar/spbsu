@@ -9,5 +9,5 @@ namespace Mathematics.Delegates {
 
 	public delegate double function ( double inputX , double inputY );
 
-	public delegate double functionD ( double t , Dictionary<string , double> f );
+	public delegate double functionD ( double t , Dictionary<string , double> f , Dictionary<string , double> parameters=null );
 }

@@ -21,8 +21,8 @@ namespace SPBSU {
 			this.graph1.betta = 1 + (double) ( this.trackBarBetta.Value ) / 100;
 			this.graph1.initialX = (double) ( this.trackBarInitialX.Value ) / 100;
 			this.graph1.initialY = (double) ( this.trackBarInitialY.Value ) / 100;
-			//this.graph1.setData ( 1 , 0 , 1 , 0 );
-			//OscillatorRedraw ();
+			this.graph1.setData ( 1 , 0 , 1 , 0 );
+			OscillatorRedraw ();
 
 			// Data.DataProvider d = new Data.DataProvider ()  ;
 			// MessageBox.Show ( d.EquationsSetsQuery.First ().Name );
