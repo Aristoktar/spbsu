@@ -104,7 +104,7 @@ namespace Mathematics.Intergration {
 			return answerY;
 		}
 
-		public static Dictionary<string , List<double>> Integrate4 ( Dictionary<string , functionD> functions , double t0 , Dictionary<string , double> f0 , int iterationsCount = 100000 ) {
+		public static Dictionary<string , List<double>> Integrate4 ( Dictionary<string , functionD> functions , double t0 , Dictionary<string , double> f0 ,Dictionary<string , double> parameters=null, int iterationsCount = 100000 ) {
 			Dictionary<string , double> k1 = new Dictionary<string,double>();
 			Dictionary<string , double> k2 = new Dictionary<string,double>();
 			Dictionary<string , double> k3 = new Dictionary<string,double>();
@@ -128,19 +128,19 @@ namespace Mathematics.Intergration {
 				Dictionary<string , double> tempf3 = new Dictionary<string , double> (f);
 
 				foreach ( var key in functions.Keys ) {
-					k1[key] = functions[key].Invoke(t, f);
+					k1[key] = functions[key].Invoke(t, f,parameters);
 					tempf1[key] = f[key] + h * k1[key] / 2;
 				}
 				foreach ( var key in functions.Keys ) {
-					k2[key] = functions[key].Invoke ( t+h/2 , tempf1 );
+					k2[key] = functions[key].Invoke ( t+h/2 , tempf1,parameters );
 					tempf2[key] = f[key] + h * k2[key] / 2;
 				}
 				foreach ( var key in functions.Keys ) {
-					k3[key] = functions[key].Invoke ( t + h / 2 , tempf2 );
+					k3[key] = functions[key].Invoke ( t + h / 2 , tempf2,parameters );
 					tempf3[key] = f[key] + h * k3[key] / 2;
 				}
 				foreach ( var key in functions.Keys ) {
-					k4[key] = functions[key].Invoke ( t + h , tempf3 );
+					k4[key] = functions[key].Invoke ( t + h , tempf3 ,parameters);
 				}
 				tOut.Add (t);
 				foreach ( var key in functions.Keys ) {
@@ -151,6 +151,7 @@ namespace Mathematics.Intergration {
 			}
 			output.Add ( "t" , tOut );
 			return output;
+			
 		}
 	}
 }

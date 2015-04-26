@@ -31,6 +31,11 @@ namespace Graph {
 			set;
 		}
 
+		public Dictionary<string , List<double>> Solutions {
+			get;
+			set;
+		}
+
 		public IntegrationType IntegrationType {
 			get;
 			set;
@@ -45,17 +50,17 @@ namespace Graph {
 				Dictionary<string , List<double>> solution = new Dictionary<string , List<double>> () ;
 				switch ( this.IntegrationType ) {
 					case IntegrationType.RungeKutta4:
-						solution = RungeKutta.Integrate4 ( this.functionsD , t0 , f0 );
+						solution = RungeKutta.Integrate4 ( this.functionsD , t0 , f0,Parameters );
 						break;
 					case IntegrationType.EulerMethod:
 						solution = Euler.Integrate ( this.functionsD , t0 , f0,Parameters);
 						break;
 					case Mathematics.Intergration.IntegrationType.EulerMethodSymplectic:
-						solution = Euler.IntegrateSymplectic ( this.functionsD , t0 , f0 );
+						solution = Euler.IntegrateSymplectic ( this.functionsD , t0 , f0,Parameters );
 						break;
 					default: break;
 				}
-				
+				this.Solutions = solution;
 				dataX = solution[this.axisXlabel].ToArray ();
 				dataY = solution[this.axisYlabel].ToArray ();
 			}
@@ -97,18 +102,7 @@ namespace Graph {
 
 		private void buttonZoom100_Click ( object sender , EventArgs e ) {
 			
-			this.xMinValue = this.dataX
-				.Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
-					.Min();
-			this.xMaxValue = this.dataX
-				.Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
-					.Max ();
-			this.yMaxValue = this.dataY
-				.Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
-					.Max ();
-			this.yMinValue = this.dataY
-				.Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
-					.Min ();
+			
 				//if ( Double.IsInfinity ( xMinValue ) || Double.IsNaN ( xMinValue ) ) {
 				//	xMinValue = -1000;
 				//	xMinValue = dataX.Where(a=)

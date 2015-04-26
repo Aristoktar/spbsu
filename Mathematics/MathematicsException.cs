@@ -5,7 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Mathematics {
-	public static class HenonHeilis {
-
+	public class MathematicsException:Exception {
+		public string ErrorMessage {
+			get;
+			set;
+		}
 	}
 }

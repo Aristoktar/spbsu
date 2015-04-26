@@ -58,7 +58,11 @@
 			this.radioButtonRungeKutta4 = new System.Windows.Forms.RadioButton();
 			this.radioButtonEuler = new System.Windows.Forms.RadioButton();
 			this.radioButtonEulerSymplectic = new System.Windows.Forms.RadioButton();
+			this.textBoxHamiltonian = new System.Windows.Forms.TextBox();
+			this.labelHamiltonian = new System.Windows.Forms.Label();
+			this.buttonHamiltonian = new System.Windows.Forms.Button();
 			this.graphSystemBehavior1 = new Graph.GraphDynamicType();
+			this.buttonLyapunov = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.trackBarA)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.trackBarB)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.trackBarC)).BeginInit();
@@ -124,10 +128,10 @@
 			// 
 			this.listBoxSystemName.FormattingEnabled = true;
 			this.listBoxSystemName.Items.AddRange(new object[] {
-            "Complex System Slides",
-            "Logistic",
+            "WikipediaRungeSample",
             "Harmonic oscillator",
-            "Henon-Heilis"});
+            "Henon-Heilis",
+            "Lorenz Equation"});
 			this.listBoxSystemName.Location = new System.Drawing.Point(356, 429);
 			this.listBoxSystemName.Name = "listBoxSystemName";
 			this.listBoxSystemName.Size = new System.Drawing.Size(120, 95);
@@ -418,6 +422,33 @@
 			this.radioButtonEulerSymplectic.UseVisualStyleBackColor = true;
 			this.radioButtonEulerSymplectic.CheckedChanged += new System.EventHandler(this.radioButtonEulerSymplectic_CheckedChanged);
 			// 
+			// textBoxHamiltonian
+			// 
+			this.textBoxHamiltonian.Location = new System.Drawing.Point(796, 400);
+			this.textBoxHamiltonian.Name = "textBoxHamiltonian";
+			this.textBoxHamiltonian.Size = new System.Drawing.Size(292, 20);
+			this.textBoxHamiltonian.TabIndex = 38;
+			this.textBoxHamiltonian.Text = "(px*px+py*py)/2+(x*x+y*y)+x*x*y-y*y*y";
+			// 
+			// labelHamiltonian
+			// 
+			this.labelHamiltonian.AutoSize = true;
+			this.labelHamiltonian.Location = new System.Drawing.Point(923, 362);
+			this.labelHamiltonian.Name = "labelHamiltonian";
+			this.labelHamiltonian.Size = new System.Drawing.Size(62, 13);
+			this.labelHamiltonian.TabIndex = 39;
+			this.labelHamiltonian.Text = "Hamiltonian";
+			// 
+			// buttonHamiltonian
+			// 
+			this.buttonHamiltonian.Location = new System.Drawing.Point(1094, 397);
+			this.buttonHamiltonian.Name = "buttonHamiltonian";
+			this.buttonHamiltonian.Size = new System.Drawing.Size(75, 23);
+			this.buttonHamiltonian.TabIndex = 40;
+			this.buttonHamiltonian.Text = "show";
+			this.buttonHamiltonian.UseVisualStyleBackColor = true;
+			this.buttonHamiltonian.Click += new System.EventHandler(this.buttonHamiltonian_Click);
+			// 
 			// graphSystemBehavior1
 			// 
 			this.graphSystemBehavior1.axisXlabel = "x";
@@ -434,16 +465,31 @@
 			this.graphSystemBehavior1.Parameters = null;
 			this.graphSystemBehavior1.scatterGraph = false;
 			this.graphSystemBehavior1.Size = new System.Drawing.Size(464, 363);
+			this.graphSystemBehavior1.Solutions = null;
 			this.graphSystemBehavior1.t0 = 0D;
 			this.graphSystemBehavior1.TabIndex = 0;
 			this.graphSystemBehavior1.UseDynamicFunctions = false;
 			this.graphSystemBehavior1.ZoomButtonsExist = true;
+			// 
+			// buttonLyapunov
+			// 
+			this.buttonLyapunov.Location = new System.Drawing.Point(796, 452);
+			this.buttonLyapunov.Name = "buttonLyapunov";
+			this.buttonLyapunov.Size = new System.Drawing.Size(124, 23);
+			this.buttonLyapunov.TabIndex = 41;
+			this.buttonLyapunov.Text = "Lyapunov Spectrum";
+			this.buttonLyapunov.UseVisualStyleBackColor = true;
+			this.buttonLyapunov.Click += new System.EventHandler(this.buttonLyapunov_Click);
 			// 
 			// FormDynamicEquations
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1181, 599);
+			this.Controls.Add(this.buttonLyapunov);
+			this.Controls.Add(this.buttonHamiltonian);
+			this.Controls.Add(this.labelHamiltonian);
+			this.Controls.Add(this.textBoxHamiltonian);
 			this.Controls.Add(this.radioButtonEulerSymplectic);
 			this.Controls.Add(this.radioButtonEuler);
 			this.Controls.Add(this.radioButtonRungeKutta4);
@@ -532,6 +578,10 @@
 		private System.Windows.Forms.RadioButton radioButtonRungeKutta4;
 		private System.Windows.Forms.RadioButton radioButtonEuler;
 		private System.Windows.Forms.RadioButton radioButtonEulerSymplectic;
+		private System.Windows.Forms.TextBox textBoxHamiltonian;
+		private System.Windows.Forms.Label labelHamiltonian;
+		private System.Windows.Forms.Button buttonHamiltonian;
+		private System.Windows.Forms.Button buttonLyapunov;
 	}
 }
 

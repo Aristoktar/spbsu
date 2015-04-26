@@ -30,6 +30,24 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="MWArray, Version=2.14.0.0, Culture=neutral, PublicKeyToken=e1d84a0da19db86f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -54,6 +72,13 @@
   <ItemGroup>
     <Compile Include="Axes.cs" />
     <Compile Include="Exceptions\GraphExceptionType.cs" />
+    <Compile Include="GraphData.cs" />
+    <Compile Include="GraphMulti.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GraphMulti.Designer.cs">
+      <DependentUpon>GraphMulti.cs</DependentUpon>
+    </Compile>
     <Compile Include="Graph.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -84,6 +109,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="GraphMulti.resx">
+      <DependentUpon>GraphMulti.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Graph.resx">
       <DependentUpon>Graph.cs</DependentUpon>
     </EmbeddedResource>

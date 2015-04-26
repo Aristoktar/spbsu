@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DynamicCompiling;
+using Mathematics;
+using Mathematics.Analysis;
 using Mathematics.Intergration;
 
 namespace SPBSU.Dynamic {
@@ -219,6 +221,7 @@ namespace SPBSU.Dynamic {
 			
 		}
 		private void buttonCalc_Click ( object sender , EventArgs e ) {
+			Dictionary<string , double> parameters = new Dictionary<string,double>();
 			try {
 				Dictionary<string , string> Eques = new Dictionary<string , string> ();
 				Dictionary<string , double> initials = new Dictionary<string , double> ();
@@ -226,7 +229,7 @@ namespace SPBSU.Dynamic {
 					Eques.Add ( Variables[i].Text , Equations[i].Text );
 					initials.Add ( Variables[i].Text , Convert.ToDouble ( Initials[i].Text ) );
 				}
-				Dictionary<string , double> parameters = this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble(b.Value.Text) );
+				parameters = this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble(b.Value.Text) );
 
 				//Compilator compilator = new Compilator ( Eques );
 				//var funcs= compilator.GetFuncs ();
@@ -253,6 +256,8 @@ namespace SPBSU.Dynamic {
 				else {
 					this.graphSystemBehavior1.Redraw ();
 				}
+
+				//----test
 				
 			}
 			catch(Exception ex)
@@ -265,7 +270,8 @@ namespace SPBSU.Dynamic {
 				MessageBox.Show (ex.Message);
 				}
 			}
-
+			
+			
 			
 		}
 
@@ -275,10 +281,6 @@ namespace SPBSU.Dynamic {
 					if ( this.Equations.Count >= 2 ) {
 						this.Equations[0].Text = "a";
 					}
-					break;
-				case "Logistic":
-					this.Equations[0].Text = "x-x^2";
-					this.Variables[0].Text = "x";
 					break;
 				case "Harmonic oscillator":
 					if ( this.Equations.Count < 2 ) {
@@ -290,6 +292,7 @@ namespace SPBSU.Dynamic {
 					this.Variables[1].Text = "p";
 					this.Initials[0].Text = "2";
 					this.Initials[1].Text = "1";
+					this.textBoxHamiltonian.Text = "p+q";
 					break;
 				case "Henon-Heilis":
 					if ( this.Equations.Count < 4 ) {
@@ -310,10 +313,45 @@ namespace SPBSU.Dynamic {
 					this.Variables[3].Text = "py";
 					this.Initials[2].Text = "0.288790581";
 					this.Initials[3].Text = "0";
+					this.textBoxHamiltonian.Text = "(px*px+py*py)/2+(x*x+y*y)+x*x*y-y*y*y";
 					break;
+				case "WikipediaRungeSample":
+					if ( this.Equations.Count < 2 ) {
+						button1_Click ( null , new EventArgs () );
+					}
+					this.Equations[0].Text = "y";
+					this.Equations[1].Text = "cos(3*t)-4*dy";
+					this.Variables[0].Text = "dy";
+					this.Variables[1].Text = "y";
+					this.Initials[0].Text = "2";
+					this.Initials[1].Text = "0.8";
+					this.textBoxHamiltonian.Text = "y+dy";
+					break;
+				case "Lorenz Equation":
+					if ( this.Equations.Count < 3 ) {
+						button1_Click ( null , new EventArgs () );
+						button1_Click ( null , new EventArgs () );
+					}
 					
+					this.Variables[0].Text = "x";
+					this.Equations[0].Text = "A*(y - x)";
+					this.Initials[0].Text = "0";
+
+					this.Variables[1].Text = "y";
+					this.Equations[1].Text = "B*x - y -x*z";
+					this.Initials[1].Text = "1";
+
+					this.Variables[2].Text = "z";
+					this.Equations[2].Text = "x*y - C*z";
+					this.Initials[2].Text = "0";
+
+					this.ParamterTextBoxes["A"].Text = "10";
+					this.ParamterTextBoxes["B"].Text = "28";
+					this.ParamterTextBoxes["C"].Text = "2.6666";
+					break;
 				default: break;
 			}
+			this.graphSystemBehavior1.Redraw ();
 		}
 
 		private void buttonParameterEdit_Click ( object sender , EventArgs e ) {
@@ -355,6 +393,46 @@ namespace SPBSU.Dynamic {
 
 		private void radioButtonEulerSymplectic_CheckedChanged ( object sender , EventArgs e ) {
 			this.graphSystemBehavior1.IntegrationType = IntegrationType.EulerMethodSymplectic;
+		}
+
+		private void buttonHamiltonian_Click ( object sender , EventArgs e ) {
+			try {
+
+				HamiltonianPlot form = new HamiltonianPlot ();
+
+				Dictionary<string , string> eques = new Dictionary<string , string> ();
+				Dictionary<string , double> initials = new Dictionary<string , double> ();
+				for ( int i = 0 ; i < this.Equations.Count ; i++ ) {
+					eques.Add ( Variables[i].Text , Equations[i].Text );
+				}
+				Compilator compilator = new Compilator ( new Dictionary<string , string> { { "H" , this.textBoxHamiltonian.Text } } ,
+														this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble ( b.Value.Text ) ) ,
+														eques.Keys );
+				var temt = compilator.GetFuncs ();
+				var uio = Hamiltonian.Calc ( temt , this.graphSystemBehavior1.Solutions , this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble ( b.Value.Text ) ) );
+				form.graphSystemOscillogram1.setYdata ( uio["H"] );
+				//form.graphSystemOscillogram1.setXdata ( uio["t"] );
+				form.graphSystemOscillogram1.setData ( 1 , 0 , 1 , 0 );
+				form.graphSystemOscillogram1.Refresh ();
+				//form.graphSystemOscillogram1.yD
+				form.Show ();
+			}
+			catch ( Exception ex) {
+				if ( ex is DynamicCompilationException ) {
+					MessageBox.Show (( ex as DynamicCompilationException ).Message);
+				}else {
+					MessageBox.Show ( ex.Message );
+				}
+				
+
+			}
+		}
+
+		private void buttonLyapunov_Click ( object sender , EventArgs e ) {
+			LyapunovSpectrumPlot form = new LyapunovSpectrumPlot ();
+			var parameters = this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble ( b.Value.Text ) );
+			form.graphSystemOscillogram1.setYdata ( Lyapunov.Spectrum ( this.graphSystemBehavior1.Solutions , this.graphSystemBehavior1.functionsD , parameters )[this.listBoxY.SelectedItem.ToString()] );
+			form.Show ();
 		}
 	}
 }

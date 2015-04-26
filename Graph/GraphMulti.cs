@@ -13,7 +13,7 @@ using System.Threading;
 
 namespace Graph
 {
-    public partial class Graph : UserControl
+    public partial class GraphMulti : UserControl
     {
         /// <summary>
         /// Gets or sets a value indicating whether the Axes are displayed.
@@ -107,7 +107,7 @@ namespace Graph
 
 		private Thread RedrawThread;
 
-        public Graph()
+		public GraphMulti ()
         {
             this.InitializeComponent();
             this.axisXlabel = "x";
@@ -942,27 +942,22 @@ namespace Graph
 		}
 
 		private void button100Percent_Click ( object sender , EventArgs e ) {
-			try {
+			if ( this.dataX != null && this.dataY != null ) {
 
-				if ( this.dataX != null && this.dataY != null ) {
+				this.xMinValue = this.dataX
+					.Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
+						.Min ();
+				this.xMaxValue = this.dataX
+					.Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
+						.Max ();
 
-					this.xMinValue = this.dataX
-						.Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
-							.Min ();
-					this.xMaxValue = this.dataX
-						.Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
-							.Max ();
-
-					this.yMaxValue = this.dataY
-						.Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
-							.Max ();
-					this.yMinValue = this.dataY
-						.Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
-							.Min ();
-					this.Redraw ();
-				}
-			}
-			catch {
+				this.yMaxValue = this.dataY
+					.Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
+						.Max ();
+				this.yMinValue = this.dataY
+					.Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
+						.Min ();
+				this.Redraw ();
 			}
 		}
     }
