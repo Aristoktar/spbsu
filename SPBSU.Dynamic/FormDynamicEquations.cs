@@ -41,7 +41,7 @@ namespace SPBSU.Dynamic {
 
 		public FormDynamicEquations () {
 			InitializeComponent ();
-
+			
 			VarsNames = new List<string> ();
 			VarsNames.AddRange ( new string[] { "x" , "y" , "z" } );
 			MaxEquationsCount = 6;
@@ -349,6 +349,21 @@ namespace SPBSU.Dynamic {
 					this.ParamterTextBoxes["B"].Text = "28";
 					this.ParamterTextBoxes["C"].Text = "2.6666";
 					break;
+				case"Henon Map":
+					if ( this.Equations.Count < 2 ) {
+						button1_Click ( null , new EventArgs () );
+					}
+					this.Variables[0].Text = "x";
+					this.Equations[0].Text = "1-A*x*x+y";
+					this.Initials[0].Text = "0.6313";
+
+					this.Variables[1].Text = "y";
+					this.Equations[1].Text = "B*x";
+					this.Initials[1].Text = "0.1894";
+
+					this.ParamterTextBoxes["A"].Text = "1.4";
+					this.ParamterTextBoxes["B"].Text = "0.3";
+					break;
 				default: break;
 			}
 			this.graphSystemBehavior1.Redraw ();
@@ -429,10 +444,23 @@ namespace SPBSU.Dynamic {
 		}
 
 		private void buttonLyapunov_Click ( object sender , EventArgs e ) {
-			LyapunovSpectrumPlot form = new LyapunovSpectrumPlot ();
-			var parameters = this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble ( b.Value.Text ) );
-			form.graphSystemOscillogram1.setYdata ( Lyapunov.Spectrum ( this.graphSystemBehavior1.Solutions , this.graphSystemBehavior1.functionsD , parameters )[this.listBoxY.SelectedItem.ToString()] );
-			form.Show ();
+			
+
+			foreach ( var v in this.listBoxY.Items ) {
+				if ( v.ToString() == "t" ) continue;
+
+				LyapunovSpectrumPlot form = new LyapunovSpectrumPlot ();
+				var parameters = this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble ( b.Value.Text ) );
+				form.graphSystemOscillogram1.setYdata ( Lyapunov.Spectrum ( this.graphSystemBehavior1.Solutions , this.graphSystemBehavior1.functionsD , parameters )[v.ToString()] );
+				form.graphSystemOscillogram1.axisXlabel = "t";
+				form.graphSystemOscillogram1.axisYlabel = "λ(" + v.ToString () + ")";
+				form.Show ();
+				form.graphSystemOscillogram1.zoom100Percent ();
+			}
+		}
+
+		private void radioButtonIterativ_CheckedChanged ( object sender , EventArgs e ) {
+			this.graphSystemBehavior1.IntegrationType = IntegrationType.Iterative;
 		}
 	}
 }

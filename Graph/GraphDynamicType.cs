@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Mathematics.Delegates;
 using DynamicCompiling;
 using Mathematics.Intergration;
+using Mathematics;
 
 namespace Graph {
 	public partial class GraphDynamicType : Graph {
@@ -58,6 +59,13 @@ namespace Graph {
 					case Mathematics.Intergration.IntegrationType.EulerMethodSymplectic:
 						solution = Euler.IntegrateSymplectic ( this.functionsD , t0 , f0,Parameters );
 						break;
+					case Mathematics.Intergration.IntegrationType.Iterative:
+						solution = Iterative.Integrate ( this.functionsD , t0 , f0 , Parameters );
+						break;
+					case Mathematics.Intergration.IntegrationType.PoincareMap:
+						solution = Poincare.Calculate ( this.functionsD , t0 , f0 , Parameters );
+						break;
+
 					default: break;
 				}
 				this.Solutions = solution;

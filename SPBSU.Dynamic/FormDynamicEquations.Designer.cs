@@ -61,8 +61,9 @@
 			this.textBoxHamiltonian = new System.Windows.Forms.TextBox();
 			this.labelHamiltonian = new System.Windows.Forms.Label();
 			this.buttonHamiltonian = new System.Windows.Forms.Button();
-			this.graphSystemBehavior1 = new Graph.GraphDynamicType();
 			this.buttonLyapunov = new System.Windows.Forms.Button();
+			this.radioButtonIterativ = new System.Windows.Forms.RadioButton();
+			this.graphSystemBehavior1 = new Graph.GraphDynamicType();
 			((System.ComponentModel.ISupportInitialize)(this.trackBarA)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.trackBarB)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.trackBarC)).BeginInit();
@@ -131,7 +132,8 @@
             "WikipediaRungeSample",
             "Harmonic oscillator",
             "Henon-Heilis",
-            "Lorenz Equation"});
+            "Lorenz Equation",
+            "Henon Map"});
 			this.listBoxSystemName.Location = new System.Drawing.Point(356, 429);
 			this.listBoxSystemName.Name = "listBoxSystemName";
 			this.listBoxSystemName.Size = new System.Drawing.Size(120, 95);
@@ -449,6 +451,28 @@
 			this.buttonHamiltonian.UseVisualStyleBackColor = true;
 			this.buttonHamiltonian.Click += new System.EventHandler(this.buttonHamiltonian_Click);
 			// 
+			// buttonLyapunov
+			// 
+			this.buttonLyapunov.Location = new System.Drawing.Point(796, 452);
+			this.buttonLyapunov.Name = "buttonLyapunov";
+			this.buttonLyapunov.Size = new System.Drawing.Size(124, 23);
+			this.buttonLyapunov.TabIndex = 41;
+			this.buttonLyapunov.Text = "Lyapunov Spectrum";
+			this.buttonLyapunov.UseVisualStyleBackColor = true;
+			this.buttonLyapunov.Click += new System.EventHandler(this.buttonLyapunov_Click);
+			// 
+			// radioButtonIterativ
+			// 
+			this.radioButtonIterativ.AutoSize = true;
+			this.radioButtonIterativ.Location = new System.Drawing.Point(796, 205);
+			this.radioButtonIterativ.Name = "radioButtonIterativ";
+			this.radioButtonIterativ.Size = new System.Drawing.Size(57, 17);
+			this.radioButtonIterativ.TabIndex = 42;
+			this.radioButtonIterativ.TabStop = true;
+			this.radioButtonIterativ.Text = "Iterativ";
+			this.radioButtonIterativ.UseVisualStyleBackColor = true;
+			this.radioButtonIterativ.CheckedChanged += new System.EventHandler(this.radioButtonIterativ_CheckedChanged);
+			// 
 			// graphSystemBehavior1
 			// 
 			this.graphSystemBehavior1.axisXlabel = "x";
@@ -471,21 +495,12 @@
 			this.graphSystemBehavior1.UseDynamicFunctions = false;
 			this.graphSystemBehavior1.ZoomButtonsExist = true;
 			// 
-			// buttonLyapunov
-			// 
-			this.buttonLyapunov.Location = new System.Drawing.Point(796, 452);
-			this.buttonLyapunov.Name = "buttonLyapunov";
-			this.buttonLyapunov.Size = new System.Drawing.Size(124, 23);
-			this.buttonLyapunov.TabIndex = 41;
-			this.buttonLyapunov.Text = "Lyapunov Spectrum";
-			this.buttonLyapunov.UseVisualStyleBackColor = true;
-			this.buttonLyapunov.Click += new System.EventHandler(this.buttonLyapunov_Click);
-			// 
 			// FormDynamicEquations
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1181, 599);
+			this.Controls.Add(this.radioButtonIterativ);
 			this.Controls.Add(this.buttonLyapunov);
 			this.Controls.Add(this.buttonHamiltonian);
 			this.Controls.Add(this.labelHamiltonian);
@@ -582,6 +597,7 @@
 		private System.Windows.Forms.Label labelHamiltonian;
 		private System.Windows.Forms.Button buttonHamiltonian;
 		private System.Windows.Forms.Button buttonLyapunov;
+		private System.Windows.Forms.RadioButton radioButtonIterativ;
 	}
 }
 

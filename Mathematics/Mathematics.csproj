@@ -64,8 +64,10 @@
     <Compile Include="Hamiltonian.cs" />
     <Compile Include="Intergration\Euler.cs" />
     <Compile Include="Intergration\IntegrationType.cs" />
+    <Compile Include="Intergration\Iterative.cs" />
     <Compile Include="Intergration\RungeKutta.cs" />
     <Compile Include="MathematicsException.cs" />
+    <Compile Include="Poincare.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

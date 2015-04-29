@@ -23,7 +23,9 @@ namespace Mathematics.Intergration {
 				var tempF = new Dictionary<string , double> ( f );
 				foreach ( var key in functions.Keys ) {
 					f[key] = f[key] + h * functions[key].Invoke ( t , tempF , parameters );
+					//if ( f["x"] > 0 && f["x"] < 0.0001 )
 					output[key].Add ( f[key] );
+					
 					
 				}
 				tOut.Add (t);
@@ -45,7 +47,7 @@ namespace Mathematics.Intergration {
 			double t = t0;
 			Dictionary<string , double> f = new Dictionary<string , double> ( f0 );
 
-			double h = 0.001;
+			double h = 0.002;
 
 			for ( int i = 0 ; i < iterationsCount ; i++ ) {
 				var tempF = new Dictionary<string , double> ( f );

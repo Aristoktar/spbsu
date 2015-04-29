@@ -72,6 +72,12 @@
   <ItemGroup>
     <Compile Include="Axes.cs" />
     <Compile Include="Exceptions\GraphExceptionType.cs" />
+    <Compile Include="Graph2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Graph2.Designer.cs">
+      <DependentUpon>Graph2.cs</DependentUpon>
+    </Compile>
     <Compile Include="GraphData.cs" />
     <Compile Include="GraphMulti.cs">
       <SubType>UserControl</SubType>

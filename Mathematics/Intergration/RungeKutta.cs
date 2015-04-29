@@ -105,50 +105,103 @@ namespace Mathematics.Intergration {
 		}
 
 		public static Dictionary<string , List<double>> Integrate4 ( Dictionary<string , functionD> functions , double t0 , Dictionary<string , double> f0 ,Dictionary<string , double> parameters=null, int iterationsCount = 100000 ) {
-			Dictionary<string , double> k1 = new Dictionary<string,double>();
-			Dictionary<string , double> k2 = new Dictionary<string,double>();
-			Dictionary<string , double> k3 = new Dictionary<string,double>();
-			Dictionary<string , double> k4 = new Dictionary<string,double>();
+			Dictionary<string , double> k1R = new Dictionary<string,double>();
+			Dictionary<string , double> k2R = new Dictionary<string,double>();
+			Dictionary<string , double> k3R = new Dictionary<string,double>();
+			Dictionary<string , double> k4R = new Dictionary<string,double>();
 
-			double t = t0;
-			Dictionary<string , double> f = new Dictionary<string , double> (f0);
+			Dictionary<string , double> k1L = new Dictionary<string , double> ();
+			Dictionary<string , double> k2L = new Dictionary<string , double> ();
+			Dictionary<string , double> k3L = new Dictionary<string , double> ();
+			Dictionary<string , double> k4L = new Dictionary<string , double> ();
 
-			double h=0.001;
+			double tR = t0;
+			double tL = t0;
+			Dictionary<string , double> fR = new Dictionary<string , double> ( f0 );
+			Dictionary<string , double> fL = new Dictionary<string , double> ( f0 );
+			double hR=0.001;
+			double hL = -hR;
 
-			Dictionary<string , List<double>> output = new Dictionary<string , List<double>> ();
+			Dictionary<string , List<double>> outputR = new Dictionary<string , List<double>> ();
+			Dictionary<string , List<double>> outputL = new Dictionary<string , List<double>> ();
+
 			foreach ( var func in functions ) {
-				output.Add (func.Key, new List<double>());
+				outputR.Add (func.Key, new List<double>());
+				outputL.Add ( func.Key , new List<double> () );
 			}
-			List<double> tOut = new List<double> ();
+			List<double> tOutR = new List<double> ();
+			List<double> tOutL = new List<double> ();
 
 			for ( int i = 0 ; i < iterationsCount ; i++ ) {
 				
-				Dictionary<string , double> tempf1 = new Dictionary<string , double> (f);
-				Dictionary<string , double> tempf2 = new Dictionary<string , double> (f);
-				Dictionary<string , double> tempf3 = new Dictionary<string , double> (f);
+				Dictionary<string , double> tempf1R = new Dictionary<string , double> (fR);
+				Dictionary<string , double> tempf2R = new Dictionary<string , double> (fR);
+				Dictionary<string , double> tempf3R = new Dictionary<string , double> (fR);
+
+				Dictionary<string , double> tempf1L = new Dictionary<string , double> ( fL );
+				Dictionary<string , double> tempf2L = new Dictionary<string , double> ( fL );
+				Dictionary<string , double> tempf3L = new Dictionary<string , double> ( fL );
 
 				foreach ( var key in functions.Keys ) {
-					k1[key] = functions[key].Invoke(t, f,parameters);
-					tempf1[key] = f[key] + h * k1[key] / 2;
+					k1R[key] = functions[key].Invoke(tR, fR,parameters);
+					tempf1R[key] = fR[key] + hR * k1R[key] / 2;
+
+					k1L[key] = functions[key].Invoke ( tL , fL , parameters );
+					tempf1L[key] = fL[key] + hL * k1L[key] / 2;
 				}
 				foreach ( var key in functions.Keys ) {
-					k2[key] = functions[key].Invoke ( t+h/2 , tempf1,parameters );
-					tempf2[key] = f[key] + h * k2[key] / 2;
+					k2R[key] = functions[key].Invoke ( tR+hR/2 , tempf1R,parameters );
+					tempf2R[key] = fR[key] + hR * k2R[key] / 2;
+
+					k2L[key] = functions[key].Invoke ( tL + hL / 2 , tempf1L , parameters );
+					tempf2L[key] = fL[key] + hL * k2L[key] / 2;
 				}
 				foreach ( var key in functions.Keys ) {
-					k3[key] = functions[key].Invoke ( t + h / 2 , tempf2,parameters );
-					tempf3[key] = f[key] + h * k3[key] / 2;
+					k3R[key] = functions[key].Invoke ( tR + hR / 2 , tempf2R,parameters );
+					tempf3R[key] = fR[key] + hR * k3R[key] ;
+
+					k3L[key] = functions[key].Invoke ( tL + hL / 2 , tempf2L , parameters );
+					tempf3L[key] = fL[key] + hL * k3L[key];
 				}
 				foreach ( var key in functions.Keys ) {
-					k4[key] = functions[key].Invoke ( t + h , tempf3 ,parameters);
+					k4R[key] = functions[key].Invoke ( tR + hR , tempf3R ,parameters);
+					k4L[key] = functions[key].Invoke ( tL + hL , tempf3L , parameters );
 				}
-				tOut.Add (t);
+				
+				
 				foreach ( var key in functions.Keys ) {
-					output[key].Add ( f[key] );
-					f[key] = f[key] + h * ( k1[key] + 2 * k2[key] + 2 * k3[key] + k4[key] );
+					if ( fR["x"] > 0 && fR["x"] < 0.05 ) {
+						outputR[key].Add ( fR[key] );
+						tOutR.Add ( tR );
+					}
+					fR[key] = fR[key] + (hR/6) * ( k1R[key] + 2 * k2R[key] + 2 * k3R[key] + k4R[key] );
+
+					if ( fL["x"] > 0 && fL["x"] < 0.05 ) {
+						outputL[key].Add ( fL[key] );
+						tOutL.Add ( tL );
+					}
+					fL[key] = fL[key] + ( hL / 6 ) * ( k1L[key] + 2 * k2L[key] + 2 * k3L[key] + k4L[key] );
 				}
-				t += h;
+				tR += hR;
+				tL += hL;
 			}
+			//output["x"] = output["x"].Select ( a => a ).Where (a=>a>0&&a<0.05).ToList();
+
+			
+			Dictionary<string , List<double>> output = new Dictionary<string,List<double>>();//= outputL.Reverse ().ToDictionary ( a => a.Key , a => a.Value ).Union ( outputR ).ToDictionary ( a => a.Key , a => a.Value );
+			foreach ( var key in functions.Keys ) {
+				outputL[key].Remove ( outputL[key][0] );
+			}
+			foreach ( var key in functions.Keys ) {
+				output.Add ( key , new List<double> () );
+				outputL[key].Reverse ();
+				outputL[key].AddRange( outputR[key]);
+				output[key] = outputL[key];
+			}
+			tOutL.Remove ( tOutL[0] );
+			tOutL.Reverse ();
+			tOutL.AddRange(tOutR);
+			List<double> tOut = tOutL;
 			output.Add ( "t" , tOut );
 			return output;
 			

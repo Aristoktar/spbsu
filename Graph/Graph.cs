@@ -941,7 +941,7 @@ namespace Graph
 
 		}
 
-		private void button100Percent_Click ( object sender , EventArgs e ) {
+		public void zoom100Percent () {
 			try {
 
 				if ( this.dataX != null && this.dataY != null ) {
@@ -964,6 +964,10 @@ namespace Graph
 			}
 			catch {
 			}
+		}
+
+		private void button100Percent_Click ( object sender , EventArgs e ) {
+			zoom100Percent ();
 		}
     }
     

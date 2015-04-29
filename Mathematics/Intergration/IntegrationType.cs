@@ -8,7 +8,9 @@ namespace Mathematics.Intergration {
 	public enum IntegrationType {
 		EulerMethod = 0,
 		EulerMethodSymplectic = 1,
-		RungeKutta4 = 4
+		RungeKutta4 = 4,
+		Iterative = 3,
+		PoincareMap= 2
 		
 		
 	}

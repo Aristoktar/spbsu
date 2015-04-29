@@ -12,7 +12,7 @@ namespace Mathematics {
 			output.Add("H",new List<double>());
 			output.Add("t",new List<double>());
 
-			for(int i =0;i< calcedData["t"].Count;i++)
+			for(int i =0;i< calcedData["x"].Count;i++)
 			{
 				output["t"].Add ( calcedData["t"][i] );
 				var temp = calcedData.ToDictionary ( a => a.Key , a => a.Value[i] );

@@ -97,6 +97,7 @@
     <Compile Include="HamiltonianPlot.Designer.cs">
       <DependentUpon>HamiltonianPlot.cs</DependentUpon>
     </Compile>
+    <Compile Include="ListBoxData.cs" />
     <Compile Include="LyapunovSpectrumPlot.cs">
       <SubType>Form</SubType>
     </Compile>
