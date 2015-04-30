@@ -36,14 +36,16 @@ namespace SPBSU {
 			//this.graphSystemOscillogram1.Redraw ();
 			//this.graphSystemOscillogram2.setYdata ( this.graph1.GetAxisData ( Graph.Axes.y ) );
 			//this.graphSystemOscillogram2.Redraw ();
-			int oscillatordataCount = this.graph1.GetAxisData ( Graph.Axes.x ).Count;
-			if ( oscillatordataCount > 1000 )
-				oscillatordataCount = 1000;
-			this.graphSystemOscillogram1.setYdata ( this.graph1.GetAxisData ( Graph.Axes.x ) );
-			this.graphSystemOscillogram1.setData ( oscillatordataCount , 0 , 1 , 0 );
 
-			this.graphSystemOscillogram2.setYdata ( this.graph1.GetAxisData ( Graph.Axes.y ) );
-			this.graphSystemOscillogram2.setData ( oscillatordataCount , 0 , 1 , 0 );
+			//============
+			//int oscillatordataCount = this.graph1.GetAxisData ( Graph.Axes.x ).Count;
+			//if ( oscillatordataCount > 1000 )
+			//	oscillatordataCount = 1000;
+			//t
+			//	is.graphSystemOscillogram1.setData ( oscillatordataCount , 0 , 1 , 0 );
+
+			//this.graphSystemOscillogram2.setYdata ( this.graph1.GetAxisData ( Graph.Axes.y ) );
+			//this.graphSystemOscillogram2.setData ( oscillatordataCount , 0 , 1 , 0 );
 
 		}
 		private void trackBar1_Scroll ( object sender , EventArgs e ) {
@@ -80,10 +82,10 @@ namespace SPBSU {
 
 		private void checkBoxScatterPlot_CheckedChanged ( object sender , EventArgs e ) {
 			if ( ( sender as CheckBox ).Checked ) {
-				this.graph1.scatterGraph = true;
+				this.graph1.Scatter = true;
 			}
 			else {
-				this.graph1.scatterGraph = false;
+				this.graph1.Scatter = false;
 			}
 			this.graph1.Redraw ();
 		}

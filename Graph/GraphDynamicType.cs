@@ -69,8 +69,8 @@ namespace Graph {
 					default: break;
 				}
 				this.Solutions = solution;
-				dataX = solution[this.axisXlabel].ToArray ();
-				dataY = solution[this.axisYlabel].ToArray ();
+				dataX = solution[this.AxisXlabel].ToArray ();
+				dataY = solution[this.AxisYlabel].ToArray ();
 			}
 			
 		}
@@ -82,8 +82,8 @@ namespace Graph {
 		}
 
 		public void SetAxisToShow (string x="t", string y="x") {
-			this.axisXlabel = x;
-			this.axisYlabel = y;
+			this.AxisXlabel = x;
+			this.AxisYlabel = y;
 		}
 
 		public GraphDynamicType () {
@@ -103,8 +103,8 @@ namespace Graph {
 		}
 
 		private void checkBoxScatter_CheckedChanged ( object sender , EventArgs e ) {
-			if ( this.checkBoxScatter.Checked ) this.scatterGraph = true;
-			else this.scatterGraph = false;
+			if ( this.checkBoxScatter.Checked ) this.Scatter = true;
+			else this.Scatter = false;
 			this.Redraw ();
 		}
 

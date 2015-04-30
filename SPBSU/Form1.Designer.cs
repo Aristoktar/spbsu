@@ -23,6 +23,7 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent () {
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			this.trackBarAlfa = new System.Windows.Forms.TrackBar();
 			this.labelAlfaValue = new System.Windows.Forms.Label();
 			this.trackBarBetta = new System.Windows.Forms.TrackBar();
@@ -35,13 +36,14 @@
 			this.labelBettaLabel = new System.Windows.Forms.Label();
 			this.labelInitialXLabel = new System.Windows.Forms.Label();
 			this.labelInitialYLabel = new System.Windows.Forms.Label();
-			this.graphSystemOscillogram2 = new Graph.GraphSystemOscillogram();
-			this.graphSystemOscillogram1 = new Graph.GraphSystemOscillogram();
-			this.graph1 = new Graph.GraphSystemBehavior();
 			this.checkBoxScatterPlot = new System.Windows.Forms.CheckBox();
 			this.button1 = new System.Windows.Forms.Button();
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.trackBar1 = new System.Windows.Forms.TrackBar();
+			this.graph21 = new Graph.Graph2();
+			this.graphSystemOscillogram2 = new Graph.GraphSystemOscillogram();
+			this.graphSystemOscillogram1 = new Graph.GraphSystemOscillogram();
+			this.graph1 = new Graph.GraphSystemBehavior();
 			((System.ComponentModel.ISupportInitialize)(this.trackBarAlfa)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.trackBarBetta)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.trackBarInitialX)).BeginInit();
@@ -162,61 +164,6 @@
 			this.labelInitialYLabel.TabIndex = 12;
 			this.labelInitialYLabel.Text = "InitialY";
 			// 
-			// graphSystemOscillogram2
-			// 
-			this.graphSystemOscillogram2.axisXlabel = "x";
-			this.graphSystemOscillogram2.axisYlabel = "y";
-			this.graphSystemOscillogram2.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-			this.graphSystemOscillogram2.graphHist = false;
-			this.graphSystemOscillogram2.IsAxisVisible = true;
-			this.graphSystemOscillogram2.Location = new System.Drawing.Point(767, 204);
-			this.graphSystemOscillogram2.MoveButtonsExist = true;
-			this.graphSystemOscillogram2.Name = "graphSystemOscillogram2";
-			this.graphSystemOscillogram2.scatterGraph = false;
-			this.graphSystemOscillogram2.Size = new System.Drawing.Size(464, 150);
-			this.graphSystemOscillogram2.TabIndex = 14;
-			this.graphSystemOscillogram2.ZoomButtonsExist = true;
-			// 
-			// graphSystemOscillogram1
-			// 
-			this.graphSystemOscillogram1.axisXlabel = "x";
-			this.graphSystemOscillogram1.axisYlabel = "y";
-			this.graphSystemOscillogram1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-			this.graphSystemOscillogram1.graphHist = false;
-			this.graphSystemOscillogram1.IsAxisVisible = true;
-			this.graphSystemOscillogram1.Location = new System.Drawing.Point(767, 18);
-			this.graphSystemOscillogram1.MoveButtonsExist = true;
-			this.graphSystemOscillogram1.Name = "graphSystemOscillogram1";
-			this.graphSystemOscillogram1.scatterGraph = false;
-			this.graphSystemOscillogram1.Size = new System.Drawing.Size(464, 150);
-			this.graphSystemOscillogram1.TabIndex = 13;
-			this.graphSystemOscillogram1.ZoomButtonsExist = true;
-			// 
-			// graph1
-			// 
-			this.graph1.alfa = 0D;
-			this.graph1.axisXlabel = "x";
-			this.graph1.axisYlabel = "y";
-			this.graph1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-			this.graph1.betta = 0D;
-			this.graph1.f0 = null;
-			//this.graph1.functionsD = null;
-			this.graph1.graphHist = true;
-			this.graph1.GrowthX = 0D;
-			this.graph1.GrowthY = 0D;
-			this.graph1.initialX = 0D;
-			this.graph1.initialY = 0D;
-			this.graph1.IsAxisVisible = true;
-			this.graph1.Location = new System.Drawing.Point(12, 12);
-			this.graph1.MoveButtonsExist = true;
-			this.graph1.Name = "graph1";
-			this.graph1.scatterGraph = true;
-			this.graph1.Size = new System.Drawing.Size(464, 363);
-			this.graph1.t0 = 0D;
-			this.graph1.TabIndex = 0;
-			this.graph1.UserDynamicFunctions = false;
-			this.graph1.ZoomButtonsExist = true;
-			// 
 			// checkBoxScatterPlot
 			// 
 			this.checkBoxScatterPlot.AutoSize = true;
@@ -255,11 +202,83 @@
 			this.trackBar1.TabIndex = 18;
 			this.trackBar1.TickFrequency = 2;
 			// 
+			// graph21
+			// 
+			this.graph21.AxisXlabel = "x";
+			this.graph21.AxisYlabel = "y";
+			this.graph21.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+			this.graph21.Data = ((System.Collections.Generic.Dictionary<string, System.Collections.ObjectModel.ObservableCollection<double>>)(resources.GetObject("graph21.Data")));
+			this.graph21.DrawnPoints = 0;
+			this.graph21.IsAxisVisible = true;
+			this.graph21.Location = new System.Drawing.Point(186, 429);
+			this.graph21.MoveButtonsExist = true;
+			this.graph21.Name = "graph21";
+			this.graph21.Scatter = false;
+			this.graph21.Size = new System.Drawing.Size(430, 235);
+			this.graph21.TabIndex = 19;
+			this.graph21.ZoomButtonsExist = true;
+			// 
+			// graphSystemOscillogram2
+			// 
+			this.graphSystemOscillogram2.AxisXlabel = "x";
+			this.graphSystemOscillogram2.AxisYlabel = "y";
+			this.graphSystemOscillogram2.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+			this.graphSystemOscillogram2.GraphHist = false;
+			this.graphSystemOscillogram2.IsAxisVisible = true;
+			this.graphSystemOscillogram2.Location = new System.Drawing.Point(767, 204);
+			this.graphSystemOscillogram2.MoveButtonsExist = true;
+			this.graphSystemOscillogram2.Name = "graphSystemOscillogram2";
+			this.graphSystemOscillogram2.Scatter = false;
+			this.graphSystemOscillogram2.Size = new System.Drawing.Size(464, 150);
+			this.graphSystemOscillogram2.TabIndex = 14;
+			this.graphSystemOscillogram2.ZoomButtonsExist = true;
+			// 
+			// graphSystemOscillogram1
+			// 
+			this.graphSystemOscillogram1.AxisXlabel = "x";
+			this.graphSystemOscillogram1.AxisYlabel = "y";
+			this.graphSystemOscillogram1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+			this.graphSystemOscillogram1.GraphHist = false;
+			this.graphSystemOscillogram1.IsAxisVisible = true;
+			this.graphSystemOscillogram1.Location = new System.Drawing.Point(767, 18);
+			this.graphSystemOscillogram1.MoveButtonsExist = true;
+			this.graphSystemOscillogram1.Name = "graphSystemOscillogram1";
+			this.graphSystemOscillogram1.Scatter = false;
+			this.graphSystemOscillogram1.Size = new System.Drawing.Size(464, 150);
+			this.graphSystemOscillogram1.TabIndex = 13;
+			this.graphSystemOscillogram1.ZoomButtonsExist = true;
+			// 
+			// graph1
+			// 
+			this.graph1.alfa = 0D;
+			this.graph1.AxisXlabel = "x";
+			this.graph1.AxisYlabel = "y";
+			this.graph1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+			this.graph1.betta = 0D;
+			this.graph1.f0 = null;
+			//this.graph1.functionsD = null;
+			this.graph1.GraphHist = true;
+			this.graph1.GrowthX = 0D;
+			this.graph1.GrowthY = 0D;
+			this.graph1.initialX = 0D;
+			this.graph1.initialY = 0D;
+			this.graph1.IsAxisVisible = true;
+			this.graph1.Location = new System.Drawing.Point(12, 12);
+			this.graph1.MoveButtonsExist = true;
+			this.graph1.Name = "graph1";
+			this.graph1.Scatter = true;
+			this.graph1.Size = new System.Drawing.Size(464, 363);
+			this.graph1.t0 = 0D;
+			this.graph1.TabIndex = 0;
+			this.graph1.UserDynamicFunctions = false;
+			this.graph1.ZoomButtonsExist = true;
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1243, 388);
+			this.ClientSize = new System.Drawing.Size(1243, 716);
+			this.Controls.Add(this.graph21);
 			this.Controls.Add(this.trackBar1);
 			this.Controls.Add(this.textBox1);
 			this.Controls.Add(this.button1);
@@ -313,6 +332,7 @@
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.TextBox textBox1;
 		private System.Windows.Forms.TrackBar trackBar1;
+		private Graph.Graph2 graph21;
 
 	}
 }

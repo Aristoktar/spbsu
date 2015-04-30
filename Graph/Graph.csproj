@@ -115,6 +115,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Graph2.resx">
+      <DependentUpon>Graph2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GraphMulti.resx">
       <DependentUpon>GraphMulti.cs</DependentUpon>
     </EmbeddedResource>

@@ -452,8 +452,8 @@ namespace SPBSU.Dynamic {
 				LyapunovSpectrumPlot form = new LyapunovSpectrumPlot ();
 				var parameters = this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble ( b.Value.Text ) );
 				form.graphSystemOscillogram1.setYdata ( Lyapunov.Spectrum ( this.graphSystemBehavior1.Solutions , this.graphSystemBehavior1.functionsD , parameters )[v.ToString()] );
-				form.graphSystemOscillogram1.axisXlabel = "t";
-				form.graphSystemOscillogram1.axisYlabel = "λ(" + v.ToString () + ")";
+				form.graphSystemOscillogram1.AxisXlabel = "t";
+				form.graphSystemOscillogram1.AxisYlabel = "λ(" + v.ToString () + ")";
 				form.Show ();
 				form.graphSystemOscillogram1.zoom100Percent ();
 			}

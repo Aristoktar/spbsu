@@ -34,7 +34,7 @@ namespace Graph
         /// <summary>
         /// axis x label
         /// </summary>
-        public string axisXlabel
+        public string AxisXlabel
         {
             get
             {
@@ -46,7 +46,7 @@ namespace Graph
         /// <summary>
         /// axis Y label
         /// </summary>
-        public string axisYlabel
+        public string AxisYlabel
         {
             get
             {
@@ -58,33 +58,35 @@ namespace Graph
         /// Gets or sets a value indicating y data hist
         /// useful in case you want to know how often displayed pixels
         /// </summary>
-        public bool graphHist { get; set; }
-        public bool scatterGraph { get; set; }
+        public bool GraphHist { get; set; }
+        public bool Scatter { get; set; }
 
 
-        protected Point point1;
-        protected Size size1;
-        protected int heightBorderUp = 10;
-        protected int heightBorderDown = 45;
-        protected int widthBorderLeft = 70;
-        protected int widthBorderRight = 10;
+        protected Point CanvasLocation;
+        protected Size CanvasSize;
+
+        protected int HeightBorderUp = 10;
+        protected int HeightBorderDown = 45;
+        protected int WidthBorderLeft = 70;
+        protected int WidthBorderRight = 10;
         
-        protected bool isDataTrimmVisible = false;
+        protected bool IsDataTrimmVisible = false;
 
-        protected int mouseX;
-        protected int mouseY;
+        protected int MouseX;
+        protected int MouseY;
 
-        protected double xMinValue;
-        protected double xMaxValue;
-        protected double yMinValue;
-        protected double yMaxValue;
-        protected List<PointF> zoomList;
-		protected Bitmap imgGraph {
+        protected double XMinValue;
+        protected double XMaxValue;
+        protected double YMinValue;
+        protected double YMaxValue;
+
+		protected List<PointF> ZoomBoxList;
+		protected Bitmap ImgGraph {
 			get;
 			set;
 		}
-        protected Bitmap imgAxesAndLabels;
-        protected Bitmap imgOut;
+        protected Bitmap ImgAxesAndLabels;
+        protected Bitmap ImgOut;
         
 
         protected double[][] dataArrayOfArrays;
@@ -110,19 +112,19 @@ namespace Graph
         public Graph()
         {
             this.InitializeComponent();
-            this.axisXlabel = "x";
-            this.axisYlabel = "y";
+            this.AxisXlabel = "x";
+            this.AxisYlabel = "y";
             this.IsAxisVisible = true;
             this.MoveButtonsExist = true;
             this.ZoomButtonsExist = true;
             this.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.point1 = new Point(widthBorderLeft, heightBorderUp);
-            this.size1 = new Size(this.Width - (this.widthBorderLeft + this.widthBorderRight), this.Height - (this.heightBorderUp + this.heightBorderDown));
+            this.CanvasLocation = new Point(WidthBorderLeft, HeightBorderUp);
+            this.CanvasSize = new Size(this.Width - (this.WidthBorderLeft + this.WidthBorderRight), this.Height - (this.HeightBorderUp + this.HeightBorderDown));
             typeof(Control).GetProperty(
                 "DoubleBuffered",
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty
                 ).SetValue(this, true, null);
-            zoomList = new List<PointF>();
+            ZoomBoxList = new List<PointF>();
             this.dataArrayOfArrays = new double[0][];
         }
 
@@ -136,7 +138,7 @@ namespace Graph
             if (!string.IsNullOrWhiteSpace(this.equation))
             {
                 this.countXs = 100;
-                this.deltaXs = (double)(this.xMaxValue - this.xMinValue) / this.countXs;
+                this.deltaXs = (double)(this.XMaxValue - this.XMinValue) / this.countXs;
 
                 treeParse.treeParse tree = new treeParse.treeParse(this.equation);
                 tree.init();
@@ -147,7 +149,7 @@ namespace Graph
 
                 for (int i = 0; i <= this.countXs; i++)
                 {
-                    double dtemp = (double)this.xMinValue + deltaXs * i;
+                    double dtemp = (double)this.XMinValue + deltaXs * i;
                     double tempt = tree.calculate("x",dtemp);
 
                     Array.Resize<double>(ref this.dataX, this.dataX.Length + 1);
@@ -164,14 +166,14 @@ namespace Graph
         protected int[][] hist()
         {           
             int[][] histARR = new int[this.countXs][];
-            this.deltaYs = (double)(this.yMaxValue - this.yMinValue) / this.countYs;
+            this.deltaYs = (double)(this.YMaxValue - this.YMinValue) / this.countYs;
             for (int i = 0; i < countXs; i++)
             {
                 int[] histTempArr = new int[this.countYs];
                 int max = 0;
                 for (int j = 0; j < this.countYs; j++)
                 {
-                    double dtemp = (double)this.yMinValue + deltaYs * j;
+                    double dtemp = (double)this.YMinValue + deltaYs * j;
                     for (int k = 0; k < this.dataArrayOfArrays[i].Length; k++)
                     {
                         if (this.dataArrayOfArrays[i][k] > dtemp && this.dataArrayOfArrays[i][k] <= dtemp + deltaYs)
@@ -199,152 +201,55 @@ namespace Graph
         protected override void OnPaint(PaintEventArgs e)
         {
             
-            //e.Graphics.FillRectangle(new SolidBrush(this.BackColor), new Rectangle(new Point(0, 0), this.Size));
-            //e.Graphics.FillRectangle(Brushes.White, new Rectangle(point1, size1));
-			//if (this.RedrawThread ==null || !this.RedrawThread.IsAlive ) {
-
-				this.createAxesAndLabelsImage ();
-				e.Graphics.DrawImage ( this.imgAxesAndLabels , new Rectangle ( 0 , 0 , this.Width , this.Height ) );
-			//}
-            /*
-            if (this.IsAxisVisible)
+			this.CreateAxesAndLabelsImage ();
+			e.Graphics.DrawImage ( this.ImgAxesAndLabels , new Rectangle ( 0 , 0 , this.Width , this.Height ) );
+			
+            if (this.IsDataTrimmVisible)
             {
-                int x0Coord = (int)this.UsersToPixel(0, Axes.x);
-                int y0Coord = (int)this.UsersToPixel(0, Axes.y);
-                if (x0Coord > this.widthBorderLeft && x0Coord < this.Width - this.widthBorderRight)
+                if (!(MouseX < this.WidthBorderLeft || MouseX > this.Width - this.WidthBorderRight))
                 {
-                    e.Graphics.DrawLine(Pens.Black, x0Coord, this.heightBorderUp, x0Coord, this.Height - this.heightBorderDown);
-                    e.Graphics.DrawLine(Pens.Black, x0Coord, this.heightBorderUp, x0Coord + 3, this.heightBorderUp + 8);
-                    e.Graphics.DrawLine(Pens.Black, x0Coord, this.heightBorderUp, x0Coord - 3, this.heightBorderUp + 8);
-                }
-                if (y0Coord > this.heightBorderUp && y0Coord < this.Height - this.heightBorderDown)
-                {
-                    e.Graphics.DrawLine(Pens.DarkBlue, this.widthBorderLeft, y0Coord, this.Width - this.widthBorderRight, (int)y0Coord);
-                    e.Graphics.DrawLine(Pens.Black, this.Width - this.widthBorderRight, y0Coord, this.Width - this.widthBorderRight - 8, y0Coord - 3);
-                    e.Graphics.DrawLine(Pens.Black, this.Width - this.widthBorderRight, y0Coord, this.Width - this.widthBorderRight - 8, y0Coord + 3);
-                }
-            }*/
-            if (this.isDataTrimmVisible)
-            {
-                if (!(mouseX < this.widthBorderLeft || mouseX > this.Width - this.widthBorderRight))
-                {
-                    if (!(mouseY < this.heightBorderUp || mouseY > this.Height - this.heightBorderDown))
+                    if (!(MouseY < this.HeightBorderUp || MouseY > this.Height - this.HeightBorderDown))
                     {
-                        e.Graphics.DrawLine(Pens.DarkBlue, this.widthBorderLeft, mouseY, this.Width - this.widthBorderRight, mouseY);
-                        e.Graphics.DrawLine(Pens.DarkBlue, mouseX, this.heightBorderUp, mouseX, this.Height - this.heightBorderDown);
-                        decimal x = (decimal)(((decimal)this.mouseX - this.widthBorderLeft) * (decimal)(this.xMaxValue - this.xMinValue) / (this.Width - this.widthBorderLeft - this.widthBorderRight) + (decimal)this.xMinValue);
-                        decimal y = (decimal)((this.Height - this.heightBorderUp - this.heightBorderDown - ((decimal)this.mouseY - this.heightBorderUp)) * (decimal)(this.yMaxValue - this.yMinValue) / (this.Height - this.heightBorderUp - this.heightBorderDown) + (decimal)this.yMinValue);
+                        e.Graphics.DrawLine(Pens.DarkBlue, this.WidthBorderLeft, MouseY, this.Width - this.WidthBorderRight, MouseY);
+                        e.Graphics.DrawLine(Pens.DarkBlue, MouseX, this.HeightBorderUp, MouseX, this.Height - this.HeightBorderDown);
+                        decimal x = (decimal)(((decimal)this.MouseX - this.WidthBorderLeft) * (decimal)(this.XMaxValue - this.XMinValue) / (this.Width - this.WidthBorderLeft - this.WidthBorderRight) + (decimal)this.XMinValue);
+                        decimal y = (decimal)((this.Height - this.HeightBorderUp - this.HeightBorderDown - ((decimal)this.MouseY - this.HeightBorderUp)) * (decimal)(this.YMaxValue - this.YMinValue) / (this.Height - this.HeightBorderUp - this.HeightBorderDown) + (decimal)this.YMinValue);
 
-                        e.Graphics.DrawString(x.ToString("0.####"), Font, Brushes.Black, new Point(mouseX, this.heightBorderUp));
+                        e.Graphics.DrawString(x.ToString("0.####"), Font, Brushes.Black, new Point(MouseX, this.HeightBorderUp));
 
-                        e.Graphics.DrawString(y.ToString("0.####"), Font, Brushes.Black, new Point(this.widthBorderLeft, mouseY));
+                        e.Graphics.DrawString(y.ToString("0.####"), Font, Brushes.Black, new Point(this.WidthBorderLeft, MouseY));
                     }
                 }
             }
-            if (this.zoomList.Count > 1)
+            if (this.ZoomBoxList.Count > 1)
             {
-                e.Graphics.DrawLine(Pens.Black, new PointF(zoomList[0].X, zoomList[0].Y), new PointF(zoomList[0].X, zoomList[zoomList.Count - 1].Y));
-                e.Graphics.DrawLine(Pens.Black, new PointF(zoomList[zoomList.Count - 1].X, zoomList[zoomList.Count - 1].Y), new PointF(zoomList[0].X, zoomList[zoomList.Count - 1].Y));
-                e.Graphics.DrawLine(Pens.Black, new PointF(zoomList[0].X, zoomList[0].Y), new PointF(zoomList[zoomList.Count - 1].X, zoomList[0].Y));
-                e.Graphics.DrawLine(Pens.Black, new PointF(zoomList[zoomList.Count - 1].X, zoomList[0].Y), new PointF(zoomList[zoomList.Count - 1].X, zoomList[zoomList.Count - 1].Y));
+				e.Graphics.DrawLine ( Pens.Black , new PointF ( ZoomBoxList[0].X , ZoomBoxList[0].Y ) , new PointF ( ZoomBoxList[0].X , ZoomBoxList[ZoomBoxList.Count - 1].Y ) );
+				e.Graphics.DrawLine ( Pens.Black , new PointF ( ZoomBoxList[ZoomBoxList.Count - 1].X , ZoomBoxList[ZoomBoxList.Count - 1].Y ) , new PointF ( ZoomBoxList[0].X , ZoomBoxList[ZoomBoxList.Count - 1].Y ) );
+				e.Graphics.DrawLine ( Pens.Black , new PointF ( ZoomBoxList[0].X , ZoomBoxList[0].Y ) , new PointF ( ZoomBoxList[ZoomBoxList.Count - 1].X , ZoomBoxList[0].Y ) );
+				e.Graphics.DrawLine ( Pens.Black , new PointF ( ZoomBoxList[ZoomBoxList.Count - 1].X , ZoomBoxList[0].Y ) , new PointF ( ZoomBoxList[ZoomBoxList.Count - 1].X , ZoomBoxList[ZoomBoxList.Count - 1].Y ) );
             }
             
-            /*
-            for (int i = 0; i < 5; i++)
-            {
-                double deltaX = (this.xMaxValue - this.xMinValue) / 4;
-                double deltaY = (this.yMaxValue - this.yMinValue) / 4;
-                e.Graphics.DrawString((this.yMaxValue - deltaY * i).ToString("0.###"), Font, Brushes.Black, new PointF(this.widthBorderLeft - 34, (this.heightBorderUp - 8) + i * ((this.Height - this.heightBorderUp - this.heightBorderDown) / 4)));
-                e.Graphics.DrawString((this.xMinValue + deltaX * i).ToString("0.###"), Font, Brushes.Black, new PointF((this.widthBorderLeft - 6) + i * ((this.Width - this.widthBorderLeft - this.widthBorderRight) / 4), this.Height - this.heightBorderDown + 6));
-
-            }
-            
-            e.Graphics.DrawString(this.axisXlabel, Font, Brushes.Red, this.Width / 2, this.Height - 15);
-            e.Graphics.RotateTransform(-90);
-            e.Graphics.DrawString(this.axisYlabel, Font, Brushes.Red, -this.Height / 2, 0);
-            e.Graphics.RotateTransform(90);*/
-            
-            
-           /* e.Graphics.FillRectangle(new SolidBrush(this.BackColor), new Rectangle(new Point(0, 0), this.Size));
-            e.Graphics.FillRectangle(Brushes.White, new Rectangle(point1, size1));
-            if (this.img != null)
-                e.Graphics.DrawImage(this.img, new Rectangle(0, 0, this.Width, this.Height));
-
-            if (this.IsAxisVisible)
-            {
-                int x0Coord = (int)this.UsersToPixel(0, Axes.x);
-                int y0Coord = (int)this.UsersToPixel(0, Axes.y);
-                if (x0Coord > this.widthBorderLeft && x0Coord < this.Width - this.widthBorderRight)
-                {
-                    e.Graphics.DrawLine(Pens.Black, x0Coord, this.heightBorderUp, x0Coord, this.Height - this.heightBorderDown);
-                    e.Graphics.DrawLine(Pens.Black, x0Coord, this.heightBorderUp, x0Coord + 3, this.heightBorderUp + 8);
-                    e.Graphics.DrawLine(Pens.Black, x0Coord, this.heightBorderUp, x0Coord - 3, this.heightBorderUp + 8);
-                }
-                if (y0Coord > this.heightBorderUp && y0Coord < this.Height - this.heightBorderDown)
-                {
-                    e.Graphics.DrawLine(Pens.DarkBlue, this.widthBorderLeft, y0Coord, this.Width - this.widthBorderRight, (int)y0Coord);
-                    e.Graphics.DrawLine(Pens.Black, this.Width - this.widthBorderRight, y0Coord, this.Width - this.widthBorderRight - 8, y0Coord - 3);
-                    e.Graphics.DrawLine(Pens.Black, this.Width - this.widthBorderRight, y0Coord, this.Width - this.widthBorderRight - 8, y0Coord + 3);
-                }
-            }
-            if (this.isDataTrimmVisible)
-            {
-                if (!(mouseX < this.widthBorderLeft || mouseX > this.Width - this.widthBorderRight))
-                {
-                    if (!(mouseY < this.heightBorderUp || mouseY > this.Height - this.heightBorderDown))
-                    {
-                        e.Graphics.DrawLine(Pens.DarkBlue, this.widthBorderLeft, mouseY, this.Width - this.widthBorderRight, mouseY);
-                        e.Graphics.DrawLine(Pens.DarkBlue, mouseX, this.heightBorderUp, mouseX, this.Height - this.heightBorderDown);
-                        decimal x = (decimal)(((decimal)this.mouseX - this.widthBorderLeft) * (decimal)(this.xMaxValue - this.xMinValue) / (this.Width - this.widthBorderLeft - this.widthBorderRight) + (decimal)this.xMinValue);
-                        decimal y = (decimal)((this.Height - this.heightBorderUp - this.heightBorderDown - ((decimal)this.mouseY - this.heightBorderUp)) * (decimal)(this.yMaxValue - this.yMinValue) / (this.Height - this.heightBorderUp - this.heightBorderDown) + (decimal)this.yMinValue);
-
-                        e.Graphics.DrawString(x.ToString("0.####"), Font, Brushes.Black, new Point(mouseX, this.heightBorderUp));
-
-                        e.Graphics.DrawString(y.ToString("0.####"), Font, Brushes.Black, new Point(this.widthBorderLeft, mouseY));
-                    }
-                }
-            }
-            if (this.zoomList.Count > 1)
-            {
-                e.Graphics.DrawLine(Pens.Black, new PointF(zoomList[0].X, zoomList[0].Y), new PointF(zoomList[0].X, zoomList[zoomList.Count - 1].Y));
-                e.Graphics.DrawLine(Pens.Black, new PointF(zoomList[zoomList.Count - 1].X, zoomList[zoomList.Count - 1].Y), new PointF(zoomList[0].X, zoomList[zoomList.Count - 1].Y));
-                e.Graphics.DrawLine(Pens.Black, new PointF(zoomList[0].X, zoomList[0].Y), new PointF(zoomList[zoomList.Count - 1].X, zoomList[0].Y));
-                e.Graphics.DrawLine(Pens.Black, new PointF(zoomList[zoomList.Count - 1].X, zoomList[0].Y), new PointF(zoomList[zoomList.Count - 1].X, zoomList[zoomList.Count - 1].Y));
-            }
-            for (int i = 0; i < 5; i++)
-            {
-                double deltaX = (this.xMaxValue - this.xMinValue) / 4;
-                double deltaY = (this.yMaxValue - this.yMinValue) / 4;
-                e.Graphics.DrawString((this.yMaxValue - deltaY * i).ToString("0.###"), Font, Brushes.Black, new PointF(this.widthBorderLeft - 34, (this.heightBorderUp - 8) + i * ((this.Height - this.heightBorderUp - this.heightBorderDown) / 4)));
-                e.Graphics.DrawString((this.xMinValue + deltaX * i).ToString("0.###"), Font, Brushes.Black, new PointF((this.widthBorderLeft - 6) + i * ((this.Width - this.widthBorderLeft - this.widthBorderRight) / 4), this.Height - this.heightBorderDown + 6));
-
-            }
-           e.Graphics.DrawString(this.axisXlabel, Font, Brushes.Red, this.Width / 2, this.Height - 15);
-           e.Graphics.RotateTransform(-90);
-           e.Graphics.DrawString(this.axisYlabel, Font, Brushes.Red, -this.Height/2, 0);
-           e.Graphics.RotateTransform(90);
-           this.imgOut = new Bitmap(this.Width,this.Height,e.Graphics);
-            * */
+        
         }
         protected override void OnSizeChanged(EventArgs e)
         {
-            this.size1 = new Size(this.Width - (this.widthBorderLeft + this.widthBorderRight), this.Height - (this.heightBorderUp + this.heightBorderDown));
+            this.CanvasSize = new Size(this.Width - (this.WidthBorderLeft + this.WidthBorderRight), this.Height - (this.HeightBorderUp + this.HeightBorderDown));
         }
         protected override void OnMouseMove(MouseEventArgs e)
         {
             
-            if (this.isDataTrimmVisible)
+            if (this.IsDataTrimmVisible)
             {
-                this.mouseX = e.X;
-                this.mouseY = e.Y;
+                this.MouseX = e.X;
+                this.MouseY = e.Y;
             }
             if (MouseButtons.Left == e.Button)
             {
-                if (!(e.X < this.widthBorderLeft || e.X > this.Width - this.widthBorderRight))
+                if (!(e.X < this.WidthBorderLeft || e.X > this.Width - this.WidthBorderRight))
                 {
-                    if (!(e.Y < this.heightBorderUp || e.Y > this.Height - this.heightBorderDown))
+                    if (!(e.Y < this.HeightBorderUp || e.Y > this.Height - this.HeightBorderDown))
                     {
-                        zoomList.Add(new PointF(e.X, e.Y));
+                        ZoomBoxList.Add(new PointF(e.X, e.Y));
                     }
                 }
             }
@@ -353,17 +258,17 @@ namespace Graph
         }
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            if (!this.isDataTrimmVisible && e.Button == MouseButtons.Middle)
+            if (!this.IsDataTrimmVisible && e.Button == MouseButtons.Middle)
             {
-                this.mouseX = e.X;
-                this.mouseY = e.Y;
-                this.isDataTrimmVisible = true;
+                this.MouseX = e.X;
+                this.MouseY = e.Y;
+                this.IsDataTrimmVisible = true;
             }
             else
             {
-                if (this.isDataTrimmVisible && (e.Button == MouseButtons.Middle || e.Button == MouseButtons.Right))
+                if (this.IsDataTrimmVisible && (e.Button == MouseButtons.Middle || e.Button == MouseButtons.Right))
                 {
-                    this.isDataTrimmVisible = false;
+                    this.IsDataTrimmVisible = false;
 
                 }
             }
@@ -371,9 +276,9 @@ namespace Graph
         }
         protected override void OnMouseUp(MouseEventArgs e)
         {
-            if (this.zoomList.Count < 1)
+            if (this.ZoomBoxList.Count < 1)
             {
-                this.zoomList = new List<PointF>();
+                this.ZoomBoxList = new List<PointF>();
                 return;
             }
             float minDelta = 7;//px
@@ -385,17 +290,17 @@ namespace Graph
             
             float[] Xs = new float[2];
             float[] Ys = new float[2];
-            Xs[0] = zoomList[0].X;
-            Ys[0] = zoomList[0].Y;
-            Xs[1] = zoomList[zoomList.Count - 1].X;
-            Ys[1] = zoomList[zoomList.Count - 1].Y;
+            Xs[0] = ZoomBoxList[0].X;
+            Ys[0] = ZoomBoxList[0].Y;
+            Xs[1] = ZoomBoxList[ZoomBoxList.Count - 1].X;
+            Ys[1] = ZoomBoxList[ZoomBoxList.Count - 1].Y;
             xMax = Xs.Max();
             yMax = Ys.Min();
             xMin = Xs.Min();
             yMin = Ys.Max();
             if (xMax - xMin < minDelta || yMin - yMax < minDelta)
             {
-                this.zoomList = new List<PointF>();
+                this.ZoomBoxList = new List<PointF>();
                 return;
             }
             
@@ -406,24 +311,24 @@ namespace Graph
             double xEnd = this.PixelToUsers(xMax, Axes.x);
             if (Math.Abs(yEnd - yStart) < minDeltaUsers || Math.Abs( xEnd - xStart) < minDeltaUsers)
             {
-                this.zoomList = new List<PointF>();
+                this.ZoomBoxList = new List<PointF>();
                 MessageBox.Show("reached maximun zoom");
                 return;
             }
-            this.yMaxValue = yEnd;
-            this.yMinValue = yStart;
-            this.xMaxValue = xEnd;
-            this.xMinValue = xStart;
-            this.zoomList = new List<PointF>();
+            this.YMaxValue = yEnd;
+            this.YMinValue = yStart;
+            this.XMaxValue = xEnd;
+            this.XMinValue = xStart;
+            this.ZoomBoxList = new List<PointF>();
             
             this.Draw();
         }
         public void setData(double xMax, double xMin, double yMax, double yMin, string equationString = "")
         {
-            this.xMaxValue = xMax;
-            this.xMinValue = xMin;
-            this.yMaxValue = yMax;
-            this.yMinValue = yMin;
+            this.XMaxValue = xMax;
+            this.XMinValue = xMin;
+            this.YMaxValue = yMax;
+            this.YMinValue = yMin;
             this.equation = equationString;
             InitializeComponent1();
             this.Draw();
@@ -434,7 +339,7 @@ namespace Graph
 
 				this.calculate ();
 			}
-			this.createGraphImage ();
+			this.CreateGraphImage ();
 			this.Invalidate ();
 		}
         /// <summary>
@@ -459,7 +364,7 @@ namespace Graph
 			this.calculate ();
 			s.Stop ();
 			s.Restart ();
-			this.createGraphImage ();
+			this.CreateGraphImage ();
 			s.Stop ();
 			s.Restart ();
 			this.Invalidate ();
@@ -474,24 +379,24 @@ namespace Graph
 			this.RedrawThread.Start ();
 			//RedrawThreading ();
 		}
-        protected virtual void createGraphImage()
+        protected virtual void CreateGraphImage()
         {
-            this.imgGraph = new Bitmap(this.Width, this.Height);
+            this.ImgGraph = new Bitmap(this.Width, this.Height);
             if (this.dataArrayOfArrays.Length > 2)
             {
                 
-                if (this.graphHist)
+                if (this.GraphHist)
                 {
                     int[][] histedArr = this.hist();
-                    Graphics g = Graphics.FromImage(this.imgGraph);
+                    Graphics g = Graphics.FromImage(this.ImgGraph);
                     for (int i = 0; i < this.dataArrayOfArrays.Length; i++)
                     {
                         for (int j = 0; j < this.countYs; j++)
                         {
-                            double yValue = (double)this.yMinValue + j * this.deltaYs;
+                            double yValue = (double)this.YMinValue + j * this.deltaYs;
 
                             float y = (float)this.UsersToPixel(yValue, Axes.y);
-                            float x = (float)this.UsersToPixel((double)this.xMinValue + i * this.deltaXs, Axes.x);
+                            float x = (float)this.UsersToPixel((double)this.XMinValue + i * this.deltaXs, Axes.x);
 
                             if (y < this.Height * 1000 && y > -this.Height * 1000)
                             {
@@ -508,13 +413,13 @@ namespace Graph
                 }
                 else
                 {
-                    Graphics g = Graphics.FromImage(this.imgGraph);
+                    Graphics g = Graphics.FromImage(this.ImgGraph);
                     for (int i = 0; i < this.dataArrayOfArrays.Length; i++)
                     {
                         for (int j = 0; j < this.dataArrayOfArrays[i].Length; j++)
                         {
                             float y = (float)this.UsersToPixel(this.dataArrayOfArrays[i][j], Axes.y);
-                            float x = (float)this.UsersToPixel((double)this.xMinValue + i * this.deltaXs, Axes.x);
+                            float x = (float)this.UsersToPixel((double)this.XMinValue + i * this.deltaXs, Axes.x);
                             if (y < this.Height * 1000 && y > -this.Height * 1000)
                                 g.DrawEllipse(Pens.Red, x, y, 1, 1);
                         }
@@ -527,10 +432,10 @@ namespace Graph
             {
                 if (this.dataY.Length != this.dataX.Length)
                     return;
-                Graphics g = Graphics.FromImage(this.imgGraph);
+                Graphics g = Graphics.FromImage(this.ImgGraph);
                 for (int i = 0; i < this.dataX.Length; i++)
                 {
-                    if (this.scatterGraph)
+                    if (this.Scatter)
                     {
                         float y = (float)this.UsersToPixel(this.dataY[i], Axes.y);
                         float x = (float)this.UsersToPixel(this.dataX[i], Axes.x);
@@ -571,44 +476,44 @@ namespace Graph
             }
         }
 
-        protected virtual void createAxesAndLabelsImage()
+        protected virtual void CreateAxesAndLabelsImage()
         {
-            this.imgAxesAndLabels = new Bitmap(this.Width,this.Height);
+            this.ImgAxesAndLabels = new Bitmap(this.Width,this.Height);
             
-            Graphics eGraphics = Graphics.FromImage(this.imgAxesAndLabels);
+            Graphics eGraphics = Graphics.FromImage(this.ImgAxesAndLabels);
 
             eGraphics.FillRectangle(new SolidBrush(this.BackColor), new Rectangle(new Point(0, 0), this.Size));
-            eGraphics.FillRectangle(Brushes.White, new Rectangle(point1, size1));
-            if (this.imgGraph != null)
-                eGraphics.DrawImage(this.imgGraph, new Rectangle(0, 0, this.Width, this.Height));
+            eGraphics.FillRectangle(Brushes.White, new Rectangle(CanvasLocation, CanvasSize));
+            if (this.ImgGraph != null)
+                eGraphics.DrawImage(this.ImgGraph, new Rectangle(0, 0, this.Width, this.Height));
             if (this.IsAxisVisible)
             {
                 int x0Coord = (int)this.UsersToPixel(0, Axes.x);
                 int y0Coord = (int)this.UsersToPixel(0, Axes.y);
-                if (x0Coord > this.widthBorderLeft && x0Coord < this.Width - this.widthBorderRight)
+                if (x0Coord > this.WidthBorderLeft && x0Coord < this.Width - this.WidthBorderRight)
                 {
-                    eGraphics.DrawLine(Pens.Black, x0Coord, this.heightBorderUp, x0Coord, this.Height - this.heightBorderDown);
-                    eGraphics.DrawLine(Pens.Black, x0Coord, this.heightBorderUp, x0Coord + 3, this.heightBorderUp + 8);
-                    eGraphics.DrawLine(Pens.Black, x0Coord, this.heightBorderUp, x0Coord - 3, this.heightBorderUp + 8);
+                    eGraphics.DrawLine(Pens.Black, x0Coord, this.HeightBorderUp, x0Coord, this.Height - this.HeightBorderDown);
+                    eGraphics.DrawLine(Pens.Black, x0Coord, this.HeightBorderUp, x0Coord + 3, this.HeightBorderUp + 8);
+                    eGraphics.DrawLine(Pens.Black, x0Coord, this.HeightBorderUp, x0Coord - 3, this.HeightBorderUp + 8);
                 }
-                if (y0Coord > this.heightBorderUp && y0Coord < this.Height - this.heightBorderDown)
+                if (y0Coord > this.HeightBorderUp && y0Coord < this.Height - this.HeightBorderDown)
                 {
-                    eGraphics.DrawLine(Pens.DarkBlue, this.widthBorderLeft, y0Coord, this.Width - this.widthBorderRight, (int)y0Coord);
-                    eGraphics.DrawLine(Pens.Black, this.Width - this.widthBorderRight, y0Coord, this.Width - this.widthBorderRight - 8, y0Coord - 3);
-                    eGraphics.DrawLine(Pens.Black, this.Width - this.widthBorderRight, y0Coord, this.Width - this.widthBorderRight - 8, y0Coord + 3);
+                    eGraphics.DrawLine(Pens.DarkBlue, this.WidthBorderLeft, y0Coord, this.Width - this.WidthBorderRight, (int)y0Coord);
+                    eGraphics.DrawLine(Pens.Black, this.Width - this.WidthBorderRight, y0Coord, this.Width - this.WidthBorderRight - 8, y0Coord - 3);
+                    eGraphics.DrawLine(Pens.Black, this.Width - this.WidthBorderRight, y0Coord, this.Width - this.WidthBorderRight - 8, y0Coord + 3);
                 }
             }
             for (int i = 0; i < 5; i++)
             {
-                double deltaX = (this.xMaxValue - this.xMinValue) / 4;
-                double deltaY = (this.yMaxValue - this.yMinValue) / 4;
-                eGraphics.DrawString((this.yMaxValue - deltaY * i).ToString("0.###"), Font, Brushes.Black, new PointF(this.widthBorderLeft - 34, (this.heightBorderUp - 8) + i * ((this.Height - this.heightBorderUp - this.heightBorderDown) / 4)));
-                eGraphics.DrawString((this.xMinValue + deltaX * i).ToString("0.###"), Font, Brushes.Black, new PointF((this.widthBorderLeft - 6) + i * ((this.Width - this.widthBorderLeft - this.widthBorderRight) / 4), this.Height - this.heightBorderDown + 6));
+                double deltaX = (this.XMaxValue - this.XMinValue) / 4;
+                double deltaY = (this.YMaxValue - this.YMinValue) / 4;
+                eGraphics.DrawString((this.YMaxValue - deltaY * i).ToString("0.###"), Font, Brushes.Black, new PointF(this.WidthBorderLeft - 34, (this.HeightBorderUp - 8) + i * ((this.Height - this.HeightBorderUp - this.HeightBorderDown) / 4)));
+                eGraphics.DrawString((this.XMinValue + deltaX * i).ToString("0.###"), Font, Brushes.Black, new PointF((this.WidthBorderLeft - 6) + i * ((this.Width - this.WidthBorderLeft - this.WidthBorderRight) / 4), this.Height - this.HeightBorderDown + 6));
 
             }
-            eGraphics.DrawString(this.axisXlabel, Font, Brushes.Red, this.Width / 2, this.Height - 15);
+            eGraphics.DrawString(this.AxisXlabel, Font, Brushes.Red, this.Width / 2, this.Height - 15);
             eGraphics.RotateTransform(-90);
-            eGraphics.DrawString(this.axisYlabel, Font, Brushes.Red, -this.Height / 2, 0);
+            eGraphics.DrawString(this.AxisYlabel, Font, Brushes.Red, -this.Height / 2, 0);
             eGraphics.RotateTransform(90);
  
         }
@@ -617,14 +522,14 @@ namespace Graph
         /// </summary>
         public void zoomOut()
         {
-            double deltaX = Math.Abs(this.xMaxValue - this.xMinValue);
-            double deltaY = Math.Abs(this.yMaxValue - this.yMinValue);
+            double deltaX = Math.Abs(this.XMaxValue - this.XMinValue);
+            double deltaY = Math.Abs(this.YMaxValue - this.YMinValue);
             deltaY = (deltaY * 1.1 - deltaY) / 2;
             deltaX = (deltaX * 1.1 - deltaX) / 2;
-            this.yMinValue -= deltaY;
-            this.yMaxValue += deltaY;
-            this.xMaxValue += deltaX;
-            this.xMinValue -= deltaX;
+            this.YMinValue -= deltaY;
+            this.YMaxValue += deltaY;
+            this.XMaxValue += deltaX;
+            this.XMinValue -= deltaX;
             this.Draw();
         }
         /// <summary>
@@ -632,16 +537,16 @@ namespace Graph
         /// </summary>
         public void zoomIn()
         {
-            double deltaX = Math.Abs(this.xMaxValue - this.xMinValue);
-            double deltaY = Math.Abs(this.yMaxValue - this.yMinValue);
+            double deltaX = Math.Abs(this.XMaxValue - this.XMinValue);
+            double deltaY = Math.Abs(this.YMaxValue - this.YMinValue);
             deltaY = (deltaY * 1.1 - deltaY) / 2;
             deltaX = (deltaX * 1.1 - deltaX) / 2;
             if (deltaX != 0 && deltaY != 0)
             {
-                this.yMinValue += deltaY;
-                this.yMaxValue -= deltaY;
-                this.xMaxValue -= deltaX;
-                this.xMinValue += deltaX;
+                this.YMinValue += deltaY;
+                this.YMaxValue -= deltaY;
+                this.XMaxValue -= deltaX;
+                this.XMinValue += deltaX;
                 this.Draw();
             }
         }
@@ -650,14 +555,14 @@ namespace Graph
             switch (mAttr)
             {
                 case MoveAttributes.percents:
-                    double deltaMove = this.xMaxValue - this.xMinValue;
+                    double deltaMove = this.XMaxValue - this.XMinValue;
                     deltaMove = deltaMove * (moveValue / 100);
-                    this.xMinValue -= deltaMove;
-                    this.xMaxValue -= deltaMove;
+                    this.XMinValue -= deltaMove;
+                    this.XMaxValue -= deltaMove;
                     break;
                 case MoveAttributes.usersCoordinates:
-                    this.xMinValue -= moveValue;
-                    this.xMaxValue -= moveValue;
+                    this.XMinValue -= moveValue;
+                    this.XMaxValue -= moveValue;
                     break;
                 default:
                     break;
@@ -669,14 +574,14 @@ namespace Graph
             switch (mAttr)
             {
                 case MoveAttributes.percents:
-                    double deltaMove = this.xMaxValue - this.xMinValue;
+                    double deltaMove = this.XMaxValue - this.XMinValue;
                     deltaMove = deltaMove * (moveValue / 100);
-                    this.xMinValue += deltaMove;
-                    this.xMaxValue += deltaMove;
+                    this.XMinValue += deltaMove;
+                    this.XMaxValue += deltaMove;
                     break;
                 case MoveAttributes.usersCoordinates:
-                    this.xMinValue += moveValue;
-                    this.xMaxValue += moveValue;
+                    this.XMinValue += moveValue;
+                    this.XMaxValue += moveValue;
                     break;
                 default:
                     break;
@@ -688,14 +593,14 @@ namespace Graph
             switch (mAttr)
             {
                 case MoveAttributes.percents:
-                    double deltaMove = this.yMaxValue - this.yMinValue;
+                    double deltaMove = this.YMaxValue - this.YMinValue;
                     deltaMove = deltaMove * (moveValue / 100);
-                    this.yMinValue += deltaMove;
-                    this.yMaxValue += deltaMove;
+                    this.YMinValue += deltaMove;
+                    this.YMaxValue += deltaMove;
                     break;
                 case MoveAttributes.usersCoordinates:
-                    this.yMaxValue += moveValue;
-                    this.yMinValue += moveValue;
+                    this.YMaxValue += moveValue;
+                    this.YMinValue += moveValue;
                     break;
                 default:
                     break;
@@ -707,14 +612,14 @@ namespace Graph
             switch (mAttr)
             {
                 case MoveAttributes.percents:
-                    double deltaMove = this.yMaxValue - this.yMinValue;
+                    double deltaMove = this.YMaxValue - this.YMinValue;
                     deltaMove = deltaMove * (moveValue / 100);
-                    this.yMinValue -= deltaMove;
-                    this.yMaxValue -= deltaMove;
+                    this.YMinValue -= deltaMove;
+                    this.YMaxValue -= deltaMove;
                     break;
                 case MoveAttributes.usersCoordinates:
-                    this.yMaxValue -= moveValue;
-                    this.yMinValue -= moveValue;
+                    this.YMaxValue -= moveValue;
+                    this.YMinValue -= moveValue;
                     break;
                 default:
                     break;
@@ -743,11 +648,11 @@ namespace Graph
         {
             if (axis == Axes.y)
             {
-                return ((this.Height - this.heightBorderUp - this.heightBorderDown - (pixelVal - this.heightBorderUp)) * (this.yMaxValue - this.yMinValue) / (this.Height - this.heightBorderUp - this.heightBorderDown) + this.yMinValue);
+                return ((this.Height - this.HeightBorderUp - this.HeightBorderDown - (pixelVal - this.HeightBorderUp)) * (this.YMaxValue - this.YMinValue) / (this.Height - this.HeightBorderUp - this.HeightBorderDown) + this.YMinValue);
             }
             else
             {
-                return (((pixelVal - this.widthBorderLeft)) * (this.xMaxValue - this.xMinValue) / (this.Width - this.widthBorderLeft - this.widthBorderRight) + this.xMinValue);
+                return (((pixelVal - this.WidthBorderLeft)) * (this.XMaxValue - this.XMinValue) / (this.Width - this.WidthBorderLeft - this.WidthBorderRight) + this.XMinValue);
             }
             
         }
@@ -762,18 +667,18 @@ namespace Graph
         {
             if (axis == Axes.y)
             {
-                int graphHeight = this.Height - (this.heightBorderUp + this.heightBorderDown);
-                double  y = (this.heightBorderUp + graphHeight) - ((usersVal -
-                                                        Convert.ToDouble(this.yMinValue)) /
-                                                        (double)(this.yMaxValue - this.yMinValue)) *
+                int graphHeight = this.Height - (this.HeightBorderUp + this.HeightBorderDown);
+                double  y = (this.HeightBorderUp + graphHeight) - ((usersVal -
+                                                        Convert.ToDouble(this.YMinValue)) /
+                                                        (double)(this.YMaxValue - this.YMinValue)) *
                                                         graphHeight;
                 return y;
             }
             else
             {
-                int graphWidth = this.Width - (this.widthBorderLeft + this.widthBorderRight);
-                double x = (double)(this.widthBorderLeft + (usersVal -(double)this.xMinValue) /
-                                                                (double)(this.xMaxValue - this.xMinValue) *
+                int graphWidth = this.Width - (this.WidthBorderLeft + this.WidthBorderRight);
+                double x = (double)(this.WidthBorderLeft + (usersVal -(double)this.XMinValue) /
+                                                                (double)(this.XMaxValue - this.XMinValue) *
                                                                 graphWidth);
                 return x;
             }
@@ -911,7 +816,7 @@ namespace Graph
             {
                 //this.img.Save(this.saveFileDialog1.FileName);
                 //this.
-                this.imgAxesAndLabels.Save(this.saveFileDialog1.FileName);
+                this.ImgAxesAndLabels.Save(this.saveFileDialog1.FileName);
             }
 
             //this.img.Save(path);
@@ -946,17 +851,17 @@ namespace Graph
 
 				if ( this.dataX != null && this.dataY != null ) {
 
-					this.xMinValue = this.dataX
+					this.XMinValue = this.dataX
 						.Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
 							.Min ();
-					this.xMaxValue = this.dataX
+					this.XMaxValue = this.dataX
 						.Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
 							.Max ();
 
-					this.yMaxValue = this.dataY
+					this.YMaxValue = this.dataY
 						.Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
 							.Max ();
-					this.yMinValue = this.dataY
+					this.YMinValue = this.dataY
 						.Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
 							.Min ();
 					this.Redraw ();

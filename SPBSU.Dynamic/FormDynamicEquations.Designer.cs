@@ -475,19 +475,19 @@
 			// 
 			// graphSystemBehavior1
 			// 
-			this.graphSystemBehavior1.axisXlabel = "x";
-			this.graphSystemBehavior1.axisYlabel = "y";
+			this.graphSystemBehavior1.AxisXlabel = "x";
+			this.graphSystemBehavior1.AxisYlabel = "y";
 			this.graphSystemBehavior1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
 			this.graphSystemBehavior1.f0 = null;
 			this.graphSystemBehavior1.functionsD = null;
-			this.graphSystemBehavior1.graphHist = false;
+			this.graphSystemBehavior1.GraphHist = false;
 			this.graphSystemBehavior1.IntegrationType = Mathematics.Intergration.IntegrationType.EulerMethod;
 			this.graphSystemBehavior1.IsAxisVisible = true;
 			this.graphSystemBehavior1.Location = new System.Drawing.Point(12, 12);
 			this.graphSystemBehavior1.MoveButtonsExist = true;
 			this.graphSystemBehavior1.Name = "graphSystemBehavior1";
 			this.graphSystemBehavior1.Parameters = null;
-			this.graphSystemBehavior1.scatterGraph = false;
+			this.graphSystemBehavior1.Scatter = false;
 			this.graphSystemBehavior1.Size = new System.Drawing.Size(464, 363);
 			this.graphSystemBehavior1.Solutions = null;
 			this.graphSystemBehavior1.t0 = 0D;

@@ -14,7 +14,7 @@ namespace Graph
         protected override void calculate()
         {
             base.calculate();
-            this.deltaXs = (double)(this.xMaxValue - this.xMinValue) / this.countXs;
+            this.deltaXs = (double)(this.XMaxValue - this.XMinValue) / this.countXs;
 
             double[] temp;
             this.dataArrayOfArrays = new double[0][];
@@ -22,7 +22,7 @@ namespace Graph
             //this.progressBar1.Value = 0;
             for (int i = 0; i < this.countXs; i++)
             {
-                double dtemp = (double)this.xMinValue + deltaXs * i;
+                double dtemp = (double)this.XMinValue + deltaXs * i;
                 temp = logistic.calc(dtemp, initialX);
                 Array.Resize<double[]>(ref this.dataArrayOfArrays, this.dataArrayOfArrays.Length + 1);
                 this.dataArrayOfArrays[this.dataArrayOfArrays.Length - 1] = temp;
@@ -41,7 +41,7 @@ namespace Graph
                 int x = (int)this.UsersToPixel(this.pointOfInterest, Axes.x);
                 if(x>0 && x<this.Width)
                 {
-                e.Graphics.DrawLine(Pens.Green, new Point(x, this.heightBorderUp), new Point(x, this.Height - this.heightBorderDown));
+                e.Graphics.DrawLine(Pens.Green, new Point(x, this.HeightBorderUp), new Point(x, this.Height - this.HeightBorderDown));
                 }
             }
 
