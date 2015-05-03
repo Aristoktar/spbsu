@@ -63,6 +63,25 @@
 			this.buttonHamiltonian = new System.Windows.Forms.Button();
 			this.buttonLyapunov = new System.Windows.Forms.Button();
 			this.radioButtonIterativ = new System.Windows.Forms.RadioButton();
+			this.buttonRedrawAxes = new System.Windows.Forms.Button();
+			this.checkBoxPoincare = new System.Windows.Forms.CheckBox();
+			this.textBoxThicknessOfLayer = new System.Windows.Forms.TextBox();
+			this.comboBoxVarForPoincare = new System.Windows.Forms.ComboBox();
+			this.splitter1 = new System.Windows.Forms.Splitter();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this.labelVar = new System.Windows.Forms.Label();
+			this.labelThickness = new System.Windows.Forms.Label();
+			this.labelHitCount = new System.Windows.Forms.Label();
+			this.textBoxHitCount = new System.Windows.Forms.TextBox();
+			this.textBoxSectionPoint = new System.Windows.Forms.TextBox();
+			this.labelSectionPoint = new System.Windows.Forms.Label();
+			this.comboBoxVarForDetH = new System.Windows.Forms.ComboBox();
+			this.textBoxVarEquation = new System.Windows.Forms.TextBox();
+			this.labelHDeterminingVariable = new System.Windows.Forms.Label();
+			this.labelVarEquation = new System.Windows.Forms.Label();
+			this.labelH = new System.Windows.Forms.Label();
+			this.textBoxH = new System.Windows.Forms.TextBox();
+			this.checkBoxHDet = new System.Windows.Forms.CheckBox();
 			this.graphSystemBehavior1 = new Graph.GraphDynamicType();
 			((System.ComponentModel.ISupportInitialize)(this.trackBarA)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.trackBarB)).BeginInit();
@@ -70,6 +89,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.trackBarD)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.trackBarE)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.trackBarF)).BeginInit();
+			this.panel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// buttonAddEquation
@@ -426,7 +446,7 @@
 			// 
 			// textBoxHamiltonian
 			// 
-			this.textBoxHamiltonian.Location = new System.Drawing.Point(796, 400);
+			this.textBoxHamiltonian.Location = new System.Drawing.Point(796, 388);
 			this.textBoxHamiltonian.Name = "textBoxHamiltonian";
 			this.textBoxHamiltonian.Size = new System.Drawing.Size(292, 20);
 			this.textBoxHamiltonian.TabIndex = 38;
@@ -435,7 +455,7 @@
 			// labelHamiltonian
 			// 
 			this.labelHamiltonian.AutoSize = true;
-			this.labelHamiltonian.Location = new System.Drawing.Point(923, 362);
+			this.labelHamiltonian.Location = new System.Drawing.Point(793, 362);
 			this.labelHamiltonian.Name = "labelHamiltonian";
 			this.labelHamiltonian.Size = new System.Drawing.Size(62, 13);
 			this.labelHamiltonian.TabIndex = 39;
@@ -443,7 +463,7 @@
 			// 
 			// buttonHamiltonian
 			// 
-			this.buttonHamiltonian.Location = new System.Drawing.Point(1094, 397);
+			this.buttonHamiltonian.Location = new System.Drawing.Point(1094, 385);
 			this.buttonHamiltonian.Name = "buttonHamiltonian";
 			this.buttonHamiltonian.Size = new System.Drawing.Size(75, 23);
 			this.buttonHamiltonian.TabIndex = 40;
@@ -453,7 +473,7 @@
 			// 
 			// buttonLyapunov
 			// 
-			this.buttonLyapunov.Location = new System.Drawing.Point(796, 452);
+			this.buttonLyapunov.Location = new System.Drawing.Point(792, 429);
 			this.buttonLyapunov.Name = "buttonLyapunov";
 			this.buttonLyapunov.Size = new System.Drawing.Size(124, 23);
 			this.buttonLyapunov.TabIndex = 41;
@@ -473,6 +493,193 @@
 			this.radioButtonIterativ.UseVisualStyleBackColor = true;
 			this.radioButtonIterativ.CheckedChanged += new System.EventHandler(this.radioButtonIterativ_CheckedChanged);
 			// 
+			// buttonRedrawAxes
+			// 
+			this.buttonRedrawAxes.Location = new System.Drawing.Point(198, 530);
+			this.buttonRedrawAxes.Name = "buttonRedrawAxes";
+			this.buttonRedrawAxes.Size = new System.Drawing.Size(75, 23);
+			this.buttonRedrawAxes.TabIndex = 43;
+			this.buttonRedrawAxes.Text = "Redraw Axes";
+			this.buttonRedrawAxes.UseVisualStyleBackColor = true;
+			this.buttonRedrawAxes.Click += new System.EventHandler(this.buttonRedrawAxes_Click);
+			// 
+			// checkBoxPoincare
+			// 
+			this.checkBoxPoincare.AutoSize = true;
+			this.checkBoxPoincare.Checked = true;
+			this.checkBoxPoincare.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.checkBoxPoincare.Location = new System.Drawing.Point(19, 12);
+			this.checkBoxPoincare.Name = "checkBoxPoincare";
+			this.checkBoxPoincare.Size = new System.Drawing.Size(105, 17);
+			this.checkBoxPoincare.TabIndex = 44;
+			this.checkBoxPoincare.Text = "Poincare section";
+			this.checkBoxPoincare.UseVisualStyleBackColor = true;
+			this.checkBoxPoincare.CheckedChanged += new System.EventHandler(this.checkBoxPoincare_CheckedChanged);
+			// 
+			// textBoxThicknessOfLayer
+			// 
+			this.textBoxThicknessOfLayer.Location = new System.Drawing.Point(122, 75);
+			this.textBoxThicknessOfLayer.Name = "textBoxThicknessOfLayer";
+			this.textBoxThicknessOfLayer.Size = new System.Drawing.Size(121, 20);
+			this.textBoxThicknessOfLayer.TabIndex = 45;
+			this.textBoxThicknessOfLayer.Text = "0.005";
+			// 
+			// comboBoxVarForPoincare
+			// 
+			this.comboBoxVarForPoincare.FormattingEnabled = true;
+			this.comboBoxVarForPoincare.Location = new System.Drawing.Point(122, 45);
+			this.comboBoxVarForPoincare.Name = "comboBoxVarForPoincare";
+			this.comboBoxVarForPoincare.Size = new System.Drawing.Size(121, 21);
+			this.comboBoxVarForPoincare.TabIndex = 46;
+			// 
+			// splitter1
+			// 
+			this.splitter1.Location = new System.Drawing.Point(0, 0);
+			this.splitter1.Name = "splitter1";
+			this.splitter1.Size = new System.Drawing.Size(3, 755);
+			this.splitter1.TabIndex = 47;
+			this.splitter1.TabStop = false;
+			// 
+			// panel1
+			// 
+			this.panel1.BackColor = System.Drawing.SystemColors.ControlLight;
+			this.panel1.Controls.Add(this.checkBoxHDet);
+			this.panel1.Controls.Add(this.textBoxH);
+			this.panel1.Controls.Add(this.labelH);
+			this.panel1.Controls.Add(this.labelVarEquation);
+			this.panel1.Controls.Add(this.labelHDeterminingVariable);
+			this.panel1.Controls.Add(this.textBoxVarEquation);
+			this.panel1.Controls.Add(this.comboBoxVarForDetH);
+			this.panel1.Controls.Add(this.labelSectionPoint);
+			this.panel1.Controls.Add(this.textBoxSectionPoint);
+			this.panel1.Controls.Add(this.textBoxHitCount);
+			this.panel1.Controls.Add(this.labelHitCount);
+			this.panel1.Controls.Add(this.labelThickness);
+			this.panel1.Controls.Add(this.labelVar);
+			this.panel1.Controls.Add(this.checkBoxPoincare);
+			this.panel1.Controls.Add(this.textBoxThicknessOfLayer);
+			this.panel1.Controls.Add(this.comboBoxVarForPoincare);
+			this.panel1.Location = new System.Drawing.Point(792, 458);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(323, 297);
+			this.panel1.TabIndex = 48;
+			// 
+			// labelVar
+			// 
+			this.labelVar.AutoSize = true;
+			this.labelVar.Location = new System.Drawing.Point(29, 48);
+			this.labelVar.Name = "labelVar";
+			this.labelVar.Size = new System.Drawing.Size(45, 13);
+			this.labelVar.TabIndex = 47;
+			this.labelVar.Text = "Variable";
+			// 
+			// labelThickness
+			// 
+			this.labelThickness.AutoSize = true;
+			this.labelThickness.Location = new System.Drawing.Point(29, 78);
+			this.labelThickness.Name = "labelThickness";
+			this.labelThickness.Size = new System.Drawing.Size(56, 13);
+			this.labelThickness.TabIndex = 48;
+			this.labelThickness.Text = "Thickness";
+			// 
+			// labelHitCount
+			// 
+			this.labelHitCount.AutoSize = true;
+			this.labelHitCount.Location = new System.Drawing.Point(29, 111);
+			this.labelHitCount.Name = "labelHitCount";
+			this.labelHitCount.Size = new System.Drawing.Size(50, 13);
+			this.labelHitCount.TabIndex = 49;
+			this.labelHitCount.Text = "Hit count";
+			// 
+			// textBoxHitCount
+			// 
+			this.textBoxHitCount.Location = new System.Drawing.Point(122, 108);
+			this.textBoxHitCount.Name = "textBoxHitCount";
+			this.textBoxHitCount.Size = new System.Drawing.Size(121, 20);
+			this.textBoxHitCount.TabIndex = 50;
+			this.textBoxHitCount.Text = "1000";
+			// 
+			// textBoxSectionPoint
+			// 
+			this.textBoxSectionPoint.Location = new System.Drawing.Point(122, 143);
+			this.textBoxSectionPoint.Name = "textBoxSectionPoint";
+			this.textBoxSectionPoint.Size = new System.Drawing.Size(121, 20);
+			this.textBoxSectionPoint.TabIndex = 51;
+			this.textBoxSectionPoint.Text = "0";
+			// 
+			// labelSectionPoint
+			// 
+			this.labelSectionPoint.AutoSize = true;
+			this.labelSectionPoint.Location = new System.Drawing.Point(29, 146);
+			this.labelSectionPoint.Name = "labelSectionPoint";
+			this.labelSectionPoint.Size = new System.Drawing.Size(83, 13);
+			this.labelSectionPoint.TabIndex = 52;
+			this.labelSectionPoint.Text = "Point for section";
+			// 
+			// comboBoxVarForDetH
+			// 
+			this.comboBoxVarForDetH.FormattingEnabled = true;
+			this.comboBoxVarForDetH.Location = new System.Drawing.Point(122, 180);
+			this.comboBoxVarForDetH.Name = "comboBoxVarForDetH";
+			this.comboBoxVarForDetH.Size = new System.Drawing.Size(121, 21);
+			this.comboBoxVarForDetH.TabIndex = 53;
+			// 
+			// textBoxVarEquation
+			// 
+			this.textBoxVarEquation.Location = new System.Drawing.Point(30, 250);
+			this.textBoxVarEquation.Name = "textBoxVarEquation";
+			this.textBoxVarEquation.Size = new System.Drawing.Size(290, 20);
+			this.textBoxVarEquation.TabIndex = 54;
+			this.textBoxVarEquation.Text = "Math.Sqrt(H-(py*py/2+(x*x+y*y)/2+x*x*y-y*y*y))";
+			// 
+			// labelHDeterminingVariable
+			// 
+			this.labelHDeterminingVariable.AutoSize = true;
+			this.labelHDeterminingVariable.Location = new System.Drawing.Point(29, 183);
+			this.labelHDeterminingVariable.Name = "labelHDeterminingVariable";
+			this.labelHDeterminingVariable.Size = new System.Drawing.Size(67, 13);
+			this.labelHDeterminingVariable.TabIndex = 55;
+			this.labelHDeterminingVariable.Text = "Var for det H";
+			// 
+			// labelVarEquation
+			// 
+			this.labelVarEquation.AutoSize = true;
+			this.labelVarEquation.Location = new System.Drawing.Point(3, 253);
+			this.labelVarEquation.Name = "labelVarEquation";
+			this.labelVarEquation.Size = new System.Drawing.Size(13, 13);
+			this.labelVarEquation.TabIndex = 56;
+			this.labelVarEquation.Text = "=";
+			// 
+			// labelH
+			// 
+			this.labelH.AutoSize = true;
+			this.labelH.Location = new System.Drawing.Point(29, 220);
+			this.labelH.Name = "labelH";
+			this.labelH.Size = new System.Drawing.Size(21, 13);
+			this.labelH.TabIndex = 57;
+			this.labelH.Text = "H=";
+			// 
+			// textBoxH
+			// 
+			this.textBoxH.Location = new System.Drawing.Point(122, 217);
+			this.textBoxH.Name = "textBoxH";
+			this.textBoxH.Size = new System.Drawing.Size(121, 20);
+			this.textBoxH.TabIndex = 58;
+			this.textBoxH.Text = "1/8";
+			// 
+			// checkBoxHDet
+			// 
+			this.checkBoxHDet.AutoSize = true;
+			this.checkBoxHDet.Checked = true;
+			this.checkBoxHDet.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.checkBoxHDet.Location = new System.Drawing.Point(262, 183);
+			this.checkBoxHDet.Name = "checkBoxHDet";
+			this.checkBoxHDet.Size = new System.Drawing.Size(35, 17);
+			this.checkBoxHDet.TabIndex = 59;
+			this.checkBoxHDet.Text = "<-";
+			this.checkBoxHDet.UseVisualStyleBackColor = true;
+			this.checkBoxHDet.CheckedChanged += new System.EventHandler(this.checkBoxHDet_CheckedChanged);
+			// 
 			// graphSystemBehavior1
 			// 
 			this.graphSystemBehavior1.AxisXlabel = "x";
@@ -487,6 +694,7 @@
 			this.graphSystemBehavior1.MoveButtonsExist = true;
 			this.graphSystemBehavior1.Name = "graphSystemBehavior1";
 			this.graphSystemBehavior1.Parameters = null;
+			this.graphSystemBehavior1.PoincareParameters = null;
 			this.graphSystemBehavior1.Scatter = false;
 			this.graphSystemBehavior1.Size = new System.Drawing.Size(464, 363);
 			this.graphSystemBehavior1.Solutions = null;
@@ -499,7 +707,10 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1181, 599);
+			this.ClientSize = new System.Drawing.Size(1181, 755);
+			this.Controls.Add(this.panel1);
+			this.Controls.Add(this.splitter1);
+			this.Controls.Add(this.buttonRedrawAxes);
 			this.Controls.Add(this.radioButtonIterativ);
 			this.Controls.Add(this.buttonLyapunov);
 			this.Controls.Add(this.buttonHamiltonian);
@@ -550,6 +761,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.trackBarD)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.trackBarE)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.trackBarF)).EndInit();
+			this.panel1.ResumeLayout(false);
+			this.panel1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -598,6 +811,25 @@
 		private System.Windows.Forms.Button buttonHamiltonian;
 		private System.Windows.Forms.Button buttonLyapunov;
 		private System.Windows.Forms.RadioButton radioButtonIterativ;
+		private System.Windows.Forms.Button buttonRedrawAxes;
+		private System.Windows.Forms.CheckBox checkBoxPoincare;
+		private System.Windows.Forms.TextBox textBoxThicknessOfLayer;
+		private System.Windows.Forms.ComboBox comboBoxVarForPoincare;
+		private System.Windows.Forms.Splitter splitter1;
+		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.Label labelHitCount;
+		private System.Windows.Forms.Label labelThickness;
+		private System.Windows.Forms.Label labelVar;
+		private System.Windows.Forms.TextBox textBoxHitCount;
+		private System.Windows.Forms.Label labelSectionPoint;
+		private System.Windows.Forms.TextBox textBoxSectionPoint;
+		private System.Windows.Forms.CheckBox checkBoxHDet;
+		private System.Windows.Forms.TextBox textBoxH;
+		private System.Windows.Forms.Label labelH;
+		private System.Windows.Forms.Label labelVarEquation;
+		private System.Windows.Forms.Label labelHDeterminingVariable;
+		private System.Windows.Forms.TextBox textBoxVarEquation;
+		private System.Windows.Forms.ComboBox comboBoxVarForDetH;
 	}
 }
 

@@ -45,33 +45,47 @@ namespace Graph {
 			get;
 			set;
 		}
-		protected override void calculate () {
-			//base.calculate ();
-			if ( UseDynamicFunctions ) {
-				Dictionary<string , List<double>> solution = new Dictionary<string , List<double>> () ;
-				switch ( this.IntegrationType ) {
-					case IntegrationType.RungeKutta4:
-						solution = RungeKutta.Integrate4 ( this.functionsD , t0 , f0,Parameters );
-						break;
-					case IntegrationType.EulerMethod:
-						solution = Euler.Integrate ( this.functionsD , t0 , f0,Parameters);
-						break;
-					case Mathematics.Intergration.IntegrationType.EulerMethodSymplectic:
-						solution = Euler.IntegrateSymplectic ( this.functionsD , t0 , f0,Parameters );
-						break;
-					case Mathematics.Intergration.IntegrationType.Iterative:
-						solution = Iterative.Integrate ( this.functionsD , t0 , f0 , Parameters );
-						break;
-					case Mathematics.Intergration.IntegrationType.PoincareMap:
-						solution = Poincare.Calculate ( this.functionsD , t0 , f0 , Parameters );
-						break;
 
-					default: break;
+		public PoincareSectionParameters PoincareParameters {
+			get;
+			set;
+		}
+		protected override void calculate () {
+			
+			//base.calculate ();
+			try {
+
+				if ( UseDynamicFunctions ) {
+					Dictionary<string , List<double>> solution = new Dictionary<string , List<double>> ();
+					switch ( this.IntegrationType ) {
+						case IntegrationType.RungeKutta4:
+							solution = RungeKutta.Integrate4 ( this.functionsD , t0 , f0 , Parameters , this.PoincareParameters , this );
+							break;
+						case IntegrationType.EulerMethod:
+							solution = Euler.Integrate ( this.functionsD , t0 , f0 , Parameters , this.PoincareParameters , this );
+							break;
+						case Mathematics.Intergration.IntegrationType.EulerMethodSymplectic:
+							solution = Euler.IntegrateSymplectic ( this.functionsD , t0 , f0 , Parameters );
+							break;
+						case Mathematics.Intergration.IntegrationType.Iterative:
+							solution = Iterative.Integrate ( this.functionsD , t0 , f0 , Parameters );
+							break;
+						case Mathematics.Intergration.IntegrationType.PoincareMap:
+							solution = Poincare.Calculate ( this.functionsD , t0 , f0 , Parameters );
+							break;
+
+						default: break;
+					}
+					this.Solutions = solution;
+					dataX = solution[this.AxisXlabel].ToArray ();
+					dataY = solution[this.AxisYlabel].ToArray ();
 				}
-				this.Solutions = solution;
-				dataX = solution[this.AxisXlabel].ToArray ();
-				dataY = solution[this.AxisYlabel].ToArray ();
+			}catch(MathematicsCalculationException ex){
+				MessageBox.Show(ex.ErrorMessage);
+					
 			}
+			
+			
 			
 		}
 		public void InitFunctionsD ( Dictionary<string , string> functions, Dictionary<string , double> parameters) {
@@ -105,7 +119,8 @@ namespace Graph {
 		private void checkBoxScatter_CheckedChanged ( object sender , EventArgs e ) {
 			if ( this.checkBoxScatter.Checked ) this.Scatter = true;
 			else this.Scatter = false;
-			this.Redraw ();
+			this.RedrawWithSetAxesData ( this.dataX.ToList () , this.dataY.ToList () );
+			
 		}
 
 		private void buttonZoom100_Click ( object sender , EventArgs e ) {

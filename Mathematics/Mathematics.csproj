@@ -50,6 +50,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -60,17 +62,30 @@
     <Compile Include="Analysis\Function.cs" />
     <Compile Include="Analysis\FunctionInfo.cs" />
     <Compile Include="Analysis\Lyapunov.cs" />
+    <Compile Include="CalculationProgress.cs" />
+    <Compile Include="CalculationProgressBar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CalculationProgressBar.Designer.cs">
+      <DependentUpon>CalculationProgressBar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Delegates.cs" />
     <Compile Include="Hamiltonian.cs" />
     <Compile Include="Intergration\Euler.cs" />
     <Compile Include="Intergration\IntegrationType.cs" />
     <Compile Include="Intergration\Iterative.cs" />
     <Compile Include="Intergration\RungeKutta.cs" />
+    <Compile Include="MathematicsCalculationException.cs" />
     <Compile Include="MathematicsException.cs" />
     <Compile Include="Poincare.cs" />
+    <Compile Include="PoincareSectionParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="CalculationProgressBar.resx">
+      <DependentUpon>CalculationProgressBar.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -135,6 +135,7 @@ namespace Graph
         /// </summary>
         protected virtual void calculate()
         {
+			
             if (!string.IsNullOrWhiteSpace(this.equation))
             {
                 this.countXs = 100;
@@ -378,6 +379,14 @@ namespace Graph
 			this.RedrawThread = new Thread ( RedrawThreading );
 			this.RedrawThread.Start ();
 			//RedrawThreading ();
+		}
+
+		public void RedrawWithSetAxesData ( List<double> newDataX , List<double> newDataY ) {
+			this.dataX = newDataX.ToArray ();
+			this.dataY = newDataY.ToArray ();
+			
+			this.CreateGraphImage ();
+			this.Invalidate ();
 		}
         protected virtual void CreateGraphImage()
         {
@@ -864,7 +873,8 @@ namespace Graph
 					this.YMinValue = this.dataY
 						.Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
 							.Min ();
-					this.Redraw ();
+					this.Draw ();
+					
 				}
 			}
 			catch {

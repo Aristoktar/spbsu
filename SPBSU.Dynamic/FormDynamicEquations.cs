@@ -34,69 +34,24 @@ namespace SPBSU.Dynamic {
 
 		public Dictionary<string , Delegate> Funcs;
 
-		public int MaxEquationsCount {
-			get;
-			set;
-		}
+		private int EquationElementPosition = 12;
+
+		public const int MaxEquationsCount = 6;
 
 		public FormDynamicEquations () {
 			InitializeComponent ();
-			
 			VarsNames = new List<string> ();
 			VarsNames.AddRange ( new string[] { "x" , "y" , "z" } );
-			MaxEquationsCount = 6;
+			
 			Equations = new List<TextBox> ();
 			Initials = new List<TextBox> ();
 			Dts = new List<Label> ();
 			Variables = new List<TextBox> ();
 			Var0 = new List<Label> ();
+			DeleteButtons = new List<Button> ();
+			//this.EquationElementPosition = 0;
 
-			TextBox InitialTextBox = new TextBox ();
-			InitialTextBox.Location = new Point ( 550 , 12 );
-			InitialTextBox.Text = "sin(t)";
-
-			TextBox initialInitial = new TextBox ();
-			initialInitial.Location = new Point ( 690 , 12 );
-			initialInitial.Size = new System.Drawing.Size ( 30 , 20 );
-			initialInitial.Text = "0";
-
-			Label initDt = new Label ();
-			initDt.Location = new Point ( 500 , 10 );
-			initDt.Size = new System.Drawing.Size (20,30);
-			initDt.Text =
-				@"d
-				dt";
-
-			Label initVar0 = new Label ();
-			initVar0.Location = new Point (660,15);
-			initVar0.Text = VarsNames[Equations.Count ()]+"(t0)=";
-			initVar0.Size = new System.Drawing.Size (50,20);
-			
-
-			TextBox initVar = new TextBox ();
-			initVar.Text = VarsNames[Equations.Count()];
-			initVar.Location = new Point (520,12);
-			initVar.Size = new System.Drawing.Size (20,10);
-			initVar.TextChanged += VariablesChanged;
-
-			Button initDelButton = new Button ();
-			initDelButton.Location = new Point (730,12);
-			initDelButton.Text = "del";
-			initDelButton.Size = new System.Drawing.Size ( 40 , 20 );
-			initDelButton.Enabled = false;
-
-			Initials.Add ( initialInitial );
-			Equations.Add (InitialTextBox);
-			Dts.Add ( initDt );
-			Variables.Add ( initVar );
-			Var0.Add ( initVar0 );
-			this.Controls.Add ( InitialTextBox );
-			this.Controls.Add ( initialInitial );
-			this.Controls.Add ( initDt );
-			this.Controls.Add ( initVar );
-			this.Controls.Add ( initVar0 );
-
-			this.Controls.Add ( initDelButton );
+			AddEquation ();
 			VariablesChanged (null,new EventArgs());
 		}
 
@@ -109,6 +64,8 @@ namespace SPBSU.Dynamic {
 			this.ParametersButtonsEdit = new Dictionary<string , Button> ();
 			this.ParamterTextBoxes = new Dictionary<string , TextBox> ();
 			this.ParamterTrackBars = new Dictionary<string , TrackBar> ();
+
+			
 
 			this.ParamterTextBoxes.Add ( "A" , this.textBoxA );
 			this.ParamterTextBoxes.Add ( "B" , this.textBoxB );
@@ -134,90 +91,127 @@ namespace SPBSU.Dynamic {
 
 		private void button1_Click ( object sender , EventArgs e ) {
 
+			AddEquation ();
+		}
+
+		private void AddEquation () {
 			if ( this.Equations.Count < MaxEquationsCount ) {
 
 
 				string newVarName;
 
-				if(Equations.Count>=VarsNames.Count){
+				if ( Equations.Count >= VarsNames.Count ) {
 					newVarName = "v" + ( Equations.Count - VarsNames.Count ).ToString ();
-				}else
-				{
+				}
+				else {
 					newVarName = VarsNames[Equations.Count ()];
 				}
 
 				TextBox newTextBox = new TextBox ();
-				newTextBox.Location = new Point ( 550 , this.Equations.Last ().Location.Y + this.SplitBetweenEquations );
-				
+				newTextBox.Location = new Point ( 550 , this.EquationElementPosition + (this.Equations.Count == 0 ? 0 : this.SplitBetweenEquations) );
 
-				TextBox newInitial = new TextBox();
-				newInitial.Location = new Point ( 690 , this.Equations.Last ().Location.Y + this.SplitBetweenEquations );
+
+				TextBox newInitial = new TextBox ();
+				newInitial.Location = new Point ( 690 , this.EquationElementPosition + (this.Equations.Count == 0 ? 0 : this.SplitBetweenEquations) );
 				newInitial.Size = new System.Drawing.Size ( 30 , 20 );
 				newInitial.Text = "0";
 
 				Label newDt = new Label ();
-				newDt.Location = new Point ( 500 , this.Equations.Last ().Location.Y + this.SplitBetweenEquations-2 );
+				newDt.Location = new Point ( 500 , this.EquationElementPosition + (this.Equations.Count == 0 ? 0 : this.SplitBetweenEquations - 2) );
 				newDt.Size = new System.Drawing.Size ( 20 , 30 );
 				newDt.Text =
 					@"d
 					dt";
 
 				Label newVar0 = new Label ();
-				newVar0.Location = new Point ( 660 , this.Var0.Last().Location.Y+this.SplitBetweenEquations );
-				newVar0.Text = newVarName+"(t0)=";
+				newVar0.Location = new Point ( 660 , this.EquationElementPosition + (this.Equations.Count == 0 ? 0 : this.SplitBetweenEquations) );
+				newVar0.Size = new System.Drawing.Size ( 40 , 30 );
+				newVar0.Text = newVarName + "(t0)=";
 
 				TextBox newVar = new TextBox ();
 				newVar.Text = newVarName;
-				newVar.Location = new Point ( 520 , this.Equations.Last ().Location.Y + this.SplitBetweenEquations );
+				newVar.Location = new Point ( 520 , this.EquationElementPosition + (this.Equations.Count == 0 ? 0 : this.SplitBetweenEquations) );
 				newVar.Size = new System.Drawing.Size ( 20 , 10 );
 				newVar.TextChanged += VariablesChanged;
 
+				Button newDelete = new Button ();
+				newDelete.Text = "Del";
+				newDelete.Location = new Point ( 730 , this.EquationElementPosition + ( this.Equations.Count == 0 ? 0 : this.SplitBetweenEquations ) );
+				newDelete.Size = new Size (50,23);
 
-				this.buttonAddEquation.Location = new Point ( this.buttonAddEquation.Location.X , this.buttonAddEquation.Location.Y + this.SplitBetweenEquations );
+
+				this.buttonAddEquation.Location = new Point ( this.buttonAddEquation.Location.X , this.buttonAddEquation.Location.Y + (this.Equations.Count == 0 ? 0 : this.SplitBetweenEquations) );
 
 				this.Equations.Add ( newTextBox );
 				this.Initials.Add ( newInitial );
 				Dts.Add ( newDt );
 				Variables.Add ( newVar );
 				Var0.Add ( newVar0 );
+				this.DeleteButtons.Add (newDelete);
 
 				this.Controls.Add ( newTextBox );
 				this.Controls.Add ( newInitial );
 				this.Controls.Add ( newDt );
 				this.Controls.Add ( newVar );
 				this.Controls.Add ( newVar0 );
+				this.Controls.Add ( newDelete );
 				VariablesChanged ( null , new EventArgs () );
 				if ( this.Equations.Count == MaxEquationsCount ) {
 					this.buttonAddEquation.Visible = false;
 				}
+				if(this.Equations.Count !=1)
+				this.EquationElementPosition += this.SplitBetweenEquations;
 			}
 			else {
 				this.buttonAddEquation.Visible = false;
 			}
 		}
 
-
+		
 		private void VariablesChanged ( object sender , EventArgs e ) {
 			
 			int selectedIndexX = this.listBoxX.SelectedIndex;
 			int selectedIndexY = this.listBoxY.SelectedIndex;
-
+			int selectedIndexPoincare = this.comboBoxVarForPoincare.SelectedIndex;
+			int selectedIndexHVar = this.comboBoxVarForDetH.SelectedIndex;
 			this.listBoxX.Items.Clear ();
 			this.listBoxY.Items.Clear ();
+			this.comboBoxVarForPoincare.Items.Clear ();
+			this.comboBoxVarForDetH.Items.Clear ();
 
 			this.listBoxX.Items.Add ( "t" );
 			this.listBoxY.Items.Add ( "t" );
 			foreach ( var str in this.Variables ) {
 				this.listBoxX.Items.Add (str.Text);
 				this.listBoxY.Items.Add ( str.Text );
+				this.comboBoxVarForPoincare.Items.Add ( str.Text );
+				this.comboBoxVarForDetH.Items.Add ( str.Text );
 			}
+			this.comboBoxVarForPoincare.SelectedIndex = 0;
 			for ( int i = 0 ; i < this.Var0.Count ;i++ ) {
 				this.Var0[i].Text = this.Variables[i].Text+"(t0)=";
 			}
 			if (selectedIndexX != -1) this.listBoxX.SetSelected(selectedIndexX,true);
 			else this.listBoxX.SetSelected ( 0 , true );
+
 			if ( selectedIndexY != -1 ) this.listBoxY.SetSelected ( selectedIndexY , true );
 			else this.listBoxY.SetSelected ( 1 , true );
+
+			if ( selectedIndexPoincare != -1 ) this.comboBoxVarForPoincare.SelectedIndex = selectedIndexPoincare;
+			else this.comboBoxVarForPoincare.SelectedIndex = 0;
+
+			if ( selectedIndexHVar != -1 ) {
+
+
+				this.comboBoxVarForDetH.SelectedIndex = selectedIndexPoincare;
+
+			}
+			else {
+				
+				this.comboBoxVarForDetH.SelectedIndex = 0;
+				
+			}
+
 			
 		}
 		private void buttonCalc_Click ( object sender , EventArgs e ) {
@@ -244,10 +238,61 @@ namespace SPBSU.Dynamic {
 					
 				//}
 				//var w =RungeKutta.Integrate4 ( funcs , 0 , new Dictionary<string , double> () { { "x" , 0 } } );
-				this.graphSystemBehavior1.InitFunctionsD (Eques,parameters);
+				
+
+				try{
+					if ( this.checkBoxHDet.Checked ) {
+						HamiltonianPlot form = new HamiltonianPlot ();
+
+						//Dictionary<string , string> eques = new Dictionary<string , string> ();
+						//Dictionary<string , double> initials = new Dictionary<string , double> ();
+						//for ( int i = 0 ; i < this.Equations.Count ; i++ ) {
+						//	eques.Add ( Variables[i].Text , Equations[i].Text );
+						//}
+						double variableVal;
+						try {
+							var temp = this.textBoxH.Text.Split ( '/' );
+							if ( temp.Length > 2 || temp.Length == 0 ) throw new IncorrectInputException {
+								ErrorMessage = "Wrong input for H!"
+							};
+
+						}
+						catch ( IncorrectInputException ex ) {
+							MessageBox.Show ( ex.ErrorMessage );
+							throw;
+						}
+						string equationWithHForVar = this.textBoxVarEquation.Text.Replace ( "H" , "(double)" + this.textBoxH.Text );
+						Dictionary<string , string> EquesForHamiltonian = new Dictionary<string , string> ();
+						EquesForHamiltonian.Add ( "H" , equationWithHForVar );
+
+						Compilator compilator = new Compilator ( EquesForHamiltonian ,
+																this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble ( b.Value.Text ) ) ,
+																Eques.Keys );
+						var temt = compilator.GetFuncs ();
+						initials[this.comboBoxVarForDetH.SelectedItem.ToString ()] = temt["H"].Invoke ( Convert.ToDouble ( this.textBoxt0.Text ) , initials , parameters );
+					}
+					if ( this.checkBoxPoincare.Checked ) {
+						
+						this.graphSystemBehavior1.PoincareParameters = new PoincareSectionParameters {
+							VariableForSection = this.comboBoxVarForPoincare.SelectedItem.ToString () ,
+							HitPointsCount = Convert.ToInt32 ( this.textBoxHitCount.Text ) ,
+							ThicknessOfLayer = Convert.ToDouble ( this.textBoxThicknessOfLayer.Text ),
+							PointOfSection = Convert.ToDouble(this.textBoxSectionPoint.Text)
+						};
+					}
+					else {
+						this.graphSystemBehavior1.PoincareParameters = null;
+					}
+				}
+				catch(FormatException ex){
+					MessageBox.Show ("Input is invalid");
+					throw;
+				}
+				this.graphSystemBehavior1.InitFunctionsD ( Eques , parameters );
 				this.graphSystemBehavior1.SetAxisToShow ( this.listBoxX.SelectedItem.ToString () , this.listBoxY.SelectedItem.ToString () );
 				this.graphSystemBehavior1.f0 = initials;
 				this.graphSystemBehavior1.t0 = Convert.ToDouble ( this.textBoxt0.Text );
+
 				if ( !this.initedgraphGrabli ) {
 
 					this.graphSystemBehavior1.setData ( 1 , 0 , 1 , 0 );
@@ -284,7 +329,7 @@ namespace SPBSU.Dynamic {
 					break;
 				case "Harmonic oscillator":
 					if ( this.Equations.Count < 2 ) {
-						button1_Click ( null , new EventArgs () );					
+						AddEquation ();				
 					}
 					this.Equations[0].Text = "p";
 					this.Equations[1].Text = "-q";
@@ -297,7 +342,7 @@ namespace SPBSU.Dynamic {
 				case "Henon-Heilis":
 					if ( this.Equations.Count < 4 ) {
 						while ( this.Equations.Count != 4 ) {
-							button1_Click ( null , new EventArgs () );
+							AddEquation ();
 						}
 					}
 					this.Equations[0].Text = "px";
@@ -313,11 +358,13 @@ namespace SPBSU.Dynamic {
 					this.Variables[3].Text = "py";
 					this.Initials[2].Text = "0.288790581";
 					this.Initials[3].Text = "0";
-					this.textBoxHamiltonian.Text = "(px*px+py*py)/2+(x*x+y*y)+x*x*y-y*y*y";
+					this.textBoxHamiltonian.Text = "(px*px+py*py)/2+(x*x+y*y)/2+x*x*y-y*y*y";
+					this.comboBoxVarForDetH.SelectedIndex = 2;
+					this.textBoxVarEquation.Text = "Math.Sqrt(H-(py*py/2+(x*x+y*y)/2+x*x*y-y*y*y))";
 					break;
 				case "WikipediaRungeSample":
 					if ( this.Equations.Count < 2 ) {
-						button1_Click ( null , new EventArgs () );
+						AddEquation ();
 					}
 					this.Equations[0].Text = "y";
 					this.Equations[1].Text = "cos(3*t)-4*dy";
@@ -329,8 +376,8 @@ namespace SPBSU.Dynamic {
 					break;
 				case "Lorenz Equation":
 					if ( this.Equations.Count < 3 ) {
-						button1_Click ( null , new EventArgs () );
-						button1_Click ( null , new EventArgs () );
+						AddEquation ();
+						AddEquation ();
 					}
 					
 					this.Variables[0].Text = "x";
@@ -351,7 +398,7 @@ namespace SPBSU.Dynamic {
 					break;
 				case"Henon Map":
 					if ( this.Equations.Count < 2 ) {
-						button1_Click ( null , new EventArgs () );
+						AddEquation ();
 					}
 					this.Variables[0].Text = "x";
 					this.Equations[0].Text = "1-A*x*x+y";
@@ -366,7 +413,7 @@ namespace SPBSU.Dynamic {
 					break;
 				default: break;
 			}
-			this.graphSystemBehavior1.Redraw ();
+			//this.graphSystemBehavior1.Redraw ();
 		}
 
 		private void buttonParameterEdit_Click ( object sender , EventArgs e ) {
@@ -427,7 +474,7 @@ namespace SPBSU.Dynamic {
 				var uio = Hamiltonian.Calc ( temt , this.graphSystemBehavior1.Solutions , this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble ( b.Value.Text ) ) );
 				form.graphSystemOscillogram1.setYdata ( uio["H"] );
 				//form.graphSystemOscillogram1.setXdata ( uio["t"] );
-				form.graphSystemOscillogram1.setData ( 1 , 0 , 1 , 0 );
+				form.graphSystemOscillogram1.zoom100Percent ();
 				form.graphSystemOscillogram1.Refresh ();
 				//form.graphSystemOscillogram1.yD
 				form.Show ();
@@ -461,6 +508,42 @@ namespace SPBSU.Dynamic {
 
 		private void radioButtonIterativ_CheckedChanged ( object sender , EventArgs e ) {
 			this.graphSystemBehavior1.IntegrationType = IntegrationType.Iterative;
+		}
+
+		private void buttonRedrawAxes_Click ( object sender , EventArgs e ) {
+			this.graphSystemBehavior1.AxisXlabel = this.listBoxX.SelectedItem.ToString ();
+			this.graphSystemBehavior1.AxisYlabel = this.listBoxY.SelectedItem.ToString ();
+			this.graphSystemBehavior1.RedrawWithSetAxesData (this.graphSystemBehavior1.Solutions[this.listBoxX.SelectedItem.ToString()],
+															this.graphSystemBehavior1.Solutions[this.listBoxY.SelectedItem.ToString ()] );
+		}
+
+		private void checkBoxPoincare_CheckedChanged ( object sender , EventArgs e ) {
+			if ( this.checkBoxPoincare.Checked ) {
+
+				this.textBoxThicknessOfLayer.Enabled = true;
+				this.comboBoxVarForPoincare.Enabled = true;
+				this.textBoxHitCount.Enabled = true;
+				this.textBoxSectionPoint.Enabled = true;
+			}
+			else {
+				this.textBoxThicknessOfLayer.Enabled = false;
+				this.comboBoxVarForPoincare.Enabled = false;
+				this.textBoxHitCount.Enabled = false;
+				this.textBoxSectionPoint.Enabled = false;
+			}
+		}
+
+		private void checkBoxHDet_CheckedChanged ( object sender , EventArgs e ) {
+			if ( this.checkBoxHDet.Checked ) {
+				this.textBoxH.Enabled = true;
+				this.comboBoxVarForDetH.Enabled = true;
+				this.textBoxVarEquation.Enabled = true;
+			}
+			else {
+				this.textBoxH.Enabled = false;
+				this.comboBoxVarForDetH.Enabled = false;
+				this.textBoxVarEquation.Enabled = false;
+				}
 		}
 	}
 }

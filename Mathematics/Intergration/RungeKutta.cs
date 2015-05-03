@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
+using System.Windows.Forms;
 using Mathematics.Delegates;
 
 namespace Mathematics.Intergration {
@@ -24,91 +28,138 @@ namespace Mathematics.Intergration {
 		//		return func.Invoke ( 4 );
 		//}
 
-		public static List<double> Integrate4 ( function func , double X , double Y , double h , out List<double> Xout , out List<double> YDiffOut , int iterationCount = 100 ) {
-			double k1;
-			double k2;
-			double k3;
-			double k4;
-			List<double> answerY = new List<double> ();
-			Xout = new List<double>();
-			YDiffOut = new List<double> ();
+		//public static List<double> Integrate4 ( function func , double X , double Y , double h , out List<double> Xout , out List<double> YDiffOut , int iterationCount = 100 ) {
+		//	double k1;
+		//	double k2;
+		//	double k3;
+		//	double k4;
+		//	List<double> answerY = new List<double> ();
+		//	Xout = new List<double>();
+		//	YDiffOut = new List<double> ();
 
-			double Xnext;
-			double Ynext;
+		//	double Xnext;
+		//	double Ynext;
 
-			for ( int i = 0 ; i < iterationCount ; i++ ) {
+		//	for ( int i = 0 ; i < iterationCount ; i++ ) {
 				
-				k1 = func.Invoke ( X , Y );
-				k2 = func.Invoke ( X + h / 2 , Y + k1 * h / 2 );
-				k3 = func.Invoke ( X + h / 2 , Y + k2 * h / 2 );
-				k4 = func.Invoke ( X + h , Y + k3 * h );
+		//		k1 = func.Invoke ( X , Y );
+		//		k2 = func.Invoke ( X + h / 2 , Y + k1 * h / 2 );
+		//		k3 = func.Invoke ( X + h / 2 , Y + k2 * h / 2 );
+		//		k4 = func.Invoke ( X + h , Y + k3 * h );
 
-				Ynext = Y + h * ( k1 + 2 * k2 + 2 * k3 + k4 );
-				Xnext = X + h;
-				answerY.Add (Y);
-				Xout.Add(X);
-				YDiffOut.Add ( k1 );
-				X = Xnext;
-				Y = Ynext;
-			}
-			return answerY;
-		}
+		//		Ynext = Y + h * ( k1 + 2 * k2 + 2 * k3 + k4 );
+		//		Xnext = X + h;
+		//		answerY.Add (Y);
+		//		Xout.Add(X);
+		//		YDiffOut.Add ( k1 );
+		//		X = Xnext;
+		//		Y = Ynext;
+		//	}
+		//	return answerY;
+		//}
 
-		public static List<double>[] Integrate4 ( functionVector[] func , double X , double[] Y ,out List<double> Xout , double h , int iterationCount = 100 ) {
-			int count =Y.Length; 
-			double[] k1 = new double[count];
-			double[] k2 = new double[count];
-			double[] k3 = new double[count];
-			double[] k4 = new double[count];
+		//public static List<double>[] Integrate4 ( functionVector[] func , double X , double[] Y ,out List<double> Xout , double h , int iterationCount = 100 ) {
+		//	int count =Y.Length; 
+		//	double[] k1 = new double[count];
+		//	double[] k2 = new double[count];
+		//	double[] k3 = new double[count];
+		//	double[] k4 = new double[count];
 
-			Xout = new List<double>();
+		//	Xout = new List<double>();
 
-			List<double>[] answerY = new List<double> [count];
-			for ( int i = 0 ; i < answerY.Length ; i++ ) {
-				answerY[i] = new List<double> ();
-			}
+		//	List<double>[] answerY = new List<double> [count];
+		//	for ( int i = 0 ; i < answerY.Length ; i++ ) {
+		//		answerY[i] = new List<double> ();
+		//	}
 
-			for ( int i = 0 ; i < iterationCount ; i++ ) {
-				double[] tempYs2 = new double[count];
-				double[] tempYs3 = new double[count];
-				double[] tempYs4 = new double[count];
-				Y.CopyTo ( tempYs2 , 0 );
-				Y.CopyTo ( tempYs3 , 0 );
-				Y.CopyTo ( tempYs4 , 0 );
-				for ( int j = 0 ; j < count ; j++ ) {//
-					k1[j] = func[j].Invoke ( X , Y );
-					tempYs2[j] = Y[j] + h * k1[j] / 2;
-				}
-				for ( int j = 0 ; j < count ; j++ ) {//
-					k2[j] = func[j].Invoke(X+h/2,tempYs2);
-					tempYs3[j] = Y[j] + h * k2[j] / 2;
-				}
-				for ( int j = 0 ; j < count ; j++ ) {
-					k3[j] = func[j].Invoke ( X + h , tempYs3 );
-					tempYs4[j] = Y[j] + h * k3[j];
-				}
-				for ( int j = 0 ; j < count ; j++ ) {
-					k4[j] = func[j].Invoke ( X + h / 2 , tempYs4 );
-				}
-				Xout.Add ( X );
-				for ( int j = 0 ; j < count ; j++ ) {
-					answerY[j].Add ( Y[j] );
+		//	for ( int i = 0 ; i < iterationCount ; i++ ) {
+		//		double[] tempYs2 = new double[count];
+		//		double[] tempYs3 = new double[count];
+		//		double[] tempYs4 = new double[count];
+		//		Y.CopyTo ( tempYs2 , 0 );
+		//		Y.CopyTo ( tempYs3 , 0 );
+		//		Y.CopyTo ( tempYs4 , 0 );
+		//		for ( int j = 0 ; j < count ; j++ ) {//
+		//			k1[j] = func[j].Invoke ( X , Y );
+		//			tempYs2[j] = Y[j] + h * k1[j] / 2;
+		//		}
+		//		for ( int j = 0 ; j < count ; j++ ) {//
+		//			k2[j] = func[j].Invoke(X+h/2,tempYs2);
+		//			tempYs3[j] = Y[j] + h * k2[j] / 2;
+		//		}
+		//		for ( int j = 0 ; j < count ; j++ ) {
+		//			k3[j] = func[j].Invoke ( X + h , tempYs3 );
+		//			tempYs4[j] = Y[j] + h * k3[j];
+		//		}
+		//		for ( int j = 0 ; j < count ; j++ ) {
+		//			k4[j] = func[j].Invoke ( X + h / 2 , tempYs4 );
+		//		}
+		//		Xout.Add ( X );
+		//		for ( int j = 0 ; j < count ; j++ ) {
+		//			answerY[j].Add ( Y[j] );
 					
-					Y [j] = Y[j] + h * ( k1[j] + 2 * k2[j] + 2 * k3[j] + k4[j] );
+		//			Y [j] = Y[j] + h * ( k1[j] + 2 * k2[j] + 2 * k3[j] + k4[j] );
 					
-				}
-				X = X + h;
-			}
+		//		}
+		//		X = X + h;
+		//	}
 
 
-			return answerY;
-		}
+		//	return answerY;
+		//}
 
-		public static Dictionary<string , List<double>> Integrate4 ( Dictionary<string , functionD> functions , double t0 , Dictionary<string , double> f0 ,Dictionary<string , double> parameters=null, int iterationsCount = 100000 ) {
+		public static Dictionary<string , List<double>> Integrate4 ( Dictionary<string , functionD> functions ,
+																		double t0 ,
+																		Dictionary<string , double> f0 ,
+																		Dictionary<string , double> parameters = null ,
+																		PoincareSectionParameters poincareSectionParameters = null,
+																		Control parent = null,
+																		int iterationsCount = 100000 ) {
+			//bool progressBar;
+			//if ( parent == null ) {
+			//	progressBar = false;
+			//}
+			//else {
+			//	progressBar = true;
+			//}
+
+			
+			//CalculationProgressBar bar1= new CalculationProgressBar ();
+			//if ( progressBar ) {
+
+			//	bar1.timer.Elapsed += new ElapsedEventHandler ( ( sender , e ) => {
+			//		parent.Invoke ( new Action ( () => {
+			//			if ( bar1.progressBarLastValue == bar1.progressBar1.Value ) {
+
+			//				bar1.Close ();
+			//				parent.Invoke ( new Action ( () => {
+			//					bar1.Close ();
+			//				} ) );
+			//			}
+			//			else {
+			//				bar1.progressBarLastValue = bar1.progressBar1.Value;
+			//			}
+			//			//bar1 = null;
+			//		} ) );
+			//	} );
+			//	if ( poincareSectionParameters == null ) {
+			//		bar1.progressBar1.Maximum = iterationsCount;
+			//	}
+			//	else {
+			//		bar1.progressBar1.Maximum = poincareSectionParameters.HitPointsCount;
+			//	}
+
+			//	parent.Invoke ( new Action ( () => {
+			//		bar1.Show ();
+			//	} ) );
+			//}
+			CalculationProgress progress = new CalculationProgress(poincareSectionParameters == null?iterationsCount:poincareSectionParameters.HitPointsCount,parent);
+			
+
 			Dictionary<string , double> k1R = new Dictionary<string,double>();
 			Dictionary<string , double> k2R = new Dictionary<string,double>();
 			Dictionary<string , double> k3R = new Dictionary<string,double>();
-			Dictionary<string , double> k4R = new Dictionary<string,double>();
+			Dictionary<string , double> k4R = new Dictionary<string , double> ();
 
 			Dictionary<string , double> k1L = new Dictionary<string , double> ();
 			Dictionary<string , double> k2L = new Dictionary<string , double> ();
@@ -121,6 +172,7 @@ namespace Mathematics.Intergration {
 			Dictionary<string , double> fL = new Dictionary<string , double> ( f0 );
 			double hR=0.001;
 			double hL = -hR;
+			
 
 			Dictionary<string , List<double>> outputR = new Dictionary<string , List<double>> ();
 			Dictionary<string , List<double>> outputL = new Dictionary<string , List<double>> ();
@@ -131,8 +183,18 @@ namespace Mathematics.Intergration {
 			}
 			List<double> tOutR = new List<double> ();
 			List<double> tOutL = new List<double> ();
-
+			//var thread = new Thread(() =>
+			//{
+			int iter = 0;
 			for ( int i = 0 ; i < iterationsCount ; i++ ) {
+				iter++;
+
+				if ( poincareSectionParameters != null ) {
+					i--;
+					if ( tOutL.Count + tOutR.Count >= poincareSectionParameters.HitPointsCount ) {
+						break;
+					}
+				}
 				
 				Dictionary<string , double> tempf1R = new Dictionary<string , double> (fR);
 				Dictionary<string , double> tempf2R = new Dictionary<string , double> (fR);
@@ -167,42 +229,96 @@ namespace Mathematics.Intergration {
 					k4R[key] = functions[key].Invoke ( tR + hR , tempf3R ,parameters);
 					k4L[key] = functions[key].Invoke ( tL + hL , tempf3L , parameters );
 				}
+
+				bool isAddL = false;
+				bool isAddR = false;
+				if ( poincareSectionParameters != null ) {
+
+					if ( fR[poincareSectionParameters.VariableForSection] > poincareSectionParameters.PointOfSection &&
+						fR[poincareSectionParameters.VariableForSection] < poincareSectionParameters.PointOfSection+poincareSectionParameters.ThicknessOfLayer ) {
+						isAddR = true;
+					}
+					if ( fL[poincareSectionParameters.VariableForSection] > poincareSectionParameters.PointOfSection &&
+						fL[poincareSectionParameters.VariableForSection] < poincareSectionParameters.PointOfSection + poincareSectionParameters.ThicknessOfLayer ) {
+						isAddL = true;
+					}
+				}
+				else {
+					isAddL = true;
+					isAddR = true;
+				}
+					if ( isAddL ) {
+						tOutL.Add ( tL );
+					}
+					if ( isAddR ) {
+						tOutR.Add ( tR );
+					}
 				
+
 				
 				foreach ( var key in functions.Keys ) {
-					if ( fR["x"] > 0 && fR["x"] < 0.05 ) {
+					if ( double.IsNaN ( fR[key] ) || double.IsNaN ( fL[key] ) || double.IsInfinity ( fR[key] ) || double.IsInfinity ( fL[key] ) ) throw new MathematicsCalculationException {
+						ErrorMessage = "During calculations one or more variables became infinity or NaN!"
+					};
+					if ( isAddR ) {
 						outputR[key].Add ( fR[key] );
-						tOutR.Add ( tR );
+						
 					}
 					fR[key] = fR[key] + (hR/6) * ( k1R[key] + 2 * k2R[key] + 2 * k3R[key] + k4R[key] );
 
-					if ( fL["x"] > 0 && fL["x"] < 0.05 ) {
+					if ( isAddL ) {
 						outputL[key].Add ( fL[key] );
-						tOutL.Add ( tL );
+						
 					}
 					fL[key] = fL[key] + ( hL / 6 ) * ( k1L[key] + 2 * k2L[key] + 2 * k3L[key] + k4L[key] );
 				}
+				
 				tR += hR;
 				tL += hL;
+				
+				if ( poincareSectionParameters == null ) {
+					progress.NextValue ( i );
+				}
+				else {
+					progress.NextValue ( tOutL.Count + tOutR.Count );
+				}
 			}
+			//});
+			//thread.Start ();
 			//output["x"] = output["x"].Select ( a => a ).Where (a=>a>0&&a<0.05).ToList();
 
 			
 			Dictionary<string , List<double>> output = new Dictionary<string,List<double>>();//= outputL.Reverse ().ToDictionary ( a => a.Key , a => a.Value ).Union ( outputR ).ToDictionary ( a => a.Key , a => a.Value );
-			foreach ( var key in functions.Keys ) {
-				outputL[key].Remove ( outputL[key][0] );
+			if ( tOutL.Count != 0 ) {
+
+				foreach ( var key in functions.Keys ) {
+					outputL[key].Remove ( outputL[key][0] );
+				}
+
+				foreach ( var key in functions.Keys ) {
+					output.Add ( key , new List<double> () );
+					outputL[key].Reverse ();
+					outputL[key].AddRange ( outputR[key] );
+					output[key] = outputL[key];
+				}
+
+				tOutL.Remove ( tOutL[0] );
+				tOutL.Reverse ();
+				tOutL.AddRange ( tOutR );
+				List<double> tOut = tOutL;
+				output.Add ( "t" , tOut );
 			}
-			foreach ( var key in functions.Keys ) {
-				output.Add ( key , new List<double> () );
-				outputL[key].Reverse ();
-				outputL[key].AddRange( outputR[key]);
-				output[key] = outputL[key];
+			else {
+				foreach ( var key in functions.Keys ) {
+					output[key] = outputR[key];
+				}
+				output.Add ( "t" , tOutR );
 			}
-			tOutL.Remove ( tOutL[0] );
-			tOutL.Reverse ();
-			tOutL.AddRange(tOutR);
-			List<double> tOut = tOutL;
-			output.Add ( "t" , tOut );
+			progress.Close ();
+			//if(progressBar) parent.Invoke ( new Action ( () => {
+			//		bar1.Close ();
+			//		//bar1 = null;
+			//	} ) );
 			return output;
 			
 		}
