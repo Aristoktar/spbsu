@@ -10,7 +10,8 @@ namespace Mathematics.Intergration {
 		EulerMethodSymplectic = 1,
 		RungeKutta4 = 4,
 		Iterative = 3,
-		PoincareMap= 2
+		PoincareMap= 2,
+		DormandPrince = 5
 		
 		
 	}

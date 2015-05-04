@@ -453,8 +453,8 @@ namespace SPBSU.Dynamic {
 			this.graphSystemBehavior1.IntegrationType = IntegrationType.EulerMethod;
 		}
 
-		private void radioButtonEulerSymplectic_CheckedChanged ( object sender , EventArgs e ) {
-			this.graphSystemBehavior1.IntegrationType = IntegrationType.EulerMethodSymplectic;
+		private void radioButtonDormandPrince_CheckedChanged ( object sender , EventArgs e ) {
+			this.graphSystemBehavior1.IntegrationType = IntegrationType.DormandPrince;
 		}
 
 		private void buttonHamiltonian_Click ( object sender , EventArgs e ) {

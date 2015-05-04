@@ -57,7 +57,7 @@
 			this.buttonB = new System.Windows.Forms.Button();
 			this.radioButtonRungeKutta4 = new System.Windows.Forms.RadioButton();
 			this.radioButtonEuler = new System.Windows.Forms.RadioButton();
-			this.radioButtonEulerSymplectic = new System.Windows.Forms.RadioButton();
+			this.radioButtonDormandPrince = new System.Windows.Forms.RadioButton();
 			this.textBoxHamiltonian = new System.Windows.Forms.TextBox();
 			this.labelHamiltonian = new System.Windows.Forms.Label();
 			this.buttonHamiltonian = new System.Windows.Forms.Button();
@@ -69,19 +69,19 @@
 			this.comboBoxVarForPoincare = new System.Windows.Forms.ComboBox();
 			this.splitter1 = new System.Windows.Forms.Splitter();
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.labelVar = new System.Windows.Forms.Label();
-			this.labelThickness = new System.Windows.Forms.Label();
-			this.labelHitCount = new System.Windows.Forms.Label();
-			this.textBoxHitCount = new System.Windows.Forms.TextBox();
-			this.textBoxSectionPoint = new System.Windows.Forms.TextBox();
-			this.labelSectionPoint = new System.Windows.Forms.Label();
-			this.comboBoxVarForDetH = new System.Windows.Forms.ComboBox();
-			this.textBoxVarEquation = new System.Windows.Forms.TextBox();
-			this.labelHDeterminingVariable = new System.Windows.Forms.Label();
-			this.labelVarEquation = new System.Windows.Forms.Label();
-			this.labelH = new System.Windows.Forms.Label();
-			this.textBoxH = new System.Windows.Forms.TextBox();
 			this.checkBoxHDet = new System.Windows.Forms.CheckBox();
+			this.textBoxH = new System.Windows.Forms.TextBox();
+			this.labelH = new System.Windows.Forms.Label();
+			this.labelVarEquation = new System.Windows.Forms.Label();
+			this.labelHDeterminingVariable = new System.Windows.Forms.Label();
+			this.textBoxVarEquation = new System.Windows.Forms.TextBox();
+			this.comboBoxVarForDetH = new System.Windows.Forms.ComboBox();
+			this.labelSectionPoint = new System.Windows.Forms.Label();
+			this.textBoxSectionPoint = new System.Windows.Forms.TextBox();
+			this.textBoxHitCount = new System.Windows.Forms.TextBox();
+			this.labelHitCount = new System.Windows.Forms.Label();
+			this.labelThickness = new System.Windows.Forms.Label();
+			this.labelVar = new System.Windows.Forms.Label();
 			this.graphSystemBehavior1 = new Graph.GraphDynamicType();
 			((System.ComponentModel.ISupportInitialize)(this.trackBarA)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.trackBarB)).BeginInit();
@@ -433,16 +433,16 @@
 			this.radioButtonEuler.UseVisualStyleBackColor = true;
 			this.radioButtonEuler.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
 			// 
-			// radioButtonEulerSymplectic
+			// radioButtonDormandPrince
 			// 
-			this.radioButtonEulerSymplectic.AutoSize = true;
-			this.radioButtonEulerSymplectic.Location = new System.Drawing.Point(796, 178);
-			this.radioButtonEulerSymplectic.Name = "radioButtonEulerSymplectic";
-			this.radioButtonEulerSymplectic.Size = new System.Drawing.Size(100, 17);
-			this.radioButtonEulerSymplectic.TabIndex = 37;
-			this.radioButtonEulerSymplectic.Text = "EulerSymplectic";
-			this.radioButtonEulerSymplectic.UseVisualStyleBackColor = true;
-			this.radioButtonEulerSymplectic.CheckedChanged += new System.EventHandler(this.radioButtonEulerSymplectic_CheckedChanged);
+			this.radioButtonDormandPrince.AutoSize = true;
+			this.radioButtonDormandPrince.Location = new System.Drawing.Point(796, 178);
+			this.radioButtonDormandPrince.Name = "radioButtonDormandPrince";
+			this.radioButtonDormandPrince.Size = new System.Drawing.Size(98, 17);
+			this.radioButtonDormandPrince.TabIndex = 37;
+			this.radioButtonDormandPrince.Text = "DormandPrince";
+			this.radioButtonDormandPrince.UseVisualStyleBackColor = true;
+			this.radioButtonDormandPrince.CheckedChanged += new System.EventHandler ( this.radioButtonDormandPrince_CheckedChanged );
 			// 
 			// textBoxHamiltonian
 			// 
@@ -564,109 +564,6 @@
 			this.panel1.Size = new System.Drawing.Size(323, 297);
 			this.panel1.TabIndex = 48;
 			// 
-			// labelVar
-			// 
-			this.labelVar.AutoSize = true;
-			this.labelVar.Location = new System.Drawing.Point(29, 48);
-			this.labelVar.Name = "labelVar";
-			this.labelVar.Size = new System.Drawing.Size(45, 13);
-			this.labelVar.TabIndex = 47;
-			this.labelVar.Text = "Variable";
-			// 
-			// labelThickness
-			// 
-			this.labelThickness.AutoSize = true;
-			this.labelThickness.Location = new System.Drawing.Point(29, 78);
-			this.labelThickness.Name = "labelThickness";
-			this.labelThickness.Size = new System.Drawing.Size(56, 13);
-			this.labelThickness.TabIndex = 48;
-			this.labelThickness.Text = "Thickness";
-			// 
-			// labelHitCount
-			// 
-			this.labelHitCount.AutoSize = true;
-			this.labelHitCount.Location = new System.Drawing.Point(29, 111);
-			this.labelHitCount.Name = "labelHitCount";
-			this.labelHitCount.Size = new System.Drawing.Size(50, 13);
-			this.labelHitCount.TabIndex = 49;
-			this.labelHitCount.Text = "Hit count";
-			// 
-			// textBoxHitCount
-			// 
-			this.textBoxHitCount.Location = new System.Drawing.Point(122, 108);
-			this.textBoxHitCount.Name = "textBoxHitCount";
-			this.textBoxHitCount.Size = new System.Drawing.Size(121, 20);
-			this.textBoxHitCount.TabIndex = 50;
-			this.textBoxHitCount.Text = "1000";
-			// 
-			// textBoxSectionPoint
-			// 
-			this.textBoxSectionPoint.Location = new System.Drawing.Point(122, 143);
-			this.textBoxSectionPoint.Name = "textBoxSectionPoint";
-			this.textBoxSectionPoint.Size = new System.Drawing.Size(121, 20);
-			this.textBoxSectionPoint.TabIndex = 51;
-			this.textBoxSectionPoint.Text = "0";
-			// 
-			// labelSectionPoint
-			// 
-			this.labelSectionPoint.AutoSize = true;
-			this.labelSectionPoint.Location = new System.Drawing.Point(29, 146);
-			this.labelSectionPoint.Name = "labelSectionPoint";
-			this.labelSectionPoint.Size = new System.Drawing.Size(83, 13);
-			this.labelSectionPoint.TabIndex = 52;
-			this.labelSectionPoint.Text = "Point for section";
-			// 
-			// comboBoxVarForDetH
-			// 
-			this.comboBoxVarForDetH.FormattingEnabled = true;
-			this.comboBoxVarForDetH.Location = new System.Drawing.Point(122, 180);
-			this.comboBoxVarForDetH.Name = "comboBoxVarForDetH";
-			this.comboBoxVarForDetH.Size = new System.Drawing.Size(121, 21);
-			this.comboBoxVarForDetH.TabIndex = 53;
-			// 
-			// textBoxVarEquation
-			// 
-			this.textBoxVarEquation.Location = new System.Drawing.Point(30, 250);
-			this.textBoxVarEquation.Name = "textBoxVarEquation";
-			this.textBoxVarEquation.Size = new System.Drawing.Size(290, 20);
-			this.textBoxVarEquation.TabIndex = 54;
-			this.textBoxVarEquation.Text = "Math.Sqrt(H-(py*py/2+(x*x+y*y)/2+x*x*y-y*y*y))";
-			// 
-			// labelHDeterminingVariable
-			// 
-			this.labelHDeterminingVariable.AutoSize = true;
-			this.labelHDeterminingVariable.Location = new System.Drawing.Point(29, 183);
-			this.labelHDeterminingVariable.Name = "labelHDeterminingVariable";
-			this.labelHDeterminingVariable.Size = new System.Drawing.Size(67, 13);
-			this.labelHDeterminingVariable.TabIndex = 55;
-			this.labelHDeterminingVariable.Text = "Var for det H";
-			// 
-			// labelVarEquation
-			// 
-			this.labelVarEquation.AutoSize = true;
-			this.labelVarEquation.Location = new System.Drawing.Point(3, 253);
-			this.labelVarEquation.Name = "labelVarEquation";
-			this.labelVarEquation.Size = new System.Drawing.Size(13, 13);
-			this.labelVarEquation.TabIndex = 56;
-			this.labelVarEquation.Text = "=";
-			// 
-			// labelH
-			// 
-			this.labelH.AutoSize = true;
-			this.labelH.Location = new System.Drawing.Point(29, 220);
-			this.labelH.Name = "labelH";
-			this.labelH.Size = new System.Drawing.Size(21, 13);
-			this.labelH.TabIndex = 57;
-			this.labelH.Text = "H=";
-			// 
-			// textBoxH
-			// 
-			this.textBoxH.Location = new System.Drawing.Point(122, 217);
-			this.textBoxH.Name = "textBoxH";
-			this.textBoxH.Size = new System.Drawing.Size(121, 20);
-			this.textBoxH.TabIndex = 58;
-			this.textBoxH.Text = "1/8";
-			// 
 			// checkBoxHDet
 			// 
 			this.checkBoxHDet.AutoSize = true;
@@ -679,6 +576,109 @@
 			this.checkBoxHDet.Text = "<-";
 			this.checkBoxHDet.UseVisualStyleBackColor = true;
 			this.checkBoxHDet.CheckedChanged += new System.EventHandler(this.checkBoxHDet_CheckedChanged);
+			// 
+			// textBoxH
+			// 
+			this.textBoxH.Location = new System.Drawing.Point(122, 217);
+			this.textBoxH.Name = "textBoxH";
+			this.textBoxH.Size = new System.Drawing.Size(121, 20);
+			this.textBoxH.TabIndex = 58;
+			this.textBoxH.Text = "1/8";
+			// 
+			// labelH
+			// 
+			this.labelH.AutoSize = true;
+			this.labelH.Location = new System.Drawing.Point(29, 220);
+			this.labelH.Name = "labelH";
+			this.labelH.Size = new System.Drawing.Size(21, 13);
+			this.labelH.TabIndex = 57;
+			this.labelH.Text = "H=";
+			// 
+			// labelVarEquation
+			// 
+			this.labelVarEquation.AutoSize = true;
+			this.labelVarEquation.Location = new System.Drawing.Point(3, 253);
+			this.labelVarEquation.Name = "labelVarEquation";
+			this.labelVarEquation.Size = new System.Drawing.Size(13, 13);
+			this.labelVarEquation.TabIndex = 56;
+			this.labelVarEquation.Text = "=";
+			// 
+			// labelHDeterminingVariable
+			// 
+			this.labelHDeterminingVariable.AutoSize = true;
+			this.labelHDeterminingVariable.Location = new System.Drawing.Point(29, 183);
+			this.labelHDeterminingVariable.Name = "labelHDeterminingVariable";
+			this.labelHDeterminingVariable.Size = new System.Drawing.Size(67, 13);
+			this.labelHDeterminingVariable.TabIndex = 55;
+			this.labelHDeterminingVariable.Text = "Var for det H";
+			// 
+			// textBoxVarEquation
+			// 
+			this.textBoxVarEquation.Location = new System.Drawing.Point(30, 250);
+			this.textBoxVarEquation.Name = "textBoxVarEquation";
+			this.textBoxVarEquation.Size = new System.Drawing.Size(290, 20);
+			this.textBoxVarEquation.TabIndex = 54;
+			this.textBoxVarEquation.Text = "Math.Sqrt(H-(py*py/2+(x*x+y*y)/2+x*x*y-y*y*y))";
+			// 
+			// comboBoxVarForDetH
+			// 
+			this.comboBoxVarForDetH.FormattingEnabled = true;
+			this.comboBoxVarForDetH.Location = new System.Drawing.Point(122, 180);
+			this.comboBoxVarForDetH.Name = "comboBoxVarForDetH";
+			this.comboBoxVarForDetH.Size = new System.Drawing.Size(121, 21);
+			this.comboBoxVarForDetH.TabIndex = 53;
+			// 
+			// labelSectionPoint
+			// 
+			this.labelSectionPoint.AutoSize = true;
+			this.labelSectionPoint.Location = new System.Drawing.Point(29, 146);
+			this.labelSectionPoint.Name = "labelSectionPoint";
+			this.labelSectionPoint.Size = new System.Drawing.Size(83, 13);
+			this.labelSectionPoint.TabIndex = 52;
+			this.labelSectionPoint.Text = "Point for section";
+			// 
+			// textBoxSectionPoint
+			// 
+			this.textBoxSectionPoint.Location = new System.Drawing.Point(122, 143);
+			this.textBoxSectionPoint.Name = "textBoxSectionPoint";
+			this.textBoxSectionPoint.Size = new System.Drawing.Size(121, 20);
+			this.textBoxSectionPoint.TabIndex = 51;
+			this.textBoxSectionPoint.Text = "0";
+			// 
+			// textBoxHitCount
+			// 
+			this.textBoxHitCount.Location = new System.Drawing.Point(122, 108);
+			this.textBoxHitCount.Name = "textBoxHitCount";
+			this.textBoxHitCount.Size = new System.Drawing.Size(121, 20);
+			this.textBoxHitCount.TabIndex = 50;
+			this.textBoxHitCount.Text = "1000";
+			// 
+			// labelHitCount
+			// 
+			this.labelHitCount.AutoSize = true;
+			this.labelHitCount.Location = new System.Drawing.Point(29, 111);
+			this.labelHitCount.Name = "labelHitCount";
+			this.labelHitCount.Size = new System.Drawing.Size(50, 13);
+			this.labelHitCount.TabIndex = 49;
+			this.labelHitCount.Text = "Hit count";
+			// 
+			// labelThickness
+			// 
+			this.labelThickness.AutoSize = true;
+			this.labelThickness.Location = new System.Drawing.Point(29, 78);
+			this.labelThickness.Name = "labelThickness";
+			this.labelThickness.Size = new System.Drawing.Size(56, 13);
+			this.labelThickness.TabIndex = 48;
+			this.labelThickness.Text = "Thickness";
+			// 
+			// labelVar
+			// 
+			this.labelVar.AutoSize = true;
+			this.labelVar.Location = new System.Drawing.Point(29, 48);
+			this.labelVar.Name = "labelVar";
+			this.labelVar.Size = new System.Drawing.Size(45, 13);
+			this.labelVar.TabIndex = 47;
+			this.labelVar.Text = "Variable";
 			// 
 			// graphSystemBehavior1
 			// 
@@ -716,7 +716,7 @@
 			this.Controls.Add(this.buttonHamiltonian);
 			this.Controls.Add(this.labelHamiltonian);
 			this.Controls.Add(this.textBoxHamiltonian);
-			this.Controls.Add(this.radioButtonEulerSymplectic);
+			this.Controls.Add(this.radioButtonDormandPrince);
 			this.Controls.Add(this.radioButtonEuler);
 			this.Controls.Add(this.radioButtonRungeKutta4);
 			this.Controls.Add(this.buttonB);
@@ -805,7 +805,7 @@
 		private System.Windows.Forms.Button buttonB;
 		private System.Windows.Forms.RadioButton radioButtonRungeKutta4;
 		private System.Windows.Forms.RadioButton radioButtonEuler;
-		private System.Windows.Forms.RadioButton radioButtonEulerSymplectic;
+		private System.Windows.Forms.RadioButton radioButtonDormandPrince;
 		private System.Windows.Forms.TextBox textBoxHamiltonian;
 		private System.Windows.Forms.Label labelHamiltonian;
 		private System.Windows.Forms.Button buttonHamiltonian;

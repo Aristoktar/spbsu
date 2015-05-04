@@ -257,9 +257,9 @@ namespace Mathematics.Intergration {
 
 				
 				foreach ( var key in functions.Keys ) {
-					if ( double.IsNaN ( fR[key] ) || double.IsNaN ( fL[key] ) || double.IsInfinity ( fR[key] ) || double.IsInfinity ( fL[key] ) ) throw new MathematicsCalculationException {
-						ErrorMessage = "During calculations one or more variables became infinity or NaN!"
-					};
+					//if ( double.IsNaN ( fR[key] ) || double.IsNaN ( fL[key] ) || double.IsInfinity ( fR[key] ) || double.IsInfinity ( fL[key] ) ) throw new MathematicsCalculationException {
+					//	ErrorMessage = "During calculations one or more variables became infinity or NaN!"
+					//};
 					if ( isAddR ) {
 						outputR[key].Add ( fR[key] );
 						
@@ -321,6 +321,225 @@ namespace Mathematics.Intergration {
 			//	} ) );
 			return output;
 			
+		}
+
+
+		public static Dictionary<string , List<double>> DormandPrince ( Dictionary<string , functionD> functions ,
+																	double t0 ,
+																	Dictionary<string , double> f0 ,
+																	Dictionary<string , double> parameters = null ,
+																	PoincareSectionParameters poincareSectionParameters = null ,
+																	Control parent = null ,
+																	int iterationsCount = 100000 ) {
+			CalculationProgress progress = new CalculationProgress ( poincareSectionParameters == null ? iterationsCount : poincareSectionParameters.HitPointsCount , parent );
+
+
+			Dictionary<string , double> k1R = new Dictionary<string , double> ();
+			Dictionary<string , double> k2R = new Dictionary<string , double> ();
+			Dictionary<string , double> k3R = new Dictionary<string , double> ();
+			Dictionary<string , double> k4R = new Dictionary<string , double> ();
+			Dictionary<string , double> k5R = new Dictionary<string , double> ();
+			Dictionary<string , double> k6R = new Dictionary<string , double> ();
+			Dictionary<string , double> k7R = new Dictionary<string , double> ();
+
+			Dictionary<string , double> k1L = new Dictionary<string , double> ();
+			Dictionary<string , double> k2L = new Dictionary<string , double> ();
+			Dictionary<string , double> k3L = new Dictionary<string , double> ();
+			Dictionary<string , double> k4L = new Dictionary<string , double> ();
+			Dictionary<string , double> k5L = new Dictionary<string , double> ();
+			Dictionary<string , double> k6L = new Dictionary<string , double> ();
+			Dictionary<string , double> k7L = new Dictionary<string , double> ();
+
+			double tR = t0;
+			double tL = t0;
+			Dictionary<string , double> fR = new Dictionary<string , double> ( f0 );
+			Dictionary<string , double> fL = new Dictionary<string , double> ( f0 );
+			double hR = 0.001;
+			double hL = -hR;
+
+
+			Dictionary<string , List<double>> outputR = new Dictionary<string , List<double>> ();
+			Dictionary<string , List<double>> outputL = new Dictionary<string , List<double>> ();
+
+			foreach ( var func in functions ) {
+				outputR.Add ( func.Key , new List<double> () );
+				outputL.Add ( func.Key , new List<double> () );
+			}
+			List<double> tOutR = new List<double> ();
+			List<double> tOutL = new List<double> ();
+			//var thread = new Thread(() =>
+			//{
+			int iter = 0;
+			bool rNaN = false;
+			bool lNaN = false;
+
+			for ( int i = 0 ; i < iterationsCount ; i++ ) {
+				iter++;
+
+				if ( poincareSectionParameters != null ) {
+					i--;
+					if ( tOutL.Count + tOutR.Count >= poincareSectionParameters.HitPointsCount ) {
+						break;
+					}
+				}
+
+				Dictionary<string , double> tempf1R = new Dictionary<string , double> ( fR );
+				Dictionary<string , double> tempf2R = new Dictionary<string , double> ( fR );
+				Dictionary<string , double> tempf3R = new Dictionary<string , double> ( fR );
+				Dictionary<string , double> tempf4R = new Dictionary<string , double> ( fR );
+				Dictionary<string , double> tempf5R = new Dictionary<string , double> ( fR );
+				Dictionary<string , double> tempf6R = new Dictionary<string , double> ( fR );
+
+				Dictionary<string , double> tempf1L = new Dictionary<string , double> ( fL );
+				Dictionary<string , double> tempf2L = new Dictionary<string , double> ( fL );
+				Dictionary<string , double> tempf3L = new Dictionary<string , double> ( fL );
+				Dictionary<string , double> tempf4L = new Dictionary<string , double> ( fL );
+				Dictionary<string , double> tempf5L = new Dictionary<string , double> ( fL );
+				Dictionary<string , double> tempf6L = new Dictionary<string , double> ( fL );
+
+				foreach ( var key in functions.Keys ) {
+					k1R[key] = hR * functions[key].Invoke ( tR , fR , parameters );//---1
+					tempf1R[key] = fR[key] + k1R[key] / 5;//---2
+
+					k1L[key] = hL * functions[key].Invoke ( tL , fL , parameters );
+					tempf1L[key] = fL[key] + k1L[key] / 5;
+				}
+				foreach ( var key in functions.Keys ) {
+					k2R[key] = hR * functions[key].Invoke ( tR + hR / 5 , tempf1R , parameters );//---2
+					tempf2R[key] = fR[key] + k1R[key] * ( 3.0 / 40.0 ) + k2R[key] * ( 9.0 / 40.0 ); ;//---3
+
+					k2L[key] = hL * functions[key].Invoke ( tL + hL / 2 , tempf1L , parameters );
+					tempf2L[key] = fL[key] + k1L[key] * ( 3.0 / 40.0 ) + k2L[key] * ( 9.0 / 40.0 );//---3
+				}
+				foreach ( var key in functions.Keys ) {
+					k3R[key] = hR * functions[key].Invoke ( tR + hR * ( 3.0 / 10.0 ) , tempf2R , parameters );//---3
+					tempf3R[key] = fR[key] + k1R[key] * ( 44.0 / 45.0 ) - k2R[key] * ( 56.0 / 15.0 ) + k3R[key] * ( 32.0 / 9.0 );//---4
+
+					k3L[key] = hL * functions[key].Invoke ( tL + hL * ( 3.0 / 10.0 ) , tempf2L , parameters );
+					tempf3L[key] = fL[key] + k1L[key] * ( 44.0 / 45.0 ) - k2L[key] * ( 56.0 / 15.0 ) + k3L[key] * ( 32.0 / 9.0 );
+				}
+				foreach ( var key in functions.Keys ) {
+					k4R[key] = hR * functions[key].Invoke ( tR + hR * ( 4.0 / 5.0 ) , tempf3R , parameters );//---4
+					tempf4R[key] = fR[key] + k1R[key] * ( 19372.0 / 6561.0 ) - k2R[key] * ( 25360.0 / 2187.0 ) + k3R[key] * ( 64448.0 / 6561.0 ) - k4R[key]*(212.0/729.0);//---5
+
+					k4L[key] = hL * functions[key].Invoke ( tL + hL * ( 4.0 / 5.0 ) , tempf3L , parameters );
+					tempf4L[key] = fL[key] + k1L[key] * ( 19372.0 / 6561.0 ) - k2L[key] * ( 25360.0 / 2187.0 ) + k3L[key] * ( 64448.0 / 6561.0 ) - k4L[key] * ( 212.0 / 729.0 );//---5
+
+				}
+				foreach ( var key in functions.Keys ) {
+					k5R[key] = hR * functions[key].Invoke ( tR + hR * ( 8.0 / 9.0 ) , tempf4R , parameters );//---5
+					tempf5R[key] = fR[key] + k1R[key] * ( 9017.0 / 3168.0 ) - k2R[key] * ( 355.0 / 33.0 ) + k3R[key] * ( 46732.0 / 5247.0 ) + k4R[key] * ( 49.0 / 176.0 ) - k5R[key] * ( 5103.0 / 18656.0 );//---6
+
+					k5L[key] = hL * functions[key].Invoke ( tL + hL * ( 8.0 / 9.0 ) , tempf4L , parameters );
+					tempf5L[key] = fL[key] + k1L[key] * ( 9017.0 / 3168.0 ) - k2L[key] * ( 355.0 / 33.0 ) + k3L[key] * ( 46732.0 / 5247.0 ) + k4L[key] * ( 49.0 / 176.0 ) - k5L[key] * ( 5103.0 / 18656.0 );//---6
+
+				}
+				foreach ( var key in functions.Keys ) {
+					k6R[key] = hR * functions[key].Invoke ( tR + hR , tempf5R , parameters );//---6
+					tempf6R[key] = fR[key] + k1R[key] * ( 35.0 / 384.0 ) + k3R[key] * ( 500.0 / 1113.0 ) + k4R[key] * ( 125.0 / 192.0 ) - k5R[key] * ( 2187.0 / 6784.0 ) + k6R[key] * ( 11.0 / 84.0 );//---7
+
+					k6L[key] = hL * functions[key].Invoke ( tL + hL , tempf5L , parameters );
+					tempf6L[key] = fL[key] + k1L[key] * ( 35.0 / 384.0 ) + k3L[key] * ( 500.0 / 1113.0 ) + k4L[key] * ( 125.0 / 192.0 ) - k5L[key] * ( 2187.0 / 6784.0 ) + k6L[key] * ( 11.0 / 84.0 );//---7
+
+				}
+				foreach ( var key in functions.Keys ) {
+					k7R[key] = hR * functions[key].Invoke ( tR + hR , tempf6R , parameters );//---7
+					k7L[key] = hL * functions[key].Invoke ( tL + hL , tempf6L , parameters );
+				}
+
+				bool isAddL = false;
+				bool isAddR = false;
+				if ( poincareSectionParameters != null ) {
+
+					if ( fR[poincareSectionParameters.VariableForSection] > poincareSectionParameters.PointOfSection &&
+						fR[poincareSectionParameters.VariableForSection] < poincareSectionParameters.PointOfSection + poincareSectionParameters.ThicknessOfLayer ) {
+						isAddR = true;
+					}
+					if ( fL[poincareSectionParameters.VariableForSection] > poincareSectionParameters.PointOfSection &&
+						fL[poincareSectionParameters.VariableForSection] < poincareSectionParameters.PointOfSection + poincareSectionParameters.ThicknessOfLayer ) {
+						isAddL = true;
+					}
+				}
+				else {
+					isAddL = true;
+					isAddR = true;
+				}
+				if ( isAddL ) {
+					tOutL.Add ( tL );
+				}
+				if ( isAddR ) {
+					tOutR.Add ( tR );
+				}
+
+
+
+				foreach ( var key in functions.Keys ) {
+					if (double.IsNaN ( fL[key] ) || double.IsInfinity ( fL[key] ) ) throw new MathematicsCalculationException {
+						ErrorMessage = "During calculations one or more variables became infinity or NaN in L!"
+					};
+					if ( double.IsNaN ( fR[key] ) || double.IsInfinity ( fR[key] )  ) throw new MathematicsCalculationException {
+						ErrorMessage = "During calculations one or more variables became infinity or NaN in R!"
+					};
+					if ( isAddR ) {
+						outputR[key].Add ( fR[key] );
+
+					}
+					fR[key] = fR[key] + k1R[key] * ( 5179.0 / 5600.0 ) + k3R[key] * ( 7571.0 / 16695.0 ) + k4R[key] * ( 393.0 / 640.0 ) - k5R[key] * ( 92097.0 / 339200.0 ) + k6R[key] * ( 187.0 / 2100.0 ) + k7R[key] * ( 1.0 / 40.0 );
+
+					if ( isAddL ) {
+						outputL[key].Add ( fL[key] );
+
+					}
+					fL[key] = fL[key] + k1L[key] * ( 5179.0 / 57600.0 ) + k3L[key] * ( 7571.0 / 16695.0 ) + k4L[key] * ( 393.0 / 640.0 ) - k5L[key] * ( 92097.0 / 339200.0 ) + k6L[key] * ( 187.0 / 2100.0 ) + k7L[key] * ( 1.0 / 40.0 );
+				}
+
+				tR += hR;
+				tL += hL;
+
+				if ( poincareSectionParameters == null ) {
+					progress.NextValue ( i );
+				}
+				else {
+					progress.NextValue ( tOutL.Count + tOutR.Count );
+				}
+			}
+			//});
+			//thread.Start ();
+			//output["x"] = output["x"].Select ( a => a ).Where (a=>a>0&&a<0.05).ToList();
+
+
+			Dictionary<string , List<double>> output = new Dictionary<string , List<double>> ();//= outputL.Reverse ().ToDictionary ( a => a.Key , a => a.Value ).Union ( outputR ).ToDictionary ( a => a.Key , a => a.Value );
+			if ( tOutL.Count != 0 ) {
+
+				foreach ( var key in functions.Keys ) {
+					outputL[key].Remove ( outputL[key][0] );
+				}
+
+				foreach ( var key in functions.Keys ) {
+					output.Add ( key , new List<double> () );
+					outputL[key].Reverse ();
+					outputL[key].AddRange ( outputR[key] );
+					output[key] = outputL[key];
+				}
+
+				tOutL.Remove ( tOutL[0] );
+				tOutL.Reverse ();
+				tOutL.AddRange ( tOutR );
+				List<double> tOut = tOutL;
+				output.Add ( "t" , tOut );
+			}
+			else {
+				foreach ( var key in functions.Keys ) {
+					output[key] = outputR[key];
+				}
+				output.Add ( "t" , tOutR );
+			}
+			progress.Close ();
+			//if(progressBar) parent.Invoke ( new Action ( () => {
+			//		bar1.Close ();
+			//		//bar1 = null;
+			//	} ) );
+			return output;
 		}
 	}
 }

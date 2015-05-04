@@ -73,6 +73,9 @@ namespace Graph {
 						case Mathematics.Intergration.IntegrationType.PoincareMap:
 							solution = Poincare.Calculate ( this.functionsD , t0 , f0 , Parameters );
 							break;
+						case Mathematics.Intergration.IntegrationType.DormandPrince:
+							solution = RungeKutta.DormandPrince ( this.functionsD , t0 , f0 , Parameters , this.PoincareParameters , this );
+							break;
 
 						default: break;
 					}
@@ -119,7 +122,8 @@ namespace Graph {
 		private void checkBoxScatter_CheckedChanged ( object sender , EventArgs e ) {
 			if ( this.checkBoxScatter.Checked ) this.Scatter = true;
 			else this.Scatter = false;
-			this.RedrawWithSetAxesData ( this.dataX.ToList () , this.dataY.ToList () );
+			if ( this.dataX != null && this.dataY != null)
+				this.RedrawWithSetAxesData ( this.dataX.ToList () , this.dataY.ToList () );
 			
 		}
 
