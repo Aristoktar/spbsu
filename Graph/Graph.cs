@@ -61,6 +61,14 @@ namespace Graph
         public bool GraphHist { get; set; }
         public bool Scatter { get; set; }
 
+		public bool Animate {
+			get;
+			set;
+		}
+		public int AnimatePeriod {
+			get;
+			set;
+		}
 
         protected Point CanvasLocation;
         protected Size CanvasSize;
@@ -126,6 +134,8 @@ namespace Graph
                 ).SetValue(this, true, null);
             ZoomBoxList = new List<PointF>();
             this.dataArrayOfArrays = new double[0][];
+
+			this.AnimatePeriod = 1;
         }
 
         /// <summary>
@@ -342,6 +352,7 @@ namespace Graph
 			}
 			this.CreateGraphImage ();
 			this.Invalidate ();
+			//this.ImageCreated ();
 		}
         /// <summary>
         /// use it to re-calculate and redraw
@@ -371,7 +382,11 @@ namespace Graph
 			this.Invalidate ();
 			s.Stop ();
 			s.Restart ();
+			//ImageCreated ();
+			//this.ImageCreated ();
 		}
+
+		
 		public void Redraw () {
 			if ( this.RedrawThread != null && this.RedrawThread.IsAlive ) {
 				this.RedrawThread.Abort ();
@@ -437,8 +452,14 @@ namespace Graph
                 }
                 
             }
+
+			
             if (this.dataX != null && this.dataY  != null)
             {
+				int delay = this.dataX.Length / 1000;
+				if ( delay == 0 ) {
+					delay = 1;
+				}
                 if (this.dataY.Length != this.dataX.Length)
                     return;
                 Graphics g = Graphics.FromImage(this.ImgGraph);
@@ -455,7 +476,12 @@ namespace Graph
                         {
                             
                             g.DrawEllipse(Pens.Blue, x, y, 1, 1);
-                        }
+						} if ( Animate && i % delay == 0 ) {
+
+							Thread.Sleep (AnimatePeriod );
+							g.Save ();
+							this.Invalidate ();
+						}
                     }
                     else
                     {
@@ -479,6 +505,13 @@ namespace Graph
                             PointF p2 = new PointF(x, y);
                             g.DrawLine(Pens.Blue, x,y,xPast,yPast);
                         }
+						if ( Animate && i % delay == 0 ) {
+
+							Thread.Sleep ( AnimatePeriod );
+							g.Save ();
+							this.Invalidate ();
+							
+						}
                     }
                 }
                 g.Save();
@@ -884,6 +917,20 @@ namespace Graph
 		private void button100Percent_Click ( object sender , EventArgs e ) {
 			zoom100Percent ();
 		}
+
+		
+
+		public Bitmap GetImage () {
+			//if ( this.RedrawThread.ThreadState != System.Threading.ThreadState.Stopped ) {
+			
+			//}
+			return this.ImgAxesAndLabels;
+			//return null;
+		}
+
+		public delegate void ImageCreatedDelegate();
+		
+		public event ImageCreatedDelegate ImageCreated;
     }
     
     

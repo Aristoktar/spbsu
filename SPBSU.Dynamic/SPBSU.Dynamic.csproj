@@ -91,6 +91,12 @@
     <Compile Include="FormDynamicEquations.Designer.cs">
       <DependentUpon>FormDynamicEquations.cs</DependentUpon>
     </Compile>
+    <Compile Include="GifGenerator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GifGenerator.Designer.cs">
+      <DependentUpon>GifGenerator.cs</DependentUpon>
+    </Compile>
     <Compile Include="HamiltonianPlot.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,6 +118,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormDynamicEquations.resx">
       <DependentUpon>FormDynamicEquations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GifGenerator.resx">
+      <DependentUpon>GifGenerator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HamiltonianPlot.resx">
       <DependentUpon>HamiltonianPlot.cs</DependentUpon>

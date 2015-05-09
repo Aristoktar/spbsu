@@ -65,7 +65,7 @@ namespace Graph {
 							solution = Euler.Integrate ( this.functionsD , t0 , f0 , Parameters , this.PoincareParameters , this );
 							break;
 						case Mathematics.Intergration.IntegrationType.EulerMethodSymplectic:
-							solution = Euler.IntegrateSymplectic ( this.functionsD , t0 , f0 , Parameters );
+							solution = Euler.IntegrateSymplectic ( this.functionsD , t0 , f0 , Parameters , this.PoincareParameters , this );
 							break;
 						case Mathematics.Intergration.IntegrationType.Iterative:
 							solution = Iterative.Integrate ( this.functionsD , t0 , f0 , Parameters );
@@ -122,8 +122,8 @@ namespace Graph {
 		private void checkBoxScatter_CheckedChanged ( object sender , EventArgs e ) {
 			if ( this.checkBoxScatter.Checked ) this.Scatter = true;
 			else this.Scatter = false;
-			if ( this.dataX != null && this.dataY != null)
-				this.RedrawWithSetAxesData ( this.dataX.ToList () , this.dataY.ToList () );
+			//if ( this.dataX != null && this.dataY != null)
+			//	this.RedrawWithSetAxesData ( this.dataX.ToList () , this.dataY.ToList () );
 			
 		}
 

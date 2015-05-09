@@ -140,13 +140,20 @@ namespace Mathematics.Intergration {
 				
 			}
 			List<double> tOut = new List<double> ();
-			
+			CalculationProgress progress = new CalculationProgress ( poincareSectionParameters == null ? iterationsCount : poincareSectionParameters.HitPointsCount , parent );
 			double t = t0;
 			Dictionary<string , double> f = new Dictionary<string , double> ( f0 );
 
 			double h = 0.002;
 
 			for ( int i = 0 ; i < iterationsCount ; i++ ) {
+				//if ( poincareSectionParameters != null ) {
+				//	i--;
+				//	if ( tOutL.Count + tOutR.Count >= poincareSectionParameters.HitPointsCount ) {
+				//		break;
+				//	}
+				//}
+
 				var tempF = new Dictionary<string , double> ( f );
 				foreach ( var key in functions.Keys ) {
 					tempF[key] = 0.5 * tempF[key];
@@ -154,12 +161,20 @@ namespace Mathematics.Intergration {
 				foreach ( var key in functions.Keys ) {
 					
 					output[key].Add ( f[key] );
-					f[key] = f[key] + h * functions[key].Invoke ( t , tempF , parameters );
+					f[key] = f[key] + h * functions[key].Invoke ( t+h/2 , tempF , parameters );
 				}
 				tOut.Add ( t );
-				t = t + h/2;
+				t = t + h;
+
+				if ( poincareSectionParameters == null ) {
+					progress.NextValue ( i );
+				}
+				else {
+					//progress.NextValue ( tOutL.Count + tOutR.Count );
+				}
 			}
 			output.Add ( "t" , tOut );
+			progress.Close ();
 			return output;
 		}
 	}

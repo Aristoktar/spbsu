@@ -82,6 +82,10 @@
 			this.labelHitCount = new System.Windows.Forms.Label();
 			this.labelThickness = new System.Windows.Forms.Label();
 			this.labelVar = new System.Windows.Forms.Label();
+			this.checkBoxAnimate = new System.Windows.Forms.CheckBox();
+			this.textBoxAnimatePeriod = new System.Windows.Forms.TextBox();
+			this.buttonGif = new System.Windows.Forms.Button();
+			this.radioButtonEulerSymplectic = new System.Windows.Forms.RadioButton();
 			this.graphSystemBehavior1 = new Graph.GraphDynamicType();
 			((System.ComponentModel.ISupportInitialize)(this.trackBarA)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.trackBarB)).BeginInit();
@@ -151,7 +155,7 @@
 			this.listBoxSystemName.Items.AddRange(new object[] {
             "WikipediaRungeSample",
             "Harmonic oscillator",
-            "Henon-Heilis",
+            "Henon-Heiles",
             "Lorenz Equation",
             "Henon Map"});
 			this.listBoxSystemName.Location = new System.Drawing.Point(356, 429);
@@ -436,13 +440,13 @@
 			// radioButtonDormandPrince
 			// 
 			this.radioButtonDormandPrince.AutoSize = true;
-			this.radioButtonDormandPrince.Location = new System.Drawing.Point(796, 178);
+			this.radioButtonDormandPrince.Location = new System.Drawing.Point(796, 204);
 			this.radioButtonDormandPrince.Name = "radioButtonDormandPrince";
 			this.radioButtonDormandPrince.Size = new System.Drawing.Size(98, 17);
 			this.radioButtonDormandPrince.TabIndex = 37;
 			this.radioButtonDormandPrince.Text = "DormandPrince";
 			this.radioButtonDormandPrince.UseVisualStyleBackColor = true;
-			this.radioButtonDormandPrince.CheckedChanged += new System.EventHandler ( this.radioButtonDormandPrince_CheckedChanged );
+			this.radioButtonDormandPrince.CheckedChanged += new System.EventHandler(this.radioButtonDormandPrince_CheckedChanged);
 			// 
 			// textBoxHamiltonian
 			// 
@@ -484,7 +488,7 @@
 			// radioButtonIterativ
 			// 
 			this.radioButtonIterativ.AutoSize = true;
-			this.radioButtonIterativ.Location = new System.Drawing.Point(796, 205);
+			this.radioButtonIterativ.Location = new System.Drawing.Point(796, 229);
 			this.radioButtonIterativ.Name = "radioButtonIterativ";
 			this.radioButtonIterativ.Size = new System.Drawing.Size(57, 17);
 			this.radioButtonIterativ.TabIndex = 42;
@@ -680,8 +684,51 @@
 			this.labelVar.TabIndex = 47;
 			this.labelVar.Text = "Variable";
 			// 
+			// checkBoxAnimate
+			// 
+			this.checkBoxAnimate.AutoSize = true;
+			this.checkBoxAnimate.Location = new System.Drawing.Point(12, 391);
+			this.checkBoxAnimate.Name = "checkBoxAnimate";
+			this.checkBoxAnimate.Size = new System.Drawing.Size(64, 17);
+			this.checkBoxAnimate.TabIndex = 49;
+			this.checkBoxAnimate.Text = "Animate";
+			this.checkBoxAnimate.UseVisualStyleBackColor = true;
+			this.checkBoxAnimate.CheckedChanged += new System.EventHandler(this.checkBoxAnimate_CheckedChanged);
+			// 
+			// textBoxAnimatePeriod
+			// 
+			this.textBoxAnimatePeriod.Location = new System.Drawing.Point(82, 388);
+			this.textBoxAnimatePeriod.Name = "textBoxAnimatePeriod";
+			this.textBoxAnimatePeriod.Size = new System.Drawing.Size(83, 20);
+			this.textBoxAnimatePeriod.TabIndex = 50;
+			this.textBoxAnimatePeriod.Text = "1";
+			// 
+			// buttonGif
+			// 
+			this.buttonGif.Location = new System.Drawing.Point(369, 555);
+			this.buttonGif.Name = "buttonGif";
+			this.buttonGif.Size = new System.Drawing.Size(75, 23);
+			this.buttonGif.TabIndex = 51;
+			this.buttonGif.Text = "gif";
+			this.buttonGif.UseVisualStyleBackColor = true;
+			this.buttonGif.Click += new System.EventHandler(this.buttonGif_Click);
+			// 
+			// radioButtonEulerSymplectic
+			// 
+			this.radioButtonEulerSymplectic.AutoSize = true;
+			this.radioButtonEulerSymplectic.Location = new System.Drawing.Point(796, 178);
+			this.radioButtonEulerSymplectic.Name = "radioButtonEulerSymplectic";
+			this.radioButtonEulerSymplectic.Size = new System.Drawing.Size(103, 17);
+			this.radioButtonEulerSymplectic.TabIndex = 52;
+			this.radioButtonEulerSymplectic.TabStop = true;
+			this.radioButtonEulerSymplectic.Text = "Euler Symplectic";
+			this.radioButtonEulerSymplectic.UseVisualStyleBackColor = true;
+			this.radioButtonEulerSymplectic.CheckedChanged += new System.EventHandler(this.radioButtonEulerSymplectic_CheckedChanged);
+			// 
 			// graphSystemBehavior1
 			// 
+			this.graphSystemBehavior1.Animate = false;
+			this.graphSystemBehavior1.AnimatePeriod = 1;
 			this.graphSystemBehavior1.AxisXlabel = "x";
 			this.graphSystemBehavior1.AxisYlabel = "y";
 			this.graphSystemBehavior1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
@@ -707,7 +754,12 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1181, 755);
+			this.AutoScroll = true;
+			this.ClientSize = new System.Drawing.Size(1181, 741);
+			this.Controls.Add(this.radioButtonEulerSymplectic);
+			this.Controls.Add(this.buttonGif);
+			this.Controls.Add(this.textBoxAnimatePeriod);
+			this.Controls.Add(this.checkBoxAnimate);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.splitter1);
 			this.Controls.Add(this.buttonRedrawAxes);
@@ -770,7 +822,6 @@
 
 		#endregion
 
-		private Graph.GraphDynamicType graphSystemBehavior1;
 		private System.Windows.Forms.Button buttonAddEquation;
 		private System.Windows.Forms.Button buttonCalc;
 		private System.Windows.Forms.Label labelt0;
@@ -830,6 +881,11 @@
 		private System.Windows.Forms.Label labelHDeterminingVariable;
 		private System.Windows.Forms.TextBox textBoxVarEquation;
 		private System.Windows.Forms.ComboBox comboBoxVarForDetH;
+		private System.Windows.Forms.CheckBox checkBoxAnimate;
+		private System.Windows.Forms.TextBox textBoxAnimatePeriod;
+		private System.Windows.Forms.Button buttonGif;
+		public Graph.GraphDynamicType graphSystemBehavior1;
+		private System.Windows.Forms.RadioButton radioButtonEulerSymplectic;
 	}
 }
 

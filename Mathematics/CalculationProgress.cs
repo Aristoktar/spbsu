@@ -53,6 +53,7 @@ namespace Mathematics {
 		}
 		public void NextValue (int newVal = -1) {
 			//this.bar1.progressBar1.Maximum = newVal == -1 ? this.bar1.progressBar1.Maximum + 1 : newVal;
+			
 			Parent.Invoke ( new Action ( () => {
 					var newV = newVal == -1 ? this.bar1.progressBar1.Value + 1 : newVal;
 					bar1.progressBar1.Value = newV > bar1.progressBar1.Minimum && newV <= bar1.progressBar1.Maximum ? newV : this.bar1.progressBar1.Value;

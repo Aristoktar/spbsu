@@ -16,7 +16,7 @@ using Mathematics.Intergration;
 namespace SPBSU.Dynamic {
 	public partial class FormDynamicEquations : Form {
 		private List<TextBox> Equations;
-		private List<TextBox> Initials;
+		public List<TextBox> Initials;
 		private List<Label> Dts;
 		private List<Label> Var0;
 		private List<TextBox> Variables;
@@ -214,7 +214,7 @@ namespace SPBSU.Dynamic {
 
 			
 		}
-		private void buttonCalc_Click ( object sender , EventArgs e ) {
+		public void buttonCalc_Click ( object sender , EventArgs e ) {
 			Dictionary<string , double> parameters = new Dictionary<string,double>();
 			try {
 				Dictionary<string , string> Eques = new Dictionary<string , string> ();
@@ -317,7 +317,6 @@ namespace SPBSU.Dynamic {
 			}
 			
 			
-			
 		}
 
 		private void listBoxSystemName_DoubleClick ( object sender , EventArgs e ) {
@@ -337,9 +336,11 @@ namespace SPBSU.Dynamic {
 					this.Variables[1].Text = "p";
 					this.Initials[0].Text = "2";
 					this.Initials[1].Text = "1";
-					this.textBoxHamiltonian.Text = "p+q";
+					this.textBoxHamiltonian.Text = "(p*p+q*q)/2";
+					this.checkBoxHDet.Checked = false;
+					this.checkBoxPoincare.Checked = false;
 					break;
-				case "Henon-Heilis":
+				case "Henon-Heiles":
 					if ( this.Equations.Count < 4 ) {
 						while ( this.Equations.Count != 4 ) {
 							AddEquation ();
@@ -352,15 +353,20 @@ namespace SPBSU.Dynamic {
 					this.Initials[0].Text = "0";
 					this.Initials[1].Text = "0";
 
-					this.Equations[2].Text = "-x-2*x*y";
-					this.Equations[3].Text = "-y-x*x+y*y";
+					this.Equations[2].Text = "-C*x-A*2*x*y";
+					this.Equations[3].Text = "-C*y-x*x+y*y*B";
 					this.Variables[2].Text = "px";
 					this.Variables[3].Text = "py";
 					this.Initials[2].Text = "0.288790581";
 					this.Initials[3].Text = "0";
-					this.textBoxHamiltonian.Text = "(px*px+py*py)/2+(x*x+y*y)/2+x*x*y-y*y*y";
+					this.textBoxHamiltonian.Text = "(px*px+py*py)/2+C*(x*x+y*y)/2+A*x*x*y-y*y*y*B/3.0";
 					this.comboBoxVarForDetH.SelectedIndex = 2;
-					this.textBoxVarEquation.Text = "Math.Sqrt(H-(py*py/2+(x*x+y*y)/2+x*x*y-y*y*y))";
+					this.textBoxVarEquation.Text = "Math.Sqrt(H-(py*py/2+C*(x*x+y*y)/2+A*x*x*y-y*y*y*B/3.0))";
+					this.ParamterTextBoxes["A"].Text = "1";
+					this.ParamterTextBoxes["B"].Text = "1";
+					this.ParamterTextBoxes["C"].Text = "1";
+					this.checkBoxHDet.Checked = true;
+					this.checkBoxPoincare.Checked = true;
 					break;
 				case "WikipediaRungeSample":
 					if ( this.Equations.Count < 2 ) {
@@ -373,6 +379,9 @@ namespace SPBSU.Dynamic {
 					this.Initials[0].Text = "2";
 					this.Initials[1].Text = "0.8";
 					this.textBoxHamiltonian.Text = "y+dy";
+					
+					this.checkBoxHDet.Checked = false;
+					this.checkBoxPoincare.Checked = false;
 					break;
 				case "Lorenz Equation":
 					if ( this.Equations.Count < 3 ) {
@@ -395,6 +404,9 @@ namespace SPBSU.Dynamic {
 					this.ParamterTextBoxes["A"].Text = "10";
 					this.ParamterTextBoxes["B"].Text = "28";
 					this.ParamterTextBoxes["C"].Text = "2.6666";
+					
+					this.checkBoxHDet.Checked = false;
+					this.checkBoxPoincare.Checked = false;
 					break;
 				case"Henon Map":
 					if ( this.Equations.Count < 2 ) {
@@ -410,6 +422,9 @@ namespace SPBSU.Dynamic {
 
 					this.ParamterTextBoxes["A"].Text = "1.4";
 					this.ParamterTextBoxes["B"].Text = "0.3";
+					
+					this.checkBoxHDet.Checked = false;
+					this.checkBoxPoincare.Checked = false;
 					break;
 				default: break;
 			}
@@ -544,6 +559,27 @@ namespace SPBSU.Dynamic {
 				this.comboBoxVarForDetH.Enabled = false;
 				this.textBoxVarEquation.Enabled = false;
 				}
+		}
+
+		private void checkBoxAnimate_CheckedChanged ( object sender , EventArgs e ) {
+			if ( this.checkBoxAnimate.Checked ) {
+				this.graphSystemBehavior1.Animate = true;
+				this.graphSystemBehavior1.AnimatePeriod = Convert.ToInt32 (this.textBoxAnimatePeriod.Text);
+			}
+			else {
+				this.graphSystemBehavior1.Animate = false;
+			}
+		}
+
+		private void buttonGif_Click ( object sender , EventArgs e ) {
+			GifGenerator form = new GifGenerator (this);
+
+			var t = this.graphSystemBehavior1.GetImage ();
+			form.Show ();
+		}
+
+		private void radioButtonEulerSymplectic_CheckedChanged ( object sender , EventArgs e ) {
+			this.graphSystemBehavior1.IntegrationType = IntegrationType.EulerMethodSymplectic;
 		}
 	}
 }
