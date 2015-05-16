@@ -69,10 +69,12 @@
     <Compile Include="CalculationProgressBar.Designer.cs">
       <DependentUpon>CalculationProgressBar.cs</DependentUpon>
     </Compile>
+    <Compile Include="CalculationResults.cs" />
     <Compile Include="Delegates.cs" />
     <Compile Include="Hamiltonian.cs" />
     <Compile Include="Intergration\Euler.cs" />
     <Compile Include="Intergration\IntegrationType.cs" />
+    <Compile Include="Intergration\IntergrationParameters.cs" />
     <Compile Include="Intergration\Iterative.cs" />
     <Compile Include="Intergration\RungeKutta.cs" />
     <Compile Include="MathematicsCalculationException.cs" />

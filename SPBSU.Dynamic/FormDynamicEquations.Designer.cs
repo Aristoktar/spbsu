@@ -37,24 +37,12 @@
 			this.labelB = new System.Windows.Forms.Label();
 			this.labelE = new System.Windows.Forms.Label();
 			this.labelF = new System.Windows.Forms.Label();
-			this.trackBarA = new System.Windows.Forms.TrackBar();
-			this.trackBarB = new System.Windows.Forms.TrackBar();
-			this.trackBarC = new System.Windows.Forms.TrackBar();
-			this.trackBarD = new System.Windows.Forms.TrackBar();
-			this.trackBarE = new System.Windows.Forms.TrackBar();
-			this.trackBarF = new System.Windows.Forms.TrackBar();
 			this.textBoxA = new System.Windows.Forms.TextBox();
 			this.textBoxE = new System.Windows.Forms.TextBox();
 			this.textBoxD = new System.Windows.Forms.TextBox();
 			this.textBoxC = new System.Windows.Forms.TextBox();
 			this.textBoxB = new System.Windows.Forms.TextBox();
 			this.textBoxF = new System.Windows.Forms.TextBox();
-			this.buttonA = new System.Windows.Forms.Button();
-			this.buttonF = new System.Windows.Forms.Button();
-			this.buttonE = new System.Windows.Forms.Button();
-			this.buttonD = new System.Windows.Forms.Button();
-			this.buttonC = new System.Windows.Forms.Button();
-			this.buttonB = new System.Windows.Forms.Button();
 			this.radioButtonRungeKutta4 = new System.Windows.Forms.RadioButton();
 			this.radioButtonEuler = new System.Windows.Forms.RadioButton();
 			this.radioButtonDormandPrince = new System.Windows.Forms.RadioButton();
@@ -86,14 +74,34 @@
 			this.textBoxAnimatePeriod = new System.Windows.Forms.TextBox();
 			this.buttonGif = new System.Windows.Forms.Button();
 			this.radioButtonEulerSymplectic = new System.Windows.Forms.RadioButton();
+			this.tabControlIntegrationParameters = new System.Windows.Forms.TabControl();
+			this.tabPagePoincare = new System.Windows.Forms.TabPage();
+			this.tabPageBasic = new System.Windows.Forms.TabPage();
+			this.checkBoxDirectionRight = new System.Windows.Forms.CheckBox();
+			this.checkBoxDirectionLeft = new System.Windows.Forms.CheckBox();
+			this.labelDirection = new System.Windows.Forms.Label();
+			this.textBoxStep = new System.Windows.Forms.TextBox();
+			this.textBoxError = new System.Windows.Forms.TextBox();
+			this.radioButtonStep = new System.Windows.Forms.RadioButton();
+			this.radioButtonError = new System.Windows.Forms.RadioButton();
+			this.labelIterations = new System.Windows.Forms.Label();
+			this.textBoxIterations = new System.Windows.Forms.TextBox();
+			this.groupBoxCalculationsResult = new System.Windows.Forms.GroupBox();
+			this.labelFunctionsInvocationsCountResult = new System.Windows.Forms.Label();
+			this.labelFunctionsInvocationsCount = new System.Windows.Forms.Label();
+			this.labelIterationsCountResult = new System.Windows.Forms.Label();
+			this.labelTimeElapsedResult = new System.Windows.Forms.Label();
+			this.labelIterationsCount = new System.Windows.Forms.Label();
+			this.labelTimeElapsed = new System.Windows.Forms.Label();
+			this.label1 = new System.Windows.Forms.Label();
 			this.graphSystemBehavior1 = new Graph.GraphDynamicType();
-			((System.ComponentModel.ISupportInitialize)(this.trackBarA)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.trackBarB)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.trackBarC)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.trackBarD)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.trackBarE)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.trackBarF)).BeginInit();
+			this.label2 = new System.Windows.Forms.Label();
+			this.label3 = new System.Windows.Forms.Label();
 			this.panel1.SuspendLayout();
+			this.tabControlIntegrationParameters.SuspendLayout();
+			this.tabPagePoincare.SuspendLayout();
+			this.tabPageBasic.SuspendLayout();
+			this.groupBoxCalculationsResult.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// buttonAddEquation
@@ -167,7 +175,7 @@
 			// labelParametersLabel
 			// 
 			this.labelParametersLabel.AutoSize = true;
-			this.labelParametersLabel.Location = new System.Drawing.Point(936, 22);
+			this.labelParametersLabel.Location = new System.Drawing.Point(800, 105);
 			this.labelParametersLabel.Name = "labelParametersLabel";
 			this.labelParametersLabel.Size = new System.Drawing.Size(60, 13);
 			this.labelParametersLabel.TabIndex = 8;
@@ -176,7 +184,7 @@
 			// labelA
 			// 
 			this.labelA.AutoSize = true;
-			this.labelA.Location = new System.Drawing.Point(925, 53);
+			this.labelA.Location = new System.Drawing.Point(789, 136);
 			this.labelA.Name = "labelA";
 			this.labelA.Size = new System.Drawing.Size(14, 13);
 			this.labelA.TabIndex = 9;
@@ -185,7 +193,7 @@
 			// labelC
 			// 
 			this.labelC.AutoSize = true;
-			this.labelC.Location = new System.Drawing.Point(925, 150);
+			this.labelC.Location = new System.Drawing.Point(787, 190);
 			this.labelC.Name = "labelC";
 			this.labelC.Size = new System.Drawing.Size(14, 13);
 			this.labelC.TabIndex = 10;
@@ -194,7 +202,7 @@
 			// labelD
 			// 
 			this.labelD.AutoSize = true;
-			this.labelD.Location = new System.Drawing.Point(924, 201);
+			this.labelD.Location = new System.Drawing.Point(789, 216);
 			this.labelD.Name = "labelD";
 			this.labelD.Size = new System.Drawing.Size(15, 13);
 			this.labelD.TabIndex = 11;
@@ -203,7 +211,7 @@
 			// labelB
 			// 
 			this.labelB.AutoSize = true;
-			this.labelB.Location = new System.Drawing.Point(923, 99);
+			this.labelB.Location = new System.Drawing.Point(789, 164);
 			this.labelB.Name = "labelB";
 			this.labelB.Size = new System.Drawing.Size(14, 13);
 			this.labelB.TabIndex = 12;
@@ -212,7 +220,7 @@
 			// labelE
 			// 
 			this.labelE.AutoSize = true;
-			this.labelE.Location = new System.Drawing.Point(923, 252);
+			this.labelE.Location = new System.Drawing.Point(787, 242);
 			this.labelE.Name = "labelE";
 			this.labelE.Size = new System.Drawing.Size(14, 13);
 			this.labelE.TabIndex = 13;
@@ -221,93 +229,15 @@
 			// labelF
 			// 
 			this.labelF.AutoSize = true;
-			this.labelF.Location = new System.Drawing.Point(924, 306);
+			this.labelF.Location = new System.Drawing.Point(788, 268);
 			this.labelF.Name = "labelF";
 			this.labelF.Size = new System.Drawing.Size(13, 13);
 			this.labelF.TabIndex = 14;
 			this.labelF.Text = "F";
 			// 
-			// trackBarA
-			// 
-			this.trackBarA.LargeChange = 2000;
-			this.trackBarA.Location = new System.Drawing.Point(956, 53);
-			this.trackBarA.Maximum = 50000;
-			this.trackBarA.Minimum = -50000;
-			this.trackBarA.Name = "trackBarA";
-			this.trackBarA.Size = new System.Drawing.Size(104, 45);
-			this.trackBarA.SmallChange = 1000;
-			this.trackBarA.TabIndex = 15;
-			this.trackBarA.TickFrequency = 2000;
-			this.trackBarA.Scroll += new System.EventHandler(this.trackBarParameter_Scroll);
-			// 
-			// trackBarB
-			// 
-			this.trackBarB.LargeChange = 2000;
-			this.trackBarB.Location = new System.Drawing.Point(956, 99);
-			this.trackBarB.Maximum = 50000;
-			this.trackBarB.Minimum = -50000;
-			this.trackBarB.Name = "trackBarB";
-			this.trackBarB.Size = new System.Drawing.Size(104, 45);
-			this.trackBarB.SmallChange = 1000;
-			this.trackBarB.TabIndex = 16;
-			this.trackBarB.TickFrequency = 2000;
-			this.trackBarB.Scroll += new System.EventHandler(this.trackBarParameter_Scroll);
-			// 
-			// trackBarC
-			// 
-			this.trackBarC.LargeChange = 2000;
-			this.trackBarC.Location = new System.Drawing.Point(956, 150);
-			this.trackBarC.Maximum = 50000;
-			this.trackBarC.Minimum = -50000;
-			this.trackBarC.Name = "trackBarC";
-			this.trackBarC.Size = new System.Drawing.Size(104, 45);
-			this.trackBarC.SmallChange = 1000;
-			this.trackBarC.TabIndex = 17;
-			this.trackBarC.TickFrequency = 2000;
-			this.trackBarC.Scroll += new System.EventHandler(this.trackBarParameter_Scroll);
-			// 
-			// trackBarD
-			// 
-			this.trackBarD.LargeChange = 2000;
-			this.trackBarD.Location = new System.Drawing.Point(956, 201);
-			this.trackBarD.Maximum = 50000;
-			this.trackBarD.Minimum = -50000;
-			this.trackBarD.Name = "trackBarD";
-			this.trackBarD.Size = new System.Drawing.Size(104, 45);
-			this.trackBarD.SmallChange = 1000;
-			this.trackBarD.TabIndex = 18;
-			this.trackBarD.TickFrequency = 2000;
-			this.trackBarD.Scroll += new System.EventHandler(this.trackBarParameter_Scroll);
-			// 
-			// trackBarE
-			// 
-			this.trackBarE.LargeChange = 2000;
-			this.trackBarE.Location = new System.Drawing.Point(956, 252);
-			this.trackBarE.Maximum = 50000;
-			this.trackBarE.Minimum = -50000;
-			this.trackBarE.Name = "trackBarE";
-			this.trackBarE.Size = new System.Drawing.Size(104, 45);
-			this.trackBarE.SmallChange = 1000;
-			this.trackBarE.TabIndex = 19;
-			this.trackBarE.TickFrequency = 2000;
-			this.trackBarE.Scroll += new System.EventHandler(this.trackBarParameter_Scroll);
-			// 
-			// trackBarF
-			// 
-			this.trackBarF.LargeChange = 2000;
-			this.trackBarF.Location = new System.Drawing.Point(956, 306);
-			this.trackBarF.Maximum = 50000;
-			this.trackBarF.Minimum = -50000;
-			this.trackBarF.Name = "trackBarF";
-			this.trackBarF.Size = new System.Drawing.Size(104, 45);
-			this.trackBarF.SmallChange = 1000;
-			this.trackBarF.TabIndex = 20;
-			this.trackBarF.TickFrequency = 2000;
-			this.trackBarF.Scroll += new System.EventHandler(this.trackBarParameter_Scroll);
-			// 
 			// textBoxA
 			// 
-			this.textBoxA.Location = new System.Drawing.Point(1067, 55);
+			this.textBoxA.Location = new System.Drawing.Point(822, 133);
 			this.textBoxA.Name = "textBoxA";
 			this.textBoxA.Size = new System.Drawing.Size(48, 20);
 			this.textBoxA.TabIndex = 21;
@@ -315,7 +245,7 @@
 			// 
 			// textBoxE
 			// 
-			this.textBoxE.Location = new System.Drawing.Point(1067, 252);
+			this.textBoxE.Location = new System.Drawing.Point(822, 239);
 			this.textBoxE.Name = "textBoxE";
 			this.textBoxE.Size = new System.Drawing.Size(48, 20);
 			this.textBoxE.TabIndex = 22;
@@ -323,7 +253,7 @@
 			// 
 			// textBoxD
 			// 
-			this.textBoxD.Location = new System.Drawing.Point(1067, 201);
+			this.textBoxD.Location = new System.Drawing.Point(822, 213);
 			this.textBoxD.Name = "textBoxD";
 			this.textBoxD.Size = new System.Drawing.Size(48, 20);
 			this.textBoxD.TabIndex = 23;
@@ -331,7 +261,7 @@
 			// 
 			// textBoxC
 			// 
-			this.textBoxC.Location = new System.Drawing.Point(1067, 150);
+			this.textBoxC.Location = new System.Drawing.Point(822, 187);
 			this.textBoxC.Name = "textBoxC";
 			this.textBoxC.Size = new System.Drawing.Size(48, 20);
 			this.textBoxC.TabIndex = 24;
@@ -339,7 +269,7 @@
 			// 
 			// textBoxB
 			// 
-			this.textBoxB.Location = new System.Drawing.Point(1067, 99);
+			this.textBoxB.Location = new System.Drawing.Point(822, 161);
 			this.textBoxB.Name = "textBoxB";
 			this.textBoxB.Size = new System.Drawing.Size(48, 20);
 			this.textBoxB.TabIndex = 25;
@@ -347,76 +277,16 @@
 			// 
 			// textBoxF
 			// 
-			this.textBoxF.Location = new System.Drawing.Point(1067, 306);
+			this.textBoxF.Location = new System.Drawing.Point(822, 265);
 			this.textBoxF.Name = "textBoxF";
 			this.textBoxF.Size = new System.Drawing.Size(48, 20);
 			this.textBoxF.TabIndex = 26;
 			this.textBoxF.Text = "0";
 			// 
-			// buttonA
-			// 
-			this.buttonA.Location = new System.Drawing.Point(1121, 52);
-			this.buttonA.Name = "buttonA";
-			this.buttonA.Size = new System.Drawing.Size(39, 23);
-			this.buttonA.TabIndex = 27;
-			this.buttonA.Text = "EditA";
-			this.buttonA.UseVisualStyleBackColor = true;
-			this.buttonA.Click += new System.EventHandler(this.buttonParameterEdit_Click);
-			// 
-			// buttonF
-			// 
-			this.buttonF.Location = new System.Drawing.Point(1121, 306);
-			this.buttonF.Name = "buttonF";
-			this.buttonF.Size = new System.Drawing.Size(39, 23);
-			this.buttonF.TabIndex = 28;
-			this.buttonF.Text = "Edit";
-			this.buttonF.UseVisualStyleBackColor = true;
-			this.buttonF.Click += new System.EventHandler(this.buttonParameterEdit_Click);
-			// 
-			// buttonE
-			// 
-			this.buttonE.Location = new System.Drawing.Point(1121, 252);
-			this.buttonE.Name = "buttonE";
-			this.buttonE.Size = new System.Drawing.Size(39, 23);
-			this.buttonE.TabIndex = 31;
-			this.buttonE.Text = "Edit";
-			this.buttonE.UseVisualStyleBackColor = true;
-			this.buttonE.Click += new System.EventHandler(this.buttonParameterEdit_Click);
-			// 
-			// buttonD
-			// 
-			this.buttonD.Location = new System.Drawing.Point(1121, 199);
-			this.buttonD.Name = "buttonD";
-			this.buttonD.Size = new System.Drawing.Size(39, 23);
-			this.buttonD.TabIndex = 32;
-			this.buttonD.Text = "Edit";
-			this.buttonD.UseVisualStyleBackColor = true;
-			this.buttonD.Click += new System.EventHandler(this.buttonParameterEdit_Click);
-			// 
-			// buttonC
-			// 
-			this.buttonC.Location = new System.Drawing.Point(1121, 148);
-			this.buttonC.Name = "buttonC";
-			this.buttonC.Size = new System.Drawing.Size(39, 23);
-			this.buttonC.TabIndex = 33;
-			this.buttonC.Text = "Edit";
-			this.buttonC.UseVisualStyleBackColor = true;
-			this.buttonC.Click += new System.EventHandler(this.buttonParameterEdit_Click);
-			// 
-			// buttonB
-			// 
-			this.buttonB.Location = new System.Drawing.Point(1121, 99);
-			this.buttonB.Name = "buttonB";
-			this.buttonB.Size = new System.Drawing.Size(39, 23);
-			this.buttonB.TabIndex = 34;
-			this.buttonB.Text = "EditB";
-			this.buttonB.UseVisualStyleBackColor = true;
-			this.buttonB.Click += new System.EventHandler(this.buttonParameterEdit_Click);
-			// 
 			// radioButtonRungeKutta4
 			// 
 			this.radioButtonRungeKutta4.AutoSize = true;
-			this.radioButtonRungeKutta4.Location = new System.Drawing.Point(795, 127);
+			this.radioButtonRungeKutta4.Location = new System.Drawing.Point(1240, 18);
 			this.radioButtonRungeKutta4.Name = "radioButtonRungeKutta4";
 			this.radioButtonRungeKutta4.Size = new System.Drawing.Size(88, 17);
 			this.radioButtonRungeKutta4.TabIndex = 35;
@@ -428,7 +298,7 @@
 			// 
 			this.radioButtonEuler.AutoSize = true;
 			this.radioButtonEuler.Checked = true;
-			this.radioButtonEuler.Location = new System.Drawing.Point(796, 153);
+			this.radioButtonEuler.Location = new System.Drawing.Point(1241, 44);
 			this.radioButtonEuler.Name = "radioButtonEuler";
 			this.radioButtonEuler.Size = new System.Drawing.Size(49, 17);
 			this.radioButtonEuler.TabIndex = 36;
@@ -440,7 +310,7 @@
 			// radioButtonDormandPrince
 			// 
 			this.radioButtonDormandPrince.AutoSize = true;
-			this.radioButtonDormandPrince.Location = new System.Drawing.Point(796, 204);
+			this.radioButtonDormandPrince.Location = new System.Drawing.Point(1241, 95);
 			this.radioButtonDormandPrince.Name = "radioButtonDormandPrince";
 			this.radioButtonDormandPrince.Size = new System.Drawing.Size(98, 17);
 			this.radioButtonDormandPrince.TabIndex = 37;
@@ -450,7 +320,7 @@
 			// 
 			// textBoxHamiltonian
 			// 
-			this.textBoxHamiltonian.Location = new System.Drawing.Point(796, 388);
+			this.textBoxHamiltonian.Location = new System.Drawing.Point(498, 454);
 			this.textBoxHamiltonian.Name = "textBoxHamiltonian";
 			this.textBoxHamiltonian.Size = new System.Drawing.Size(292, 20);
 			this.textBoxHamiltonian.TabIndex = 38;
@@ -459,7 +329,7 @@
 			// labelHamiltonian
 			// 
 			this.labelHamiltonian.AutoSize = true;
-			this.labelHamiltonian.Location = new System.Drawing.Point(793, 362);
+			this.labelHamiltonian.Location = new System.Drawing.Point(495, 428);
 			this.labelHamiltonian.Name = "labelHamiltonian";
 			this.labelHamiltonian.Size = new System.Drawing.Size(62, 13);
 			this.labelHamiltonian.TabIndex = 39;
@@ -467,7 +337,7 @@
 			// 
 			// buttonHamiltonian
 			// 
-			this.buttonHamiltonian.Location = new System.Drawing.Point(1094, 385);
+			this.buttonHamiltonian.Location = new System.Drawing.Point(796, 451);
 			this.buttonHamiltonian.Name = "buttonHamiltonian";
 			this.buttonHamiltonian.Size = new System.Drawing.Size(75, 23);
 			this.buttonHamiltonian.TabIndex = 40;
@@ -477,7 +347,7 @@
 			// 
 			// buttonLyapunov
 			// 
-			this.buttonLyapunov.Location = new System.Drawing.Point(792, 429);
+			this.buttonLyapunov.Location = new System.Drawing.Point(494, 495);
 			this.buttonLyapunov.Name = "buttonLyapunov";
 			this.buttonLyapunov.Size = new System.Drawing.Size(124, 23);
 			this.buttonLyapunov.TabIndex = 41;
@@ -488,7 +358,7 @@
 			// radioButtonIterativ
 			// 
 			this.radioButtonIterativ.AutoSize = true;
-			this.radioButtonIterativ.Location = new System.Drawing.Point(796, 229);
+			this.radioButtonIterativ.Location = new System.Drawing.Point(1241, 120);
 			this.radioButtonIterativ.Name = "radioButtonIterativ";
 			this.radioButtonIterativ.Size = new System.Drawing.Size(57, 17);
 			this.radioButtonIterativ.TabIndex = 42;
@@ -540,13 +410,15 @@
 			// 
 			this.splitter1.Location = new System.Drawing.Point(0, 0);
 			this.splitter1.Name = "splitter1";
-			this.splitter1.Size = new System.Drawing.Size(3, 755);
+			this.splitter1.Size = new System.Drawing.Size(3, 724);
 			this.splitter1.TabIndex = 47;
 			this.splitter1.TabStop = false;
 			// 
 			// panel1
 			// 
 			this.panel1.BackColor = System.Drawing.SystemColors.ControlLight;
+			this.panel1.Controls.Add(this.label3);
+			this.panel1.Controls.Add(this.label2);
 			this.panel1.Controls.Add(this.checkBoxHDet);
 			this.panel1.Controls.Add(this.textBoxH);
 			this.panel1.Controls.Add(this.labelH);
@@ -563,9 +435,9 @@
 			this.panel1.Controls.Add(this.checkBoxPoincare);
 			this.panel1.Controls.Add(this.textBoxThicknessOfLayer);
 			this.panel1.Controls.Add(this.comboBoxVarForPoincare);
-			this.panel1.Location = new System.Drawing.Point(792, 458);
+			this.panel1.Location = new System.Drawing.Point(6, 6);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(323, 297);
+			this.panel1.Size = new System.Drawing.Size(323, 318);
 			this.panel1.TabIndex = 48;
 			// 
 			// checkBoxHDet
@@ -716,7 +588,7 @@
 			// radioButtonEulerSymplectic
 			// 
 			this.radioButtonEulerSymplectic.AutoSize = true;
-			this.radioButtonEulerSymplectic.Location = new System.Drawing.Point(796, 178);
+			this.radioButtonEulerSymplectic.Location = new System.Drawing.Point(1241, 69);
 			this.radioButtonEulerSymplectic.Name = "radioButtonEulerSymplectic";
 			this.radioButtonEulerSymplectic.Size = new System.Drawing.Size(103, 17);
 			this.radioButtonEulerSymplectic.TabIndex = 52;
@@ -724,6 +596,215 @@
 			this.radioButtonEulerSymplectic.Text = "Euler Symplectic";
 			this.radioButtonEulerSymplectic.UseVisualStyleBackColor = true;
 			this.radioButtonEulerSymplectic.CheckedChanged += new System.EventHandler(this.radioButtonEulerSymplectic_CheckedChanged);
+			// 
+			// tabControlIntegrationParameters
+			// 
+			this.tabControlIntegrationParameters.Controls.Add(this.tabPagePoincare);
+			this.tabControlIntegrationParameters.Controls.Add(this.tabPageBasic);
+			this.tabControlIntegrationParameters.Location = new System.Drawing.Point(893, 12);
+			this.tabControlIntegrationParameters.Name = "tabControlIntegrationParameters";
+			this.tabControlIntegrationParameters.SelectedIndex = 0;
+			this.tabControlIntegrationParameters.Size = new System.Drawing.Size(341, 356);
+			this.tabControlIntegrationParameters.TabIndex = 53;
+			// 
+			// tabPagePoincare
+			// 
+			this.tabPagePoincare.Controls.Add(this.panel1);
+			this.tabPagePoincare.Location = new System.Drawing.Point(4, 22);
+			this.tabPagePoincare.Name = "tabPagePoincare";
+			this.tabPagePoincare.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPagePoincare.Size = new System.Drawing.Size(333, 330);
+			this.tabPagePoincare.TabIndex = 0;
+			this.tabPagePoincare.Text = "Poincare";
+			this.tabPagePoincare.UseVisualStyleBackColor = true;
+			// 
+			// tabPageBasic
+			// 
+			this.tabPageBasic.Controls.Add(this.checkBoxDirectionRight);
+			this.tabPageBasic.Controls.Add(this.checkBoxDirectionLeft);
+			this.tabPageBasic.Controls.Add(this.labelDirection);
+			this.tabPageBasic.Controls.Add(this.textBoxStep);
+			this.tabPageBasic.Controls.Add(this.textBoxError);
+			this.tabPageBasic.Controls.Add(this.radioButtonStep);
+			this.tabPageBasic.Controls.Add(this.radioButtonError);
+			this.tabPageBasic.Controls.Add(this.labelIterations);
+			this.tabPageBasic.Controls.Add(this.textBoxIterations);
+			this.tabPageBasic.Location = new System.Drawing.Point(4, 22);
+			this.tabPageBasic.Name = "tabPageBasic";
+			this.tabPageBasic.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPageBasic.Size = new System.Drawing.Size(333, 307);
+			this.tabPageBasic.TabIndex = 1;
+			this.tabPageBasic.Text = "Basic";
+			this.tabPageBasic.UseVisualStyleBackColor = true;
+			// 
+			// checkBoxDirectionRight
+			// 
+			this.checkBoxDirectionRight.AutoSize = true;
+			this.checkBoxDirectionRight.Checked = true;
+			this.checkBoxDirectionRight.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.checkBoxDirectionRight.Location = new System.Drawing.Point(148, 106);
+			this.checkBoxDirectionRight.Name = "checkBoxDirectionRight";
+			this.checkBoxDirectionRight.Size = new System.Drawing.Size(51, 17);
+			this.checkBoxDirectionRight.TabIndex = 7;
+			this.checkBoxDirectionRight.Text = "Right";
+			this.checkBoxDirectionRight.UseVisualStyleBackColor = true;
+			// 
+			// checkBoxDirectionLeft
+			// 
+			this.checkBoxDirectionLeft.AutoSize = true;
+			this.checkBoxDirectionLeft.Checked = true;
+			this.checkBoxDirectionLeft.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.checkBoxDirectionLeft.Location = new System.Drawing.Point(98, 106);
+			this.checkBoxDirectionLeft.Name = "checkBoxDirectionLeft";
+			this.checkBoxDirectionLeft.Size = new System.Drawing.Size(44, 17);
+			this.checkBoxDirectionLeft.TabIndex = 6;
+			this.checkBoxDirectionLeft.Text = "Left";
+			this.checkBoxDirectionLeft.UseVisualStyleBackColor = true;
+			// 
+			// labelDirection
+			// 
+			this.labelDirection.AutoSize = true;
+			this.labelDirection.Location = new System.Drawing.Point(17, 106);
+			this.labelDirection.Name = "labelDirection";
+			this.labelDirection.Size = new System.Drawing.Size(49, 13);
+			this.labelDirection.TabIndex = 0;
+			this.labelDirection.Text = "Direction";
+			// 
+			// textBoxStep
+			// 
+			this.textBoxStep.Location = new System.Drawing.Point(98, 71);
+			this.textBoxStep.Name = "textBoxStep";
+			this.textBoxStep.Size = new System.Drawing.Size(100, 20);
+			this.textBoxStep.TabIndex = 5;
+			this.textBoxStep.Text = "0.01";
+			// 
+			// textBoxError
+			// 
+			this.textBoxError.Enabled = false;
+			this.textBoxError.Location = new System.Drawing.Point(98, 44);
+			this.textBoxError.Name = "textBoxError";
+			this.textBoxError.Size = new System.Drawing.Size(100, 20);
+			this.textBoxError.TabIndex = 4;
+			this.textBoxError.Text = "0.001";
+			// 
+			// radioButtonStep
+			// 
+			this.radioButtonStep.AutoSize = true;
+			this.radioButtonStep.Checked = true;
+			this.radioButtonStep.Location = new System.Drawing.Point(20, 71);
+			this.radioButtonStep.Name = "radioButtonStep";
+			this.radioButtonStep.Size = new System.Drawing.Size(47, 17);
+			this.radioButtonStep.TabIndex = 3;
+			this.radioButtonStep.TabStop = true;
+			this.radioButtonStep.Text = "Step";
+			this.radioButtonStep.UseVisualStyleBackColor = true;
+			// 
+			// radioButtonError
+			// 
+			this.radioButtonError.AutoSize = true;
+			this.radioButtonError.Enabled = false;
+			this.radioButtonError.Location = new System.Drawing.Point(20, 44);
+			this.radioButtonError.Name = "radioButtonError";
+			this.radioButtonError.Size = new System.Drawing.Size(47, 17);
+			this.radioButtonError.TabIndex = 2;
+			this.radioButtonError.Text = "Error";
+			this.radioButtonError.UseVisualStyleBackColor = true;
+			// 
+			// labelIterations
+			// 
+			this.labelIterations.AutoSize = true;
+			this.labelIterations.Location = new System.Drawing.Point(17, 12);
+			this.labelIterations.Name = "labelIterations";
+			this.labelIterations.Size = new System.Drawing.Size(50, 13);
+			this.labelIterations.TabIndex = 1;
+			this.labelIterations.Text = "Iterations";
+			// 
+			// textBoxIterations
+			// 
+			this.textBoxIterations.Enabled = false;
+			this.textBoxIterations.Location = new System.Drawing.Point(98, 10);
+			this.textBoxIterations.Name = "textBoxIterations";
+			this.textBoxIterations.Size = new System.Drawing.Size(100, 20);
+			this.textBoxIterations.TabIndex = 0;
+			this.textBoxIterations.Text = "100000";
+			// 
+			// groupBoxCalculationsResult
+			// 
+			this.groupBoxCalculationsResult.Controls.Add(this.labelFunctionsInvocationsCountResult);
+			this.groupBoxCalculationsResult.Controls.Add(this.labelFunctionsInvocationsCount);
+			this.groupBoxCalculationsResult.Controls.Add(this.labelIterationsCountResult);
+			this.groupBoxCalculationsResult.Controls.Add(this.labelTimeElapsedResult);
+			this.groupBoxCalculationsResult.Controls.Add(this.labelIterationsCount);
+			this.groupBoxCalculationsResult.Controls.Add(this.labelTimeElapsed);
+			this.groupBoxCalculationsResult.Location = new System.Drawing.Point(897, 388);
+			this.groupBoxCalculationsResult.Name = "groupBoxCalculationsResult";
+			this.groupBoxCalculationsResult.Size = new System.Drawing.Size(303, 165);
+			this.groupBoxCalculationsResult.TabIndex = 54;
+			this.groupBoxCalculationsResult.TabStop = false;
+			this.groupBoxCalculationsResult.Text = "CalculationsResult";
+			// 
+			// labelFunctionsInvocationsCountResult
+			// 
+			this.labelFunctionsInvocationsCountResult.AutoSize = true;
+			this.labelFunctionsInvocationsCountResult.Location = new System.Drawing.Point(151, 77);
+			this.labelFunctionsInvocationsCountResult.Name = "labelFunctionsInvocationsCountResult";
+			this.labelFunctionsInvocationsCountResult.Size = new System.Drawing.Size(136, 13);
+			this.labelFunctionsInvocationsCountResult.TabIndex = 5;
+			this.labelFunctionsInvocationsCountResult.Text = "FunctionsInvocationsCount";
+			// 
+			// labelFunctionsInvocationsCount
+			// 
+			this.labelFunctionsInvocationsCount.AutoSize = true;
+			this.labelFunctionsInvocationsCount.Location = new System.Drawing.Point(12, 77);
+			this.labelFunctionsInvocationsCount.Name = "labelFunctionsInvocationsCount";
+			this.labelFunctionsInvocationsCount.Size = new System.Drawing.Size(136, 13);
+			this.labelFunctionsInvocationsCount.TabIndex = 4;
+			this.labelFunctionsInvocationsCount.Text = "FunctionsInvocationsCount";
+			// 
+			// labelIterationsCountResult
+			// 
+			this.labelIterationsCountResult.AutoSize = true;
+			this.labelIterationsCountResult.Location = new System.Drawing.Point(151, 54);
+			this.labelIterationsCountResult.Name = "labelIterationsCountResult";
+			this.labelIterationsCountResult.Size = new System.Drawing.Size(108, 13);
+			this.labelIterationsCountResult.TabIndex = 3;
+			this.labelIterationsCountResult.Text = "IterationsCountResult";
+			// 
+			// labelTimeElapsedResult
+			// 
+			this.labelTimeElapsedResult.AutoSize = true;
+			this.labelTimeElapsedResult.Location = new System.Drawing.Point(151, 33);
+			this.labelTimeElapsedResult.Name = "labelTimeElapsedResult";
+			this.labelTimeElapsedResult.Size = new System.Drawing.Size(98, 13);
+			this.labelTimeElapsedResult.TabIndex = 2;
+			this.labelTimeElapsedResult.Text = "TimeElapsedResult";
+			// 
+			// labelIterationsCount
+			// 
+			this.labelIterationsCount.AutoSize = true;
+			this.labelIterationsCount.Location = new System.Drawing.Point(12, 55);
+			this.labelIterationsCount.Name = "labelIterationsCount";
+			this.labelIterationsCount.Size = new System.Drawing.Size(81, 13);
+			this.labelIterationsCount.TabIndex = 1;
+			this.labelIterationsCount.Text = "IterationsCount:";
+			// 
+			// labelTimeElapsed
+			// 
+			this.labelTimeElapsed.AutoSize = true;
+			this.labelTimeElapsed.Location = new System.Drawing.Point(9, 33);
+			this.labelTimeElapsed.Name = "labelTimeElapsed";
+			this.labelTimeElapsed.Size = new System.Drawing.Size(71, 13);
+			this.labelTimeElapsed.TabIndex = 0;
+			this.labelTimeElapsed.Text = "TimeElapsed:";
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(0, 0);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(35, 13);
+			this.label1.TabIndex = 55;
+			this.label1.Text = "label1";
 			// 
 			// graphSystemBehavior1
 			// 
@@ -736,12 +817,12 @@
 			this.graphSystemBehavior1.functionsD = null;
 			this.graphSystemBehavior1.GraphHist = false;
 			this.graphSystemBehavior1.IntegrationType = Mathematics.Intergration.IntegrationType.EulerMethod;
+			this.graphSystemBehavior1.IntergrationParameters = null;
 			this.graphSystemBehavior1.IsAxisVisible = true;
 			this.graphSystemBehavior1.Location = new System.Drawing.Point(12, 12);
 			this.graphSystemBehavior1.MoveButtonsExist = true;
 			this.graphSystemBehavior1.Name = "graphSystemBehavior1";
 			this.graphSystemBehavior1.Parameters = null;
-			this.graphSystemBehavior1.PoincareParameters = null;
 			this.graphSystemBehavior1.Scatter = false;
 			this.graphSystemBehavior1.Size = new System.Drawing.Size(464, 363);
 			this.graphSystemBehavior1.Solutions = null;
@@ -749,18 +830,39 @@
 			this.graphSystemBehavior1.TabIndex = 0;
 			this.graphSystemBehavior1.UseDynamicFunctions = false;
 			this.graphSystemBehavior1.ZoomButtonsExist = true;
+			this.graphSystemBehavior1.CalculationFinished += new Graph.Events.CalculationFinishedHandler(this.graphSystemBehavior1_CalculationFinished);
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(6, 290);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(13, 13);
+			this.label2.TabIndex = 60;
+			this.label2.Text = "=";
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(39, 290);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(35, 13);
+			this.label3.TabIndex = 61;
+			this.label3.Text = "label3";
 			// 
 			// FormDynamicEquations
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoScroll = true;
-			this.ClientSize = new System.Drawing.Size(1181, 741);
+			this.ClientSize = new System.Drawing.Size(1370, 724);
+			this.Controls.Add(this.label1);
+			this.Controls.Add(this.groupBoxCalculationsResult);
+			this.Controls.Add(this.tabControlIntegrationParameters);
 			this.Controls.Add(this.radioButtonEulerSymplectic);
 			this.Controls.Add(this.buttonGif);
 			this.Controls.Add(this.textBoxAnimatePeriod);
 			this.Controls.Add(this.checkBoxAnimate);
-			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.splitter1);
 			this.Controls.Add(this.buttonRedrawAxes);
 			this.Controls.Add(this.radioButtonIterativ);
@@ -771,24 +873,12 @@
 			this.Controls.Add(this.radioButtonDormandPrince);
 			this.Controls.Add(this.radioButtonEuler);
 			this.Controls.Add(this.radioButtonRungeKutta4);
-			this.Controls.Add(this.buttonB);
-			this.Controls.Add(this.buttonC);
-			this.Controls.Add(this.buttonD);
-			this.Controls.Add(this.buttonE);
-			this.Controls.Add(this.buttonF);
-			this.Controls.Add(this.buttonA);
 			this.Controls.Add(this.textBoxF);
 			this.Controls.Add(this.textBoxB);
 			this.Controls.Add(this.textBoxC);
 			this.Controls.Add(this.textBoxD);
 			this.Controls.Add(this.textBoxE);
 			this.Controls.Add(this.textBoxA);
-			this.Controls.Add(this.trackBarF);
-			this.Controls.Add(this.trackBarE);
-			this.Controls.Add(this.trackBarD);
-			this.Controls.Add(this.trackBarC);
-			this.Controls.Add(this.trackBarB);
-			this.Controls.Add(this.trackBarA);
 			this.Controls.Add(this.labelF);
 			this.Controls.Add(this.labelE);
 			this.Controls.Add(this.labelB);
@@ -807,14 +897,14 @@
 			this.Name = "FormDynamicEquations";
 			this.Text = "Form1";
 			this.Load += new System.EventHandler(this.Form1_Load);
-			((System.ComponentModel.ISupportInitialize)(this.trackBarA)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.trackBarB)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.trackBarC)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.trackBarD)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.trackBarE)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.trackBarF)).EndInit();
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
+			this.tabControlIntegrationParameters.ResumeLayout(false);
+			this.tabPagePoincare.ResumeLayout(false);
+			this.tabPageBasic.ResumeLayout(false);
+			this.tabPageBasic.PerformLayout();
+			this.groupBoxCalculationsResult.ResumeLayout(false);
+			this.groupBoxCalculationsResult.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -836,24 +926,12 @@
 		private System.Windows.Forms.Label labelB;
 		private System.Windows.Forms.Label labelE;
 		private System.Windows.Forms.Label labelF;
-		private System.Windows.Forms.TrackBar trackBarA;
-		private System.Windows.Forms.TrackBar trackBarB;
-		private System.Windows.Forms.TrackBar trackBarC;
-		private System.Windows.Forms.TrackBar trackBarD;
-		private System.Windows.Forms.TrackBar trackBarE;
-		private System.Windows.Forms.TrackBar trackBarF;
 		private System.Windows.Forms.TextBox textBoxA;
 		private System.Windows.Forms.TextBox textBoxE;
 		private System.Windows.Forms.TextBox textBoxD;
 		private System.Windows.Forms.TextBox textBoxC;
 		private System.Windows.Forms.TextBox textBoxB;
 		private System.Windows.Forms.TextBox textBoxF;
-		private System.Windows.Forms.Button buttonA;
-		private System.Windows.Forms.Button buttonF;
-		private System.Windows.Forms.Button buttonE;
-		private System.Windows.Forms.Button buttonD;
-		private System.Windows.Forms.Button buttonC;
-		private System.Windows.Forms.Button buttonB;
 		private System.Windows.Forms.RadioButton radioButtonRungeKutta4;
 		private System.Windows.Forms.RadioButton radioButtonEuler;
 		private System.Windows.Forms.RadioButton radioButtonDormandPrince;
@@ -886,6 +964,28 @@
 		private System.Windows.Forms.Button buttonGif;
 		public Graph.GraphDynamicType graphSystemBehavior1;
 		private System.Windows.Forms.RadioButton radioButtonEulerSymplectic;
+		private System.Windows.Forms.TabControl tabControlIntegrationParameters;
+		private System.Windows.Forms.TabPage tabPagePoincare;
+		private System.Windows.Forms.TabPage tabPageBasic;
+		private System.Windows.Forms.TextBox textBoxIterations;
+		private System.Windows.Forms.CheckBox checkBoxDirectionRight;
+		private System.Windows.Forms.CheckBox checkBoxDirectionLeft;
+		private System.Windows.Forms.Label labelDirection;
+		private System.Windows.Forms.TextBox textBoxStep;
+		private System.Windows.Forms.TextBox textBoxError;
+		private System.Windows.Forms.RadioButton radioButtonStep;
+		private System.Windows.Forms.RadioButton radioButtonError;
+		private System.Windows.Forms.Label labelIterations;
+		private System.Windows.Forms.GroupBox groupBoxCalculationsResult;
+		private System.Windows.Forms.Label labelFunctionsInvocationsCountResult;
+		private System.Windows.Forms.Label labelFunctionsInvocationsCount;
+		private System.Windows.Forms.Label labelIterationsCountResult;
+		private System.Windows.Forms.Label labelTimeElapsedResult;
+		private System.Windows.Forms.Label labelIterationsCount;
+		private System.Windows.Forms.Label labelTimeElapsed;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label label2;
 	}
 }
 

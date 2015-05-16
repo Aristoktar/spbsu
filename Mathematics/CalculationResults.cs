@@ -5,12 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Mathematics {
-	public class MathematicsCalculationException:Exception {
-		public string ErrorMessage {
+	public class CalculationResults {
+		public TimeSpan TimeElapsed {
 			get;
 			set;
 		}
-		public Dictionary<string , List<double>> CalcedValues {
+		public int IterationsCount {
+			get;
+			set;
+		}
+
+		public int? FuncInvoked {
 			get;
 			set;
 		}

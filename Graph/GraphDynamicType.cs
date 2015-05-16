@@ -11,6 +11,8 @@ using Mathematics.Delegates;
 using DynamicCompiling;
 using Mathematics.Intergration;
 using Mathematics;
+using Graph.Events;
+using System.Diagnostics;
 
 namespace Graph {
 	public partial class GraphDynamicType : Graph {
@@ -46,26 +48,33 @@ namespace Graph {
 			set;
 		}
 
-		public PoincareSectionParameters PoincareParameters {
+		public IntegrationParameters IntergrationParameters {
 			get;
 			set;
 		}
-		protected override void calculate () {
-			
+
+
+		protected override void calculate ( out CalculationFinishedEventArgs calculationFinishedEventArgs ) {
+			Stopwatch s = new Stopwatch ();
+			s.Start ();
+			CalculationResults calculationResults = new CalculationResults ();
 			//base.calculate ();
 			try {
 
 				if ( UseDynamicFunctions ) {
+					
+					
 					Dictionary<string , List<double>> solution = new Dictionary<string , List<double>> ();
+					
 					switch ( this.IntegrationType ) {
 						case IntegrationType.RungeKutta4:
-							solution = RungeKutta.Integrate4 ( this.functionsD , t0 , f0 , Parameters , this.PoincareParameters , this );
+							solution = RungeKutta.Integrate4 ( this.functionsD , t0 , f0 ,this.IntergrationParameters, out calculationResults , Parameters , this );
 							break;
 						case IntegrationType.EulerMethod:
-							solution = Euler.Integrate ( this.functionsD , t0 , f0 , Parameters , this.PoincareParameters , this );
+							solution = Euler.Integrate ( this.functionsD , t0 , f0 , this.IntergrationParameters , out calculationResults , Parameters , this );
 							break;
 						case Mathematics.Intergration.IntegrationType.EulerMethodSymplectic:
-							solution = Euler.IntegrateSymplectic ( this.functionsD , t0 , f0 , Parameters , this.PoincareParameters , this );
+							solution = Euler.IntegrateSymplectic ( this.functionsD , t0 , f0 , Parameters , this.IntergrationParameters.PoincareParameters , this );
 							break;
 						case Mathematics.Intergration.IntegrationType.Iterative:
 							solution = Iterative.Integrate ( this.functionsD , t0 , f0 , Parameters );
@@ -74,20 +83,41 @@ namespace Graph {
 							solution = Poincare.Calculate ( this.functionsD , t0 , f0 , Parameters );
 							break;
 						case Mathematics.Intergration.IntegrationType.DormandPrince:
-							solution = RungeKutta.DormandPrince ( this.functionsD , t0 , f0 , Parameters , this.PoincareParameters , this );
+							solution = RungeKutta.DormandPrince ( this.functionsD , t0 , f0 , Parameters , this.IntergrationParameters.PoincareParameters , this );
 							break;
 
 						default: break;
 					}
+					s.Stop ();
 					this.Solutions = solution;
 					dataX = solution[this.AxisXlabel].ToArray ();
 					dataY = solution[this.AxisYlabel].ToArray ();
+					calculationFinishedEventArgs = new CalculationFinishedEventArgs {
+						TimeElapsed = s.Elapsed ,
+						FuncInvoked = calculationResults.FuncInvoked ,
+						IterationsCount = calculationResults.IterationsCount
+					};
+					return;
 				}
+				
 			}catch(MathematicsCalculationException ex){
 				MessageBox.Show(ex.ErrorMessage);
+				if ( ex.CalcedValues != null ) {
+					s.Stop ();
+					this.Solutions = ex.CalcedValues;
+					dataX = ex.CalcedValues[this.AxisXlabel].ToArray ();
+					dataY = ex.CalcedValues[this.AxisYlabel].ToArray ();
+					calculationFinishedEventArgs = new CalculationFinishedEventArgs {
+						TimeElapsed = s.Elapsed ,
+						FuncInvoked = calculationResults.FuncInvoked ,
+						IterationsCount = calculationResults.IterationsCount
+					};
+					return;
+				}
 					
 			}
-			
+			calculationFinishedEventArgs = new CalculationFinishedEventArgs ();
+		
 			
 			
 		}

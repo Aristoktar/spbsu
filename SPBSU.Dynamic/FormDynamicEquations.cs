@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DynamicCompiling;
+using Graph.Events;
 using Mathematics;
 using Mathematics.Analysis;
 using Mathematics.Intergration;
@@ -36,7 +37,7 @@ namespace SPBSU.Dynamic {
 
 		private int EquationElementPosition = 12;
 
-		public const int MaxEquationsCount = 6;
+		public const int MaxEquationsCount = 60;
 
 		public FormDynamicEquations () {
 			InitializeComponent ();
@@ -74,19 +75,19 @@ namespace SPBSU.Dynamic {
 			this.ParamterTextBoxes.Add ( "E" , this.textBoxE );
 			this.ParamterTextBoxes.Add ( "F" , this.textBoxF );
 
-			this.ParamterTrackBars.Add ( "A" , this.trackBarA );
-			this.ParamterTrackBars.Add ( "B" , this.trackBarB );
-			this.ParamterTrackBars.Add ( "C" , this.trackBarC );
-			this.ParamterTrackBars.Add ( "D" , this.trackBarD );
-			this.ParamterTrackBars.Add ( "E" , this.trackBarE );
-			this.ParamterTrackBars.Add ( "F" , this.trackBarF );
+			//this.ParamterTrackBars.Add ( "A" , this.trackBarA );
+			//this.ParamterTrackBars.Add ( "B" , this.trackBarB );
+			//this.ParamterTrackBars.Add ( "C" , this.trackBarC );
+			//this.ParamterTrackBars.Add ( "D" , this.trackBarD );
+			//this.ParamterTrackBars.Add ( "E" , this.trackBarE );
+			//this.ParamterTrackBars.Add ( "F" , this.trackBarF );
 
-			this.ParametersButtonsEdit.Add ( "A" , this.buttonA );
-			this.ParametersButtonsEdit.Add ( "B" , this.buttonB );
-			this.ParametersButtonsEdit.Add ( "C" , this.buttonC );
-			this.ParametersButtonsEdit.Add ( "D" , this.buttonD );
-			this.ParametersButtonsEdit.Add ( "E" , this.buttonE );
-			this.ParametersButtonsEdit.Add ( "F" , this.buttonF );
+			//this.ParametersButtonsEdit.Add ( "A" , this.buttonA );
+			//this.ParametersButtonsEdit.Add ( "B" , this.buttonB );
+			//this.ParametersButtonsEdit.Add ( "C" , this.buttonC );
+			//this.ParametersButtonsEdit.Add ( "D" , this.buttonD );
+			//this.ParametersButtonsEdit.Add ( "E" , this.buttonE );
+			//this.ParametersButtonsEdit.Add ( "F" , this.buttonF );
 		}
 
 		private void button1_Click ( object sender , EventArgs e ) {
@@ -238,9 +239,17 @@ namespace SPBSU.Dynamic {
 					
 				//}
 				//var w =RungeKutta.Integrate4 ( funcs , 0 , new Dictionary<string , double> () { { "x" , 0 } } );
-				
 
+				IntegrationParameters integrParam = new IntegrationParameters();
 				try{
+
+					 integrParam= new IntegrationParameters {
+						IterationsCount = Convert.ToInt32(this.textBoxIterations.Text),
+						Step = Convert.ToDouble(this.textBoxStep.Text),
+						LeftDirection = this.checkBoxDirectionLeft.Checked,
+						RightDirection = this.checkBoxDirectionRight.Checked
+						
+					};
 					if ( this.checkBoxHDet.Checked ) {
 						HamiltonianPlot form = new HamiltonianPlot ();
 
@@ -269,11 +278,19 @@ namespace SPBSU.Dynamic {
 																this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble ( b.Value.Text ) ) ,
 																Eques.Keys );
 						var temt = compilator.GetFuncs ();
-						initials[this.comboBoxVarForDetH.SelectedItem.ToString ()] = temt["H"].Invoke ( Convert.ToDouble ( this.textBoxt0.Text ) , initials , parameters );
+						var newDetVar = temt["H"].Invoke ( Convert.ToDouble ( this.textBoxt0.Text ) , initials , parameters );
+						if(double.IsNaN(newDetVar)||double.IsInfinity(newDetVar))
+						{
+							throw new IncorrectInputException{
+							ErrorMessage = "impossible to calculate"};
+						}
+						initials[this.comboBoxVarForDetH.SelectedItem.ToString ()] = newDetVar;
+						this.label3.Text = newDetVar.ToString ();
 					}
 					if ( this.checkBoxPoincare.Checked ) {
-						
-						this.graphSystemBehavior1.PoincareParameters = new PoincareSectionParameters {
+
+
+						integrParam.PoincareParameters = new PoincareSectionParameters {
 							VariableForSection = this.comboBoxVarForPoincare.SelectedItem.ToString () ,
 							HitPointsCount = Convert.ToInt32 ( this.textBoxHitCount.Text ) ,
 							ThicknessOfLayer = Convert.ToDouble ( this.textBoxThicknessOfLayer.Text ),
@@ -281,26 +298,30 @@ namespace SPBSU.Dynamic {
 						};
 					}
 					else {
-						this.graphSystemBehavior1.PoincareParameters = null;
+						integrParam.PoincareParameters = null;
+					}
+					this.graphSystemBehavior1.IntergrationParameters = integrParam;
+					this.graphSystemBehavior1.InitFunctionsD ( Eques , parameters );
+					this.graphSystemBehavior1.SetAxisToShow ( this.listBoxX.SelectedItem.ToString () , this.listBoxY.SelectedItem.ToString () );
+					this.graphSystemBehavior1.f0 = initials;
+					this.graphSystemBehavior1.t0 = Convert.ToDouble ( this.textBoxt0.Text );
+
+					if ( !this.initedgraphGrabli ) {
+
+						this.graphSystemBehavior1.setData ( 1 , 0 , 1 , 0 );
+						this.initedgraphGrabli = true;
+					}
+					else {
+						this.graphSystemBehavior1.Redraw ();
 					}
 				}
 				catch(FormatException ex){
 					MessageBox.Show ("Input is invalid");
 					throw;
+				}catch(IncorrectInputException ex){
+					MessageBox.Show ( ex.ErrorMessage );
 				}
-				this.graphSystemBehavior1.InitFunctionsD ( Eques , parameters );
-				this.graphSystemBehavior1.SetAxisToShow ( this.listBoxX.SelectedItem.ToString () , this.listBoxY.SelectedItem.ToString () );
-				this.graphSystemBehavior1.f0 = initials;
-				this.graphSystemBehavior1.t0 = Convert.ToDouble ( this.textBoxt0.Text );
-
-				if ( !this.initedgraphGrabli ) {
-
-					this.graphSystemBehavior1.setData ( 1 , 0 , 1 , 0 );
-					this.initedgraphGrabli = true;
-				}
-				else {
-					this.graphSystemBehavior1.Redraw ();
-				}
+				
 
 				//----test
 				
@@ -476,7 +497,7 @@ namespace SPBSU.Dynamic {
 			try {
 
 				HamiltonianPlot form = new HamiltonianPlot ();
-
+				form.Activate ();
 				Dictionary<string , string> eques = new Dictionary<string , string> ();
 				Dictionary<string , double> initials = new Dictionary<string , double> ();
 				for ( int i = 0 ; i < this.Equations.Count ; i++ ) {
@@ -539,12 +560,14 @@ namespace SPBSU.Dynamic {
 				this.comboBoxVarForPoincare.Enabled = true;
 				this.textBoxHitCount.Enabled = true;
 				this.textBoxSectionPoint.Enabled = true;
+				this.textBoxIterations.Enabled = false;
 			}
 			else {
 				this.textBoxThicknessOfLayer.Enabled = false;
 				this.comboBoxVarForPoincare.Enabled = false;
 				this.textBoxHitCount.Enabled = false;
 				this.textBoxSectionPoint.Enabled = false;
+				this.textBoxIterations.Enabled = true;
 			}
 		}
 
@@ -574,12 +597,20 @@ namespace SPBSU.Dynamic {
 		private void buttonGif_Click ( object sender , EventArgs e ) {
 			GifGenerator form = new GifGenerator (this);
 
-			var t = this.graphSystemBehavior1.GetImage ();
 			form.Show ();
 		}
 
 		private void radioButtonEulerSymplectic_CheckedChanged ( object sender , EventArgs e ) {
 			this.graphSystemBehavior1.IntegrationType = IntegrationType.EulerMethodSymplectic;
+		}
+
+		private void graphSystemBehavior1_CalculationFinished ( object sender , CalculationFinishedEventArgs e ) {
+			
+			this.Invoke ( new Action ( () => {
+				this.labelTimeElapsedResult.Text = e.TimeElapsed.ToString ();
+				this.labelIterationsCountResult.Text = e.IterationsCount.ToString ();
+				this.labelFunctionsInvocationsCountResult.Text = e.FuncInvoked.ToString ();
+			} ) );
 		}
 	}
 }

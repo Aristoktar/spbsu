@@ -71,6 +71,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Axes.cs" />
+    <Compile Include="Events\CalculationFinishedEventArgs.cs" />
+    <Compile Include="Events\CalculationFinishedHandler.cs" />
     <Compile Include="Exceptions\GraphExceptionType.cs" />
     <Compile Include="Graph2.cs">
       <SubType>UserControl</SubType>

@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.Diagnostics;
 using System.Threading;
+using Graph.Events;
+using Mathematics;
 
 namespace Graph
 {
@@ -173,7 +175,10 @@ namespace Graph
 
             }
         }
-
+		protected virtual void calculate (out CalculationFinishedEventArgs calculationFinishedEventArgs) {
+			calculationFinishedEventArgs = new CalculationFinishedEventArgs ();
+			
+		}
         protected int[][] hist()
         {           
             int[][] histARR = new int[this.countXs][];
@@ -347,11 +352,18 @@ namespace Graph
 
 		private void DrawThreading () {
 			if ( this.checkBoxZoomrRecalc.Checked ) {
-
-				this.calculate ();
+				
+				CalculationFinishedEventArgs calculationResults;
+				this.calculate ( out calculationResults );
+				if ( CalculationFinished != null ) {
+					CalculationFinished ( this , calculationResults );
+				}
 			}
 			this.CreateGraphImage ();
 			this.Invalidate ();
+			if ( ImageCreated != null ) {
+				ImageCreated ();
+			}
 			//this.ImageCreated ();
 		}
         /// <summary>
@@ -373,7 +385,11 @@ namespace Graph
 
 			Stopwatch s = new Stopwatch ();
 			s.Start ();
-			this.calculate ();
+			CalculationFinishedEventArgs calculationResults;
+			this.calculate ( out calculationResults );
+			if ( CalculationFinished != null ) {
+				CalculationFinished ( this , calculationResults );
+			}
 			s.Stop ();
 			s.Restart ();
 			this.CreateGraphImage ();
@@ -382,6 +398,10 @@ namespace Graph
 			this.Invalidate ();
 			s.Stop ();
 			s.Restart ();
+
+			if ( ImageCreated != null ) {
+				ImageCreated ();
+			}
 			//ImageCreated ();
 			//this.ImageCreated ();
 		}
@@ -931,6 +951,8 @@ namespace Graph
 		public delegate void ImageCreatedDelegate();
 		
 		public event ImageCreatedDelegate ImageCreated;
+
+		public event CalculationFinishedHandler CalculationFinished;
     }
     
     
