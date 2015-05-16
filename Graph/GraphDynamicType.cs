@@ -83,7 +83,7 @@ namespace Graph {
 							solution = Poincare.Calculate ( this.functionsD , t0 , f0 , Parameters );
 							break;
 						case Mathematics.Intergration.IntegrationType.DormandPrince:
-							solution = RungeKutta.DormandPrince ( this.functionsD , t0 , f0 , Parameters , this.IntergrationParameters.PoincareParameters , this );
+							solution = RungeKutta.DormandPrince ( this.functionsD , t0 , f0 , this.IntergrationParameters , out calculationResults , Parameters , this );
 							break;
 
 						default: break;

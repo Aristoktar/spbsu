@@ -11,7 +11,8 @@ namespace Mathematics.Intergration {
 		RungeKutta4 = 4,
 		Iterative = 3,
 		PoincareMap= 2,
-		DormandPrince = 5
+		DormandPrince = 5,
+		HeunsMethod=6
 		
 		
 	}
