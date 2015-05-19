@@ -28,6 +28,8 @@
 			// 
 			// graphSystemOscillogram1
 			// 
+			this.graphSystemOscillogram1.Animate = false;
+			this.graphSystemOscillogram1.AnimatePeriod = 1;
 			this.graphSystemOscillogram1.AxisXlabel = "x";
 			this.graphSystemOscillogram1.AxisYlabel = "y";
 			this.graphSystemOscillogram1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
@@ -49,6 +51,7 @@
 			this.Controls.Add(this.graphSystemOscillogram1);
 			this.Name = "HamiltonianPlot";
 			this.Text = "HamiltonianPlot";
+			this.SizeChanged += new System.EventHandler(this.HamiltonianPlot_SizeChanged);
 			this.ResumeLayout(false);
 
 		}

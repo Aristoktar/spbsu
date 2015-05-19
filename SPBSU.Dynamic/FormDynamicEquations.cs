@@ -54,6 +54,7 @@ namespace SPBSU.Dynamic {
 
 			AddEquation ();
 			VariablesChanged (null,new EventArgs());
+			this.graphSystemBehavior1.setData ( 1 , 0 , 1 , 0 );
 		}
 
 		private void Form1_Load ( object sender , EventArgs e ) {
@@ -306,14 +307,15 @@ namespace SPBSU.Dynamic {
 					this.graphSystemBehavior1.f0 = initials;
 					this.graphSystemBehavior1.t0 = Convert.ToDouble ( this.textBoxt0.Text );
 
-					if ( !this.initedgraphGrabli ) {
+					//if ( !this.initedgraphGrabli ) {
 
-						this.graphSystemBehavior1.setData ( 1 , 0 , 1 , 0 );
-						this.initedgraphGrabli = true;
-					}
-					else {
-						this.graphSystemBehavior1.Redraw ();
-					}
+						
+					//	this.initedgraphGrabli = true;
+					//}
+					//else {
+					//	this.graphSystemBehavior1.Redraw ();
+					//}
+					this.graphSystemBehavior1.Redraw ();
 				}
 				catch(FormatException ex){
 					MessageBox.Show ("Input is invalid");
@@ -382,7 +384,7 @@ namespace SPBSU.Dynamic {
 					this.Initials[3].Text = "0";
 					this.textBoxHamiltonian.Text = "(px*px+py*py)/2+C*(x*x+y*y)/2+A*x*x*y-y*y*y*B/3.0";
 					this.comboBoxVarForDetH.SelectedIndex = 2;
-					this.textBoxVarEquation.Text = "Math.Sqrt(H-(py*py/2+C*(x*x+y*y)/2+A*x*x*y-y*y*y*B/3.0))";
+					this.textBoxVarEquation.Text = "Math.Sqrt(2*H-(py*py+C*(x*x+y*y)+2*A*x*x*y-2*y*y*y*B/3.0))";
 					this.ParamterTextBoxes["A"].Text = "1";
 					this.ParamterTextBoxes["B"].Text = "1";
 					this.ParamterTextBoxes["C"].Text = "1";
@@ -444,6 +446,33 @@ namespace SPBSU.Dynamic {
 					this.ParamterTextBoxes["A"].Text = "1.4";
 					this.ParamterTextBoxes["B"].Text = "0.3";
 					
+					this.checkBoxHDet.Checked = false;
+					this.checkBoxPoincare.Checked = false;
+					break;
+				case"Duffing":
+					if ( this.Equations.Count < 3 ) {
+						AddEquation ();
+						AddEquation ();
+					}
+					
+					this.Variables[0].Text = "x";
+					this.Equations[0].Text = "(a*cos(B*t))/(E*(-xxx-C*x-D*x*x*x))";
+					this.Initials[0].Text = "0";
+
+					this.Variables[1].Text = "xx";
+					this.Equations[1].Text = "x";
+					this.Initials[1].Text = "1";
+
+					this.Variables[2].Text = "xxx";
+					this.Equations[2].Text = "xx";
+					this.Initials[2].Text = "1";
+
+					this.ParamterTextBoxes["A"].Text = "1";
+					this.ParamterTextBoxes["B"].Text = "1";
+					this.ParamterTextBoxes["C"].Text = "1";
+					this.ParamterTextBoxes["D"].Text = "1";
+					this.ParamterTextBoxes["E"].Text = "1";
+
 					this.checkBoxHDet.Checked = false;
 					this.checkBoxPoincare.Checked = false;
 					break;
@@ -611,6 +640,10 @@ namespace SPBSU.Dynamic {
 				this.labelIterationsCountResult.Text = e.IterationsCount.ToString ();
 				this.labelFunctionsInvocationsCountResult.Text = e.FuncInvoked.ToString ();
 			} ) );
+		}
+
+		private void radioButtonHeuns_CheckedChanged ( object sender , EventArgs e ) {
+			this.graphSystemBehavior1.IntegrationType = IntegrationType.HeunsMethod;
 		}
 	}
 }

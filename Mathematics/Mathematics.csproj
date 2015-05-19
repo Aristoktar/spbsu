@@ -73,6 +73,7 @@
     <Compile Include="Delegates.cs" />
     <Compile Include="Hamiltonian.cs" />
     <Compile Include="Intergration\Euler.cs" />
+    <Compile Include="Intergration\Heuns.cs" />
     <Compile Include="Intergration\IntegrationType.cs" />
     <Compile Include="Intergration\IntergrationParameters.cs" />
     <Compile Include="Intergration\Iterative.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Poincare.cs" />
     <Compile Include="PoincareSectionParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SystemSolver\SystemSolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CalculationProgressBar.resx">

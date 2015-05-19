@@ -57,6 +57,8 @@
 			this.comboBoxVarForPoincare = new System.Windows.Forms.ComboBox();
 			this.splitter1 = new System.Windows.Forms.Splitter();
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.label3 = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
 			this.checkBoxHDet = new System.Windows.Forms.CheckBox();
 			this.textBoxH = new System.Windows.Forms.TextBox();
 			this.labelH = new System.Windows.Forms.Label();
@@ -93,10 +95,8 @@
 			this.labelTimeElapsedResult = new System.Windows.Forms.Label();
 			this.labelIterationsCount = new System.Windows.Forms.Label();
 			this.labelTimeElapsed = new System.Windows.Forms.Label();
-			this.label1 = new System.Windows.Forms.Label();
+			this.radioButtonHeuns = new System.Windows.Forms.RadioButton();
 			this.graphSystemBehavior1 = new Graph.GraphDynamicType();
-			this.label2 = new System.Windows.Forms.Label();
-			this.label3 = new System.Windows.Forms.Label();
 			this.panel1.SuspendLayout();
 			this.tabControlIntegrationParameters.SuspendLayout();
 			this.tabPagePoincare.SuspendLayout();
@@ -165,7 +165,8 @@
             "Harmonic oscillator",
             "Henon-Heiles",
             "Lorenz Equation",
-            "Henon Map"});
+            "Henon Map",
+            "Duffing"});
 			this.listBoxSystemName.Location = new System.Drawing.Point(356, 429);
 			this.listBoxSystemName.Name = "listBoxSystemName";
 			this.listBoxSystemName.Size = new System.Drawing.Size(120, 95);
@@ -440,6 +441,24 @@
 			this.panel1.Size = new System.Drawing.Size(323, 318);
 			this.panel1.TabIndex = 48;
 			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(39, 290);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(35, 13);
+			this.label3.TabIndex = 61;
+			this.label3.Text = "label3";
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(6, 290);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(13, 13);
+			this.label2.TabIndex = 60;
+			this.label2.Text = "=";
+			// 
 			// checkBoxHDet
 			// 
 			this.checkBoxHDet.AutoSize = true;
@@ -632,7 +651,7 @@
 			this.tabPageBasic.Location = new System.Drawing.Point(4, 22);
 			this.tabPageBasic.Name = "tabPageBasic";
 			this.tabPageBasic.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageBasic.Size = new System.Drawing.Size(333, 307);
+			this.tabPageBasic.Size = new System.Drawing.Size(333, 330);
 			this.tabPageBasic.TabIndex = 1;
 			this.tabPageBasic.Text = "Basic";
 			this.tabPageBasic.UseVisualStyleBackColor = true;
@@ -797,14 +816,17 @@
 			this.labelTimeElapsed.TabIndex = 0;
 			this.labelTimeElapsed.Text = "TimeElapsed:";
 			// 
-			// label1
+			// radioButtonHeuns
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(0, 0);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(35, 13);
-			this.label1.TabIndex = 55;
-			this.label1.Text = "label1";
+			this.radioButtonHeuns.AutoSize = true;
+			this.radioButtonHeuns.Location = new System.Drawing.Point(1241, 150);
+			this.radioButtonHeuns.Name = "radioButtonHeuns";
+			this.radioButtonHeuns.Size = new System.Drawing.Size(94, 17);
+			this.radioButtonHeuns.TabIndex = 56;
+			this.radioButtonHeuns.TabStop = true;
+			this.radioButtonHeuns.Text = "Heuns method";
+			this.radioButtonHeuns.UseVisualStyleBackColor = true;
+			this.radioButtonHeuns.CheckedChanged += new System.EventHandler(this.radioButtonHeuns_CheckedChanged);
 			// 
 			// graphSystemBehavior1
 			// 
@@ -832,31 +854,13 @@
 			this.graphSystemBehavior1.ZoomButtonsExist = true;
 			this.graphSystemBehavior1.CalculationFinished += new Graph.Events.CalculationFinishedHandler(this.graphSystemBehavior1_CalculationFinished);
 			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(6, 290);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(13, 13);
-			this.label2.TabIndex = 60;
-			this.label2.Text = "=";
-			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(39, 290);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(35, 13);
-			this.label3.TabIndex = 61;
-			this.label3.Text = "label3";
-			// 
 			// FormDynamicEquations
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoScroll = true;
 			this.ClientSize = new System.Drawing.Size(1370, 724);
-			this.Controls.Add(this.label1);
+			this.Controls.Add(this.radioButtonHeuns);
 			this.Controls.Add(this.groupBoxCalculationsResult);
 			this.Controls.Add(this.tabControlIntegrationParameters);
 			this.Controls.Add(this.radioButtonEulerSymplectic);
@@ -983,9 +987,9 @@
 		private System.Windows.Forms.Label labelTimeElapsedResult;
 		private System.Windows.Forms.Label labelIterationsCount;
 		private System.Windows.Forms.Label labelTimeElapsed;
-		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.RadioButton radioButtonHeuns;
 	}
 }
 

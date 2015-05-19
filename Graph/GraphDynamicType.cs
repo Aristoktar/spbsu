@@ -85,6 +85,9 @@ namespace Graph {
 						case Mathematics.Intergration.IntegrationType.DormandPrince:
 							solution = RungeKutta.DormandPrince ( this.functionsD , t0 , f0 , this.IntergrationParameters , out calculationResults , Parameters , this );
 							break;
+						case Mathematics.Intergration.IntegrationType.HeunsMethod:
+							solution = Heuns.Integrate ( this.functionsD , t0 , f0 , this.IntergrationParameters , out calculationResults , Parameters , this );
+							break;
 
 						default: break;
 					}

@@ -569,8 +569,8 @@ namespace Graph
             {
                 double deltaX = (this.XMaxValue - this.XMinValue) / 4;
                 double deltaY = (this.YMaxValue - this.YMinValue) / 4;
-                eGraphics.DrawString((this.YMaxValue - deltaY * i).ToString("0.###"), Font, Brushes.Black, new PointF(this.WidthBorderLeft - 34, (this.HeightBorderUp - 8) + i * ((this.Height - this.HeightBorderUp - this.HeightBorderDown) / 4)));
-                eGraphics.DrawString((this.XMinValue + deltaX * i).ToString("0.###"), Font, Brushes.Black, new PointF((this.WidthBorderLeft - 6) + i * ((this.Width - this.WidthBorderLeft - this.WidthBorderRight) / 4), this.Height - this.HeightBorderDown + 6));
+                eGraphics.DrawString((this.YMaxValue - deltaY * i).ToString("0.###########"), Font, Brushes.Black, new PointF(this.WidthBorderLeft - 34, (this.HeightBorderUp - 8) + i * ((this.Height - this.HeightBorderUp - this.HeightBorderDown) / 4)));
+                eGraphics.DrawString((this.XMinValue + deltaX * i).ToString("0.###########"), Font, Brushes.Black, new PointF((this.WidthBorderLeft - 6) + i * ((this.Width - this.WidthBorderLeft - this.WidthBorderRight) / 4), this.Height - this.HeightBorderDown + 6));
 
             }
             eGraphics.DrawString(this.AxisXlabel, Font, Brushes.Red, this.Width / 2, this.Height - 15);
@@ -612,6 +612,48 @@ namespace Graph
                 this.Draw();
             }
         }
+		public void zoomOut (Axes axes) {
+			if ( axes == Axes.x ) {
+				double deltaX = Math.Abs ( this.XMaxValue - this.XMinValue );
+				deltaX = ( deltaX * 1.1 - deltaX ) / 2;
+				this.XMaxValue += deltaX;
+				this.XMinValue -= deltaX;
+			}
+			if ( axes == Axes.y ) {
+				double deltaY = Math.Abs ( this.YMaxValue - this.YMinValue );
+				deltaY = ( deltaY * 1.1 - deltaY ) / 2;
+
+				this.YMinValue -= deltaY;
+				this.YMaxValue += deltaY;
+			}
+			this.Draw ();
+		}
+		/// <summary>
+		/// Zoom In graph for 110 percent
+		/// </summary>
+		public void zoomIn (Axes axes) {
+			if ( axes == Axes.x ) {
+				double deltaX = Math.Abs ( this.XMaxValue - this.XMinValue );
+				deltaX = ( deltaX * 1.1 - deltaX ) / 2;
+				if(deltaX != 0)
+				{
+					this.XMaxValue -= deltaX;
+					this.XMinValue += deltaX;
+					this.Draw ();
+				}
+			}
+			if ( axes == Axes.y ) {
+				double deltaY = Math.Abs ( this.YMaxValue - this.YMinValue );
+				deltaY = ( deltaY * 1.1 - deltaY ) / 2;
+
+				if ( deltaY != 0 ) {
+					this.YMinValue += deltaY;
+					this.YMaxValue -= deltaY;
+					this.Draw ();
+				}
+			}
+			
+		}
         public void moveLeft(double moveValue = 25, MoveAttributes mAttr = MoveAttributes.percents)
         {
             switch (mAttr)
@@ -690,10 +732,34 @@ namespace Graph
         }
         protected override void OnMouseWheel(MouseEventArgs e)
         {
-            if (e.Delta > 0)
-                this.zoomIn();
-            else
-                this.zoomOut();
+			if ( e.Delta > 0 ) {
+
+				if ( e.X < this.WidthBorderLeft && e.Y < this.Height -this.HeightBorderDown ) {
+					this.zoomIn ( Axes.y );
+				}
+				else {
+					if ( e.Y > this.Height - this.HeightBorderDown && e.X > this.WidthBorderLeft ) {
+						this.zoomIn ( Axes.x );
+					}
+					else {
+
+						this.zoomIn ();
+					}
+				}
+			}
+			else
+				if ( e.X < this.WidthBorderLeft && e.Y <this.Height- this.HeightBorderDown ) {
+					this.zoomOut ( Axes.y );
+				}
+				else {
+					if ( e.Y > this.Height - this.HeightBorderDown && e.X > this.WidthBorderLeft ) {
+						this.zoomOut ( Axes.x );
+					}
+					else {
+
+						this.zoomOut ();
+					}
+				}
         }
         protected override void OnMouseEnter(EventArgs e)
         {

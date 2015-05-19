@@ -87,11 +87,12 @@ namespace Mathematics.Intergration {
 
 				foreach ( var key in functions.Keys ) {
 					if ( right ) {
-						fR[key] = fR[key] + hR * functions[key].Invoke ( tR , tempFR , parameters );
-						calculationResults.FuncInvoked++;
 						if ( isAddR ) {
 							outputR[key].Add ( fR[key] );
 						} 
+						fR[key] = fR[key] + hR * functions[key].Invoke ( tR , tempFR , parameters );
+						calculationResults.FuncInvoked++;
+						
 					}
 
 					if ( left ) {
