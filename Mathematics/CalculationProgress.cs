@@ -57,8 +57,14 @@ namespace Mathematics {
 			Parent.Invoke ( new Action ( () => {
 					var newV = newVal == -1 ? this.bar1.progressBar1.Value + 1 : newVal;
 					bar1.progressBar1.Value = newV > bar1.progressBar1.Minimum && newV <= bar1.progressBar1.Maximum ? newV : this.bar1.progressBar1.Value;
+					bar1.Text = "CalculationProgress(" + bar1.progressBar1.Value.ToString () + "/" + bar1.progressBar1.Maximum.ToString () + ")";
 				
 			} ) );
+		}
+
+		public void RefreshCounter () {
+			bar1.timer.Stop ();
+			bar1.timer.Start ();
 		}
 
 		public void Close () {

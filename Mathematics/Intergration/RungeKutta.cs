@@ -259,10 +259,19 @@ namespace Mathematics.Intergration {
 
 				
 				foreach ( var key in functions.Keys ) {
-					if ( double.IsNaN ( fR[key] ) || double.IsNaN ( fL[key] ) || double.IsInfinity ( fR[key] ) || double.IsInfinity ( fL[key] ) ) throw new MathematicsCalculationException {
-						ErrorMessage = "During calculations one or more variables became infinity or NaN!",
-						CalcedValues = CreateOutput ( left , right , outputL , outputR , tOutL , tOutR,functions.Keys)
-					};
+					
+					if ( integrationParameters.LeftDirection ) {
+						if ( double.IsNaN ( fL[key] ) || double.IsInfinity ( fL[key] ) ) throw new MathematicsCalculationException {
+							ErrorMessage = "During calculations one or more variables became infinity or NaN in L!",
+							CalcedValues = CreateOutput ( left , right , outputL , outputR , tOutL , tOutR,functions.Keys)
+						};
+					}
+					if ( integrationParameters.RightDirection ) {
+						if ( double.IsNaN ( fR[key] ) || double.IsInfinity ( fR[key] ) ) throw new MathematicsCalculationException {
+							ErrorMessage = "During calculations one or more variables became infinity or NaN in R!",
+							CalcedValues = CreateOutput ( left , right , outputL , outputR , tOutL , tOutR,functions.Keys)
+						};
+					}
 					if ( right ) {
 						if ( isAddR ) {
 							outputR[key].Add ( fR[key] );
@@ -628,5 +637,207 @@ namespace Mathematics.Intergration {
 			//	} ) );
 			return CreateOutput ( left , right , outputL , outputR , tOutL , tOutR , functions.Keys ); ;
 		}
+
+		private static Dictionary<string , List<double>> IntegrateImplicit (double[,] tableau,
+																		double[] tableauB,
+																		Dictionary<string , functionD> functions ,
+																		double t0 ,
+																		Dictionary<string , double> f0 ,
+																		IntegrationParameters integrationParameters ,
+																		out CalculationResults calculationResults ,
+																		Dictionary<string , double> parameters = null ,
+																		Control parent = null ) {
+			calculationResults = new CalculationResults {
+				IterationsCount = 0 ,
+				FuncInvoked = 0
+			};
+			bool left = integrationParameters.LeftDirection;
+			bool right = integrationParameters.RightDirection;
+			Dictionary<string , List<double>> outputR = new Dictionary<string , List<double>> ();
+			Dictionary<string , List<double>> outputL = new Dictionary<string , List<double>> ();
+			foreach ( var func in functions ) {
+				outputL.Add ( func.Key , new List<double> () );
+				outputR.Add ( func.Key , new List<double> () );
+			}
+			List<double> tOutR = new List<double> ();
+			List<double> tOutL = new List<double> ();
+			double tR = t0;
+			double tL = t0;
+			Dictionary<string , double> fR = new Dictionary<string , double> ( f0 );
+			Dictionary<string , double> fL = new Dictionary<string , double> ( f0 );
+
+			double hR = integrationParameters.Step;
+			double hL = -hR;
+			
+			CalculationProgress progress = new CalculationProgress ( integrationParameters.PoincareParameters == null ? integrationParameters.IterationsCount : integrationParameters.PoincareParameters.HitPointsCount , parent );
+
+			for ( int iter = 0 ; iter < integrationParameters.IterationsCount ; iter++ ) {
+				calculationResults.IterationsCount++;
+
+				if ( integrationParameters.PoincareParameters != null ) {
+					iter--;
+					if ( tOutL.Count + tOutR.Count >= integrationParameters.PoincareParameters.HitPointsCount ) {
+						break;
+					}
+				}
+				var tempFR = new Dictionary<string , double> ( fR );
+				var tempFL = new Dictionary<string , double> ( fL );
+
+				bool isAddL = false;
+				bool isAddR = false;
+
+				if ( integrationParameters.PoincareParameters != null ) {
+
+					if ( right ) {
+						if ( fR[integrationParameters.PoincareParameters.VariableForSection] > integrationParameters.PoincareParameters.PointOfSection &&
+										fR[integrationParameters.PoincareParameters.VariableForSection] < integrationParameters.PoincareParameters.PointOfSection + integrationParameters.PoincareParameters.ThicknessOfLayer ) {
+							isAddR = true;
+						}
+					}
+					if ( left ) {
+						if ( fL[integrationParameters.PoincareParameters.VariableForSection] > integrationParameters.PoincareParameters.PointOfSection &&
+										fL[integrationParameters.PoincareParameters.VariableForSection] < integrationParameters.PoincareParameters.PointOfSection + integrationParameters.PoincareParameters.ThicknessOfLayer ) {
+							isAddL = true;
+						}
+					}
+				}
+				else {
+					isAddL = true;
+					isAddR = true;
+				}
+				if ( isAddL ) {
+					tOutL.Add ( tL );
+				}
+				if ( isAddR ) {
+					tOutR.Add ( tR );
+				}
+				Dictionary<string , double> KR = new Dictionary<string , double> ();
+				Dictionary<string , double> KL = new Dictionary<string , double> ();
+				Dictionary<string , functionD> functionsKR = new Dictionary<string , functionD> ();
+				Dictionary<string , functionD> functionsKL = new Dictionary<string , functionD> ();
+				for ( int i = 0 ; i < tableau.GetLength ( 0 ) ; i++ ) {
+					foreach ( var key in functions.Keys ) {
+						int row = i;
+						KR[key + "k" + i.ToString ()] = 1;// new Random().Next(1);
+						KL[key + "k" + i.ToString ()] = 1;// new Random().Next(1);
+						functionsKR[key + "k" + i.ToString ()] = ( t1 , f11 , parameters1 ) => {
+							Dictionary<string , double> f1 = new Dictionary<string , double> ( f11 );
+							double sum = 0; Dictionary<string , double> fKs = new Dictionary<string , double> ( fR );
+							foreach ( var key1 in functions.Keys ) {
+								sum = 0;
+								for ( int j1 = 0 ; j1 < tableau.GetLength ( 1 ) ; j1++ ) {
+									sum += tableau[row , j1] * f1[key1 + "k" + j1.ToString ()];
+								}
+								fKs[key1] += sum;
+							}
+							double k = KR[key + "k" + row.ToString ()];
+							double func = functions[key].Invoke ( tR , fKs , parameters1 );
+							return hR * func - k;
+						};
+						functionsKL[key + "k" + i.ToString ()] = ( t1 , f11 , parameters1 ) => {
+							Dictionary<string , double> f1 = new Dictionary<string , double> ( f11 );
+							double sum = 0; Dictionary<string , double> fKs = new Dictionary<string , double> ( fL );
+							foreach ( var key1 in functions.Keys ) {
+								sum = 0;
+								for ( int j1 = 0 ; j1 < tableau.GetLength ( 1 ) ; j1++ ) {
+									sum += tableau[row , j1] * f1[key1 + "k" + j1.ToString ()];
+								}
+								fKs[key1] += sum;
+							}
+							double k = KL[key + "k" + row.ToString ()];
+							double func = functions[key].Invoke ( tL , fKs , parameters1 );
+							return hL * func - k;
+						};
+					}
+				}
+				Dictionary<string , double> solveR = new Dictionary<string , double> ();
+				Dictionary<string , double> solveL = new Dictionary<string , double> ();
+				if ( right )
+					solveR = SystemSolver.SystemSolver.Newton ( functionsKR , tR , KR , parameters , true );
+				if ( left )
+					solveL = SystemSolver.SystemSolver.Newton ( functionsKL , tL , KL , parameters , true );
+				foreach ( var key in functions.Keys ) {
+					if ( right ) {
+						if ( isAddR ) {
+							outputR[key].Add ( fR[key] );
+						}
+						double sum = 0;
+						for ( int i = 0 ; i < tableau.GetLength ( 0 ) ; i++ ) {
+							sum += solveR[key + "k" + i.ToString ()] * tableauB[i];
+						}
+						fR[key] += sum;
+					}
+					if ( left ) {
+						if ( isAddL ) {
+							outputL[key].Add ( fL[key] );
+						}
+						double sum = 0;
+						for ( int i = 0 ; i < tableau.GetLength ( 0 ) ; i++ ) {
+							sum += solveL[key + "k" + i.ToString ()] * tableauB[i];
+						}
+						fL[key] += sum;
+					}
+				}
+				tR = tR + hR;
+				tL = tL + hL;
+				if ( integrationParameters == null ) {
+					progress.NextValue ( iter );
+				}
+				else {
+					progress.NextValue ( tOutL.Count + tOutR.Count );
+				}
+				progress.RefreshCounter ();
+			}
+			progress.Close ();
+			return CreateOutput ( left , right , outputL , outputR , tOutL , tOutR , functions.Keys );
+		}
+
+		public static Dictionary<string , List<double>> IntegrateSymplectic ( Dictionary<string , functionD> functions ,
+																		double t0 ,
+																		Dictionary<string , double> f0 ,
+																		IntegrationParameters integrationParameters ,
+																		out CalculationResults calculationResults ,
+																		Dictionary<string , double> parameters = null ,
+																		Control parent = null ) {
+
+			
+			
+			double[,] tableau = new double[,] {
+				{1.0/24.0,-Math.Sqrt(5.0)/24.0,Math.Sqrt(5.0)/24.0,-1.0/24.0},
+				{(10.0+Math.Sqrt(5))/120.0,5.0/24.0,(25.0-14.0*Math.Sqrt(5))/120.0,Math.Sqrt(5)/120.0},
+				{(10.0-Math.Sqrt(5))/120.0,(25.0+14.0*Math.Sqrt(5))/120.0,5.0/24.0,-Math.Sqrt(5)/120},
+				{1.0/8.0,(10.0-Math.Sqrt(5))/24.0,(10.0+Math.Sqrt(5))/24.0,1.0/24.0}
+			};
+			double[] tableauB = new double[] {
+				1.0/12.0,5.0/12.0,5.0/12.0,1.0/12.0
+			};
+			return IntegrateImplicit ( tableau , tableauB , functions , t0 , f0 , integrationParameters , out calculationResults , parameters , parent );
+
+
+			
+		}
+		public static Dictionary<string , List<double>> IntegrateEilerSymplectic ( Dictionary<string , functionD> functions ,
+																		double t0 ,
+																		Dictionary<string , double> f0 ,
+																		IntegrationParameters integrationParameters ,
+																		out CalculationResults calculationResults ,
+																		Dictionary<string , double> parameters = null ,
+																		Control parent = null ) {
+
+			
+			
+			double[,] tableau = new double[,] {
+				{0.5}
+			};
+			double[] tableauB = new double[] {
+				1
+			};
+			return IntegrateImplicit ( tableau , tableauB , functions , t0 , f0 , integrationParameters , out calculationResults , parameters , parent );
+
+
+			
+		}
 	}
+
+
 }

@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 namespace Mathematics.Intergration {
 	public enum IntegrationType {
 		EulerMethod = 0,
-		EulerMethodSymplectic = 1,
+		EulerMethodImplicit = 1,
 		RungeKutta4 = 4,
 		Iterative = 3,
 		PoincareMap= 2,
 		DormandPrince = 5,
-		HeunsMethod=6
+		HeunsMethod=6,
+		EulerMethodSymplectic = 7
 		
 		
 	}

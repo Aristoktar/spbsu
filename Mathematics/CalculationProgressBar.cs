@@ -17,7 +17,7 @@ namespace Mathematics {
 			progressBarLastValue = 0;
 			InitializeComponent ();
 			timer = new System.Timers.Timer ();
-			timer.Interval = 1000;
+			timer.Interval = 3000;
 			timer.AutoReset = true;
 			//timer.Elapsed += new ElapsedEventHandler ( (sender,e)=>{} );
 			timer.Start ();

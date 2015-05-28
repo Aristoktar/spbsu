@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Mathematics;
 using Mathematics.SystemSolver;
 
 namespace SPBSU.Dynamic {
@@ -40,24 +41,28 @@ namespace SPBSU.Dynamic {
 			////}
 			//var q = matching;
 			//var y = matching1;
-			//var dic = new Dictionary<string,Mathematics.Delegates.functionD>();
-			//dic.Add("x1",fu1);
-			//dic.Add("x2",fu2);
-			//var dic1 = new Dictionary<string,double>();
-			//dic1.Add("x1",1.0);
-			//dic1.Add("x2",4.0);
-			//var ty = SystemSolver.Solve (dic,0,dic1,new Dictionary<string,double>());
+			
+			//var dic = new Dictionary<string , Mathematics.Delegates.functionD> ();
+			//dic.Add ( "x1" , fu1 );
+			////dic.Add ( "x2" , fu2 );
+			//var dic1 = new Dictionary<string , double> ();
+			//dic1.Add ( "x1" , 0 );
+			////dic1.Add ( "x2" , 0 );
+			//double answ = Differential.Diff (dic,"x1",0,dic1,new Dictionary<string,double>());
+			//var ty = SystemSolver.Newton ( dic , 0 , dic1 , new Dictionary<string , double> () );
+			//answ = answ;
 
+			
 			Application.EnableVisualStyles ();
 			Application.SetCompatibleTextRenderingDefault ( false );
 			Application.Run ( new FormDynamicEquations () );
 		}
-		//static double fu1 ( double t , Dictionary<string , double> f , Dictionary<string , double> parameters = null ) {
-		//	return 3.0*f["x2"]-1;
-		//}
-		//static double fu2 ( double t , Dictionary<string , double> f , Dictionary<string , double> parameters = null ) {
-		//	return -5-f["x1"];
-		//}
+		static double fu1 ( double t , Dictionary<string , double> f , Dictionary<string , double> parameters = null ) {
+			return 2.0 + f["x1"]*f["x1"] ;
+		}
+		static double fu2 ( double t , Dictionary<string , double> f , Dictionary<string , double> parameters = null ) {
+			return 20 - 5.0*f["x1"];
+		}
 
 	}
 }

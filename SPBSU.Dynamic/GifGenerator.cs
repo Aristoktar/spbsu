@@ -7,6 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Gif.Components;
+
+
 
 namespace SPBSU.Dynamic {
 	public partial class GifGenerator : Form {
@@ -32,19 +35,20 @@ namespace SPBSU.Dynamic {
 			Images = new List<Bitmap> ();
 			ParentF.graphSystemBehavior1.ImageCreated += graphSystemBehavior1_ImageCreated;
 			Current = Convert.ToDouble(this.textBoxInitial.Text);
-			ParentF.Initials[0].Text = this.textBoxInitial.Text;
+			ParentF.textBoxH.Text = this.textBoxInitial.Text;
 			ParentF.buttonCalc_Click ( null , null );
 		}
 
 		void graphSystemBehavior1_ImageCreated () {
 			
-			if ( Convert.ToDouble ( this.textBoxFinal.Text ) >= Current ) {
+			if ( Convert.ToDouble ( this.textBoxFinal.Text ) > Current ) {
 				//ParentF.Initials.First ().Text = Current.ToString ();
-				Current += Convert.ToDouble ( this.textBoxStep.Text );
+				double step = ( Convert.ToDouble ( this.textBoxFinal.Text ) - Convert.ToDouble ( this.textBoxInitial.Text ) ) / (Convert.ToDouble ( this.textBoxStep.Text )-1);
+				Current += Convert.ToDouble ( step );
 				this.SaveImage ( ParentF.graphSystemBehavior1.GetImage () );
 				this.Images.Add ( ParentF.graphSystemBehavior1.GetImage () );
 				ParentF.Invoke ( new Action ( () => {
-					ParentF.Initials[0].Text = Current.ToString ();
+					ParentF.textBoxH.Text = Current.ToString ();
 					ParentF.buttonCalc_Click ( null , null );
 					this.trackBar1.Maximum = Images.Count-1;
 				} ) );
@@ -53,9 +57,14 @@ namespace SPBSU.Dynamic {
 			}
 			else {
 				this.pictureBox1.Image = Images.First ();
+				this.SaveImage ( ParentF.graphSystemBehavior1.GetImage () );
+				this.Images.Add ( ParentF.graphSystemBehavior1.GetImage () );
+				ParentF.Invoke ( new Action ( () => {
+					this.trackBar1.Maximum = Images.Count - 1;
+				} ) );
 				//this.trackBar1.Maximum = Images.Count;
 			}
-			MessageBox.Show ("asddas");
+			MessageBox.Show ("Done!");
 		}
 
 		public void SaveImage ( Bitmap img ) {
@@ -77,6 +86,20 @@ namespace SPBSU.Dynamic {
 
 		private void trackBar1_Scroll ( object sender , EventArgs e ) {
 			this.pictureBox1.Image = this.Images[this.trackBar1.Value];
+		}
+
+		private void buttonSaveGif_Click ( object sender , EventArgs e ) {
+			if ( this.saveFileDialog1.ShowDialog () == System.Windows.Forms.DialogResult.OK ) {
+				AnimatedGifEncoder enc = new AnimatedGifEncoder ();
+				enc.Start ( this.saveFileDialog1.FileName );
+				enc.SetDelay ( 250 );
+				//-1:no repeat,0:always repeat
+				enc.SetRepeat ( 0 );
+				foreach (var img in this.Images  ) {
+					enc.AddFrame ( img );
+				}
+				enc.Finish ();
+			}
 		}
 	}
 }

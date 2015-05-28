@@ -151,6 +151,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Gif\Components\Components.csproj">
+      <Project>{1c3a03ca-5e55-4cc4-9746-194a4188960a}</Project>
+      <Name>Components</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DynamicCompiling\DynamicCompiling.csproj">
       <Project>{61e1d4a0-c776-486c-9268-65d02b4ff25e}</Project>
       <Name>DynamicCompiling</Name>

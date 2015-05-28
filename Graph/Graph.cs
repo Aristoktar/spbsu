@@ -63,6 +63,15 @@ namespace Graph
         public bool GraphHist { get; set; }
         public bool Scatter { get; set; }
 
+		public bool SavePastValues {
+			get;
+			set;
+		}
+
+		//public List<>
+
+		public int DecimalPlaces = 4;
+
 		public bool Animate {
 			get;
 			set;
@@ -231,9 +240,13 @@ namespace Graph
                         decimal x = (decimal)(((decimal)this.MouseX - this.WidthBorderLeft) * (decimal)(this.XMaxValue - this.XMinValue) / (this.Width - this.WidthBorderLeft - this.WidthBorderRight) + (decimal)this.XMinValue);
                         decimal y = (decimal)((this.Height - this.HeightBorderUp - this.HeightBorderDown - ((decimal)this.MouseY - this.HeightBorderUp)) * (decimal)(this.YMaxValue - this.YMinValue) / (this.Height - this.HeightBorderUp - this.HeightBorderDown) + (decimal)this.YMinValue);
 
-                        e.Graphics.DrawString(x.ToString("0.####"), Font, Brushes.Black, new Point(MouseX, this.HeightBorderUp));
+						string pattern = "0.";
+						for ( int i = 0 ; i < this.DecimalPlaces ; i++ ) {
+							pattern += "#";
+						}
+						e.Graphics.DrawString ( x.ToString ( pattern ) , Font , Brushes.Black , new Point ( MouseX , this.HeightBorderUp ) );
 
-                        e.Graphics.DrawString(y.ToString("0.####"), Font, Brushes.Black, new Point(this.WidthBorderLeft, MouseY));
+                        e.Graphics.DrawString(y.ToString(pattern), Font, Brushes.Black, new Point(this.WidthBorderLeft, MouseY));
                     }
                 }
             }
@@ -298,7 +311,7 @@ namespace Graph
                 return;
             }
             float minDelta = 7;//px
-            double minDeltaUsers = 0.0000001;
+			double minDeltaUsers = Double.MinValue * 10; ;
             float xMax;
             float yMax;
             float xMin;
@@ -569,8 +582,8 @@ namespace Graph
             {
                 double deltaX = (this.XMaxValue - this.XMinValue) / 4;
                 double deltaY = (this.YMaxValue - this.YMinValue) / 4;
-                eGraphics.DrawString((this.YMaxValue - deltaY * i).ToString("0.###########"), Font, Brushes.Black, new PointF(this.WidthBorderLeft - 34, (this.HeightBorderUp - 8) + i * ((this.Height - this.HeightBorderUp - this.HeightBorderDown) / 4)));
-                eGraphics.DrawString((this.XMinValue + deltaX * i).ToString("0.###########"), Font, Brushes.Black, new PointF((this.WidthBorderLeft - 6) + i * ((this.Width - this.WidthBorderLeft - this.WidthBorderRight) / 4), this.Height - this.HeightBorderDown + 6));
+                eGraphics.DrawString((this.YMaxValue - deltaY * i).ToString("0.#####"), Font, Brushes.Black, new PointF(this.WidthBorderLeft - 34, (this.HeightBorderUp - 8) + i * ((this.Height - this.HeightBorderUp - this.HeightBorderDown) / 4)));
+                eGraphics.DrawString((this.XMinValue + deltaX * i).ToString("0.#####"), Font, Brushes.Black, new PointF((this.WidthBorderLeft - 6) + i * ((this.Width - this.WidthBorderLeft - this.WidthBorderRight) / 4), this.Height - this.HeightBorderDown + 6));
 
             }
             eGraphics.DrawString(this.AxisXlabel, Font, Brushes.Red, this.Width / 2, this.Height - 15);

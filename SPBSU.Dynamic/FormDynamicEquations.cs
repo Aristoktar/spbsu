@@ -16,12 +16,12 @@ using Mathematics.Intergration;
 
 namespace SPBSU.Dynamic {
 	public partial class FormDynamicEquations : Form {
-		private List<TextBox> Equations;
-		public List<TextBox> Initials;
-		private List<Label> Dts;
-		private List<Label> Var0;
-		private List<TextBox> Variables;
-		private List<Button> DeleteButtons;
+		private Dictionary<string,TextBox> Equations;
+		public Dictionary<string , TextBox> Initials;
+		private Dictionary<string , Label> Dts;
+		private Dictionary<string , Label> Var0;
+		private Dictionary<string , TextBox> Variables;
+		private Dictionary<string , Button> DeleteButtons;
 
 		private Dictionary<string , TrackBar> ParamterTrackBars;
 		private Dictionary<string , TextBox> ParamterTextBoxes;
@@ -39,22 +39,23 @@ namespace SPBSU.Dynamic {
 
 		public const int MaxEquationsCount = 60;
 
+		private int CurrentEqNumerator;
 		public FormDynamicEquations () {
 			InitializeComponent ();
+			CurrentEqNumerator = 0;
 			VarsNames = new List<string> ();
 			VarsNames.AddRange ( new string[] { "x" , "y" , "z" } );
-			
-			Equations = new List<TextBox> ();
-			Initials = new List<TextBox> ();
-			Dts = new List<Label> ();
-			Variables = new List<TextBox> ();
-			Var0 = new List<Label> ();
-			DeleteButtons = new List<Button> ();
+
+			Equations = new Dictionary<string , TextBox> ();
+			Initials = new Dictionary<string , TextBox> ();
+			Dts = new Dictionary<string , Label> ();
+			Variables = new Dictionary<string , TextBox> ();
+			Var0 = new Dictionary<string , Label> ();
+			DeleteButtons = new Dictionary<string , Button> ();
 			//this.EquationElementPosition = 0;
 
 			AddEquation ();
 			VariablesChanged (null,new EventArgs());
-			this.graphSystemBehavior1.setData ( 1 , 0 , 1 , 0 );
 		}
 
 		private void Form1_Load ( object sender , EventArgs e ) {
@@ -98,10 +99,7 @@ namespace SPBSU.Dynamic {
 
 		private void AddEquation () {
 			if ( this.Equations.Count < MaxEquationsCount ) {
-
-
 				string newVarName;
-
 				if ( Equations.Count >= VarsNames.Count ) {
 					newVarName = "v" + ( Equations.Count - VarsNames.Count ).ToString ();
 				}
@@ -111,7 +109,6 @@ namespace SPBSU.Dynamic {
 
 				TextBox newTextBox = new TextBox ();
 				newTextBox.Location = new Point ( 550 , this.EquationElementPosition + (this.Equations.Count == 0 ? 0 : this.SplitBetweenEquations) );
-
 
 				TextBox newInitial = new TextBox ();
 				newInitial.Location = new Point ( 690 , this.EquationElementPosition + (this.Equations.Count == 0 ? 0 : this.SplitBetweenEquations) );
@@ -124,7 +121,6 @@ namespace SPBSU.Dynamic {
 				newDt.Text =
 					@"d
 					dt";
-
 				Label newVar0 = new Label ();
 				newVar0.Location = new Point ( 660 , this.EquationElementPosition + (this.Equations.Count == 0 ? 0 : this.SplitBetweenEquations) );
 				newVar0.Size = new System.Drawing.Size ( 40 , 30 );
@@ -143,13 +139,15 @@ namespace SPBSU.Dynamic {
 
 
 				this.buttonAddEquation.Location = new Point ( this.buttonAddEquation.Location.X , this.buttonAddEquation.Location.Y + (this.Equations.Count == 0 ? 0 : this.SplitBetweenEquations) );
-
-				this.Equations.Add ( newTextBox );
-				this.Initials.Add ( newInitial );
-				Dts.Add ( newDt );
-				Variables.Add ( newVar );
-				Var0.Add ( newVar0 );
-				this.DeleteButtons.Add (newDelete);
+				CurrentEqNumerator++;
+				string eqName = "eq" + CurrentEqNumerator.ToString ();
+				this.Equations.Add (eqName, newTextBox );
+				this.Initials.Add (eqName, newInitial );
+				this.Dts.Add (eqName, newDt );
+				this.Variables.Add (eqName, newVar );
+				this.Var0.Add (eqName, newVar0 );
+				this.DeleteButtons.Add ( eqName,newDelete );
+				newDelete.Click += buttonDelEquation_Click;
 
 				this.Controls.Add ( newTextBox );
 				this.Controls.Add ( newInitial );
@@ -168,50 +166,96 @@ namespace SPBSU.Dynamic {
 				this.buttonAddEquation.Visible = false;
 			}
 		}
+		private void DelEquation (string key) {
+			this.Controls.Remove(this.Equations[key]);
+			this.Equations.Remove ( key );
+			this.Controls.Remove ( this.Var0[key] );
+			this.Var0.Remove ( key );
+			this.Controls.Remove ( this.Initials[key] );
+			this.Initials.Remove ( key );
 
+			this.Controls.Remove ( this.Dts[key] );
+			this.Dts.Remove ( key );
+			this.Controls.Remove ( this.Variables[key] );
+			this.Variables.Remove ( key );
+			this.Controls.Remove ( this.DeleteButtons[key] );
+			this.DeleteButtons.Remove ( key );
+			this.EquationElementPosition -= this.SplitBetweenEquations;
+			CorrectEquationPosition ();
+			this.buttonAddEquation.Location = new Point ( this.buttonAddEquation.Location.X , this.buttonAddEquation.Location.Y - ( this.Equations.Count == 0 ? 0 : this.SplitBetweenEquations ) );
+			this.VariablesChanged ( null , null );
+		}
+
+		private void CorrectEquationPosition () {
+			this.EquationElementPosition = 12;
+			for(int i=0;i<this.Equations.Count;i++)
+			{
+				this.Equations.ElementAt ( i ).Value.Location = new Point ( 550 , this.EquationElementPosition );
+				this.Dts.ElementAt ( i ).Value.Location = new Point ( 500 , this.EquationElementPosition );
+				this.Initials.ElementAt ( i ).Value.Location = new Point ( 690 , this.EquationElementPosition );
+				this.Var0.ElementAt ( i ).Value.Location = new Point ( 660 , this.EquationElementPosition );
+				this.Variables.ElementAt ( i ).Value.Location = new Point ( 520 , this.EquationElementPosition );
+				this.DeleteButtons.ElementAt ( i ).Value.Location = new Point ( 730 , this.EquationElementPosition );
+
+				this.EquationElementPosition += this.SplitBetweenEquations;
+			}
+			if ( this.Equations.Count != 0 )
+				this.EquationElementPosition -= this.SplitBetweenEquations;
+		}
 		
 		private void VariablesChanged ( object sender , EventArgs e ) {
+
+			try {
+				int selectedIndexX = this.listBoxX.SelectedIndex;
+				int selectedIndexY = this.listBoxY.SelectedIndex;
+				int selectedIndexPoincare = this.comboBoxVarForPoincare.SelectedIndex;
+				int selectedIndexHVar = this.comboBoxVarForDetH.SelectedIndex;
+				this.listBoxX.Items.Clear ();
+				this.listBoxY.Items.Clear ();
+				this.comboBoxVarForPoincare.Items.Clear ();
+				this.comboBoxVarForDetH.Items.Clear ();
+
+				this.listBoxX.Items.Add ( "t" );
+				this.listBoxY.Items.Add ( "t" );
+				foreach ( var str in this.Variables.Values ) {
+					this.listBoxX.Items.Add (str.Text);
+					this.listBoxY.Items.Add ( str.Text );
+					this.comboBoxVarForPoincare.Items.Add ( str.Text );
+					this.comboBoxVarForDetH.Items.Add ( str.Text );
+				}
 			
-			int selectedIndexX = this.listBoxX.SelectedIndex;
-			int selectedIndexY = this.listBoxY.SelectedIndex;
-			int selectedIndexPoincare = this.comboBoxVarForPoincare.SelectedIndex;
-			int selectedIndexHVar = this.comboBoxVarForDetH.SelectedIndex;
-			this.listBoxX.Items.Clear ();
-			this.listBoxY.Items.Clear ();
-			this.comboBoxVarForPoincare.Items.Clear ();
-			this.comboBoxVarForDetH.Items.Clear ();
 
-			this.listBoxX.Items.Add ( "t" );
-			this.listBoxY.Items.Add ( "t" );
-			foreach ( var str in this.Variables ) {
-				this.listBoxX.Items.Add (str.Text);
-				this.listBoxY.Items.Add ( str.Text );
-				this.comboBoxVarForPoincare.Items.Add ( str.Text );
-				this.comboBoxVarForDetH.Items.Add ( str.Text );
-			}
-			this.comboBoxVarForPoincare.SelectedIndex = 0;
-			for ( int i = 0 ; i < this.Var0.Count ;i++ ) {
-				this.Var0[i].Text = this.Variables[i].Text+"(t0)=";
-			}
-			if (selectedIndexX != -1) this.listBoxX.SetSelected(selectedIndexX,true);
-			else this.listBoxX.SetSelected ( 0 , true );
+					this.comboBoxVarForPoincare.SelectedIndex = 0;
+			
+				//for ( int i = 0 ; i < this.Var0.Count ;i++ ) {
+				//	this.Var0[i].Text = this.Variables[i].Text+"(t0)=";
+				//}
+				foreach ( var key in Var0.Keys ) {
+					Var0[key].Text = this.Variables[key].Text + "(t0)=";
+				}
+				if (selectedIndexX != -1) this.listBoxX.SetSelected(selectedIndexX,true);
+				else this.listBoxX.SetSelected ( 0 , true );
 
-			if ( selectedIndexY != -1 ) this.listBoxY.SetSelected ( selectedIndexY , true );
-			else this.listBoxY.SetSelected ( 1 , true );
+				if ( selectedIndexY != -1 ) this.listBoxY.SetSelected ( selectedIndexY , true );
+				else this.listBoxY.SetSelected ( 1 , true );
 
-			if ( selectedIndexPoincare != -1 ) this.comboBoxVarForPoincare.SelectedIndex = selectedIndexPoincare;
-			else this.comboBoxVarForPoincare.SelectedIndex = 0;
+				if ( selectedIndexPoincare != -1 ) this.comboBoxVarForPoincare.SelectedIndex = selectedIndexPoincare;
+				else this.comboBoxVarForPoincare.SelectedIndex = 0;
 
-			if ( selectedIndexHVar != -1 ) {
+				if ( selectedIndexHVar != -1 ) {
 
 
-				this.comboBoxVarForDetH.SelectedIndex = selectedIndexPoincare;
+					this.comboBoxVarForDetH.SelectedIndex = selectedIndexPoincare;
 
-			}
-			else {
+				}
+				else {
 				
-				this.comboBoxVarForDetH.SelectedIndex = 0;
+					this.comboBoxVarForDetH.SelectedIndex = 0;
 				
+				}
+
+			}
+			catch {
 			}
 
 			
@@ -221,9 +265,14 @@ namespace SPBSU.Dynamic {
 			try {
 				Dictionary<string , string> Eques = new Dictionary<string , string> ();
 				Dictionary<string , double> initials = new Dictionary<string , double> ();
-				for ( int i = 0 ; i < this.Equations.Count ; i++ ) {
-					Eques.Add ( Variables[i].Text , Equations[i].Text );
-					initials.Add ( Variables[i].Text , Convert.ToDouble ( Initials[i].Text ) );
+				//for ( int i = 0 ; i < this.Equations.Count ; i++ ) {
+				//	Eques.Add ( Variables[i].Text , Equations[i].Text );
+				//	initials.Add ( Variables[i].Text , Convert.ToDouble ( Initials[i].Text ) );
+				//}
+
+				foreach ( var key in this.Equations.Keys ) {
+					Eques.Add ( Variables[key].Text , Equations[key].Text );
+					initials.Add ( Variables[key].Text , Convert.ToDouble ( Initials[key].Text ) );
 				}
 				parameters = this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble(b.Value.Text) );
 
@@ -307,15 +356,15 @@ namespace SPBSU.Dynamic {
 					this.graphSystemBehavior1.f0 = initials;
 					this.graphSystemBehavior1.t0 = Convert.ToDouble ( this.textBoxt0.Text );
 
-					//if ( !this.initedgraphGrabli ) {
+					if ( !this.initedgraphGrabli ) {
 
-						
-					//	this.initedgraphGrabli = true;
-					//}
-					//else {
-					//	this.graphSystemBehavior1.Redraw ();
-					//}
-					this.graphSystemBehavior1.Redraw ();
+						this.graphSystemBehavior1.setData ( 1 , 0 , 1 , 0 );
+						this.graphSystemBehavior1.zoom100Percent ();
+						this.initedgraphGrabli = true;
+					}
+					else {
+						this.graphSystemBehavior1.Redraw ();
+					}
 				}
 				catch(FormatException ex){
 					MessageBox.Show ("Input is invalid");
@@ -341,24 +390,30 @@ namespace SPBSU.Dynamic {
 			
 			
 		}
+		public void buttonDelEquation_Click ( object sender , EventArgs e ) {
+			string kk =this.DeleteButtons.Where ( a => a.Value == ( sender as Button ) ).First().Key;
+			DelEquation ( kk );
+			//this.Controls.Remove ( ( sender as Button ) );
+
+		}
 
 		private void listBoxSystemName_DoubleClick ( object sender , EventArgs e ) {
 			switch ( ( sender as ListBox ).SelectedItem.ToString() ) {
 				case "Complex System Slides":
 					if ( this.Equations.Count >= 2 ) {
-						this.Equations[0].Text = "a";
+						this.Equations.ElementAt ( 0 ).Value.Text = "a";
 					}
 					break;
 				case "Harmonic oscillator":
 					if ( this.Equations.Count < 2 ) {
 						AddEquation ();				
 					}
-					this.Equations[0].Text = "p";
-					this.Equations[1].Text = "-q";
-					this.Variables[0].Text = "q";
-					this.Variables[1].Text = "p";
-					this.Initials[0].Text = "2";
-					this.Initials[1].Text = "1";
+					this.Equations.ElementAt(0).Value.Text = "p";
+					this.Equations.ElementAt(1).Value.Text = "-q";
+					this.Variables.ElementAt ( 0 ).Value.Text = "q";
+					this.Variables.ElementAt ( 1 ).Value.Text = "p";
+					this.Initials.ElementAt ( 0 ).Value.Text = "2";
+					this.Initials.ElementAt ( 1 ).Value.Text = "1";
 					this.textBoxHamiltonian.Text = "(p*p+q*q)/2";
 					this.checkBoxHDet.Checked = false;
 					this.checkBoxPoincare.Checked = false;
@@ -369,19 +424,19 @@ namespace SPBSU.Dynamic {
 							AddEquation ();
 						}
 					}
-					this.Equations[0].Text = "px";
-					this.Equations[1].Text = "py";
-					this.Variables[0].Text = "x";
-					this.Variables[1].Text = "y";
-					this.Initials[0].Text = "0";
-					this.Initials[1].Text = "0";
+					this.Equations.ElementAt ( 0 ).Value.Text = "px";
+					this.Equations.ElementAt ( 1 ).Value.Text = "py";
+					this.Variables.ElementAt ( 0 ).Value.Text = "x";
+					this.Variables.ElementAt ( 1 ).Value.Text = "y";
+					this.Initials.ElementAt ( 0 ).Value.Text = "0";
+					this.Initials.ElementAt ( 1 ).Value.Text = "0";
 
-					this.Equations[2].Text = "-C*x-A*2*x*y";
-					this.Equations[3].Text = "-C*y-x*x+y*y*B";
-					this.Variables[2].Text = "px";
-					this.Variables[3].Text = "py";
-					this.Initials[2].Text = "0.288790581";
-					this.Initials[3].Text = "0";
+					this.Equations.ElementAt ( 2 ).Value.Text = "-C*x-A*2*x*y";
+					this.Equations.ElementAt ( 3 ).Value.Text = "-C*y-x*x+y*y*B";
+					this.Variables.ElementAt ( 2 ).Value.Text = "px";
+					this.Variables.ElementAt ( 3 ).Value.Text = "py";
+					this.Initials.ElementAt ( 2 ).Value.Text = "0.288790581";
+					this.Initials.ElementAt ( 3 ).Value.Text = "0";
 					this.textBoxHamiltonian.Text = "(px*px+py*py)/2+C*(x*x+y*y)/2+A*x*x*y-y*y*y*B/3.0";
 					this.comboBoxVarForDetH.SelectedIndex = 2;
 					this.textBoxVarEquation.Text = "Math.Sqrt(2*H-(py*py+C*(x*x+y*y)+2*A*x*x*y-2*y*y*y*B/3.0))";
@@ -395,12 +450,12 @@ namespace SPBSU.Dynamic {
 					if ( this.Equations.Count < 2 ) {
 						AddEquation ();
 					}
-					this.Equations[0].Text = "y";
-					this.Equations[1].Text = "cos(3*t)-4*dy";
-					this.Variables[0].Text = "dy";
-					this.Variables[1].Text = "y";
-					this.Initials[0].Text = "2";
-					this.Initials[1].Text = "0.8";
+					this.Equations.ElementAt ( 0 ).Value.Text = "y";
+					this.Equations.ElementAt ( 1 ).Value.Text = "cos(3*t)-4*dy";
+					this.Variables.ElementAt ( 0 ).Value.Text = "dy";
+					this.Variables.ElementAt ( 1 ).Value.Text = "y";
+					this.Initials.ElementAt ( 0 ).Value.Text = "2";
+					this.Initials.ElementAt ( 1 ).Value.Text = "0.8";
 					this.textBoxHamiltonian.Text = "y+dy";
 					
 					this.checkBoxHDet.Checked = false;
@@ -411,18 +466,18 @@ namespace SPBSU.Dynamic {
 						AddEquation ();
 						AddEquation ();
 					}
-					
-					this.Variables[0].Text = "x";
-					this.Equations[0].Text = "A*(y - x)";
-					this.Initials[0].Text = "0";
 
-					this.Variables[1].Text = "y";
-					this.Equations[1].Text = "B*x - y -x*z";
-					this.Initials[1].Text = "1";
+					this.Variables.ElementAt ( 0 ).Value.Text = "x";
+					this.Equations.ElementAt ( 0 ).Value.Text = "A*(y - x)";
+					this.Initials.ElementAt ( 0 ).Value.Text = "0";
 
-					this.Variables[2].Text = "z";
-					this.Equations[2].Text = "x*y - C*z";
-					this.Initials[2].Text = "0";
+					this.Variables.ElementAt ( 1 ).Value.Text = "y";
+					this.Equations.ElementAt ( 1 ).Value.Text = "B*x - y -x*z";
+					this.Initials.ElementAt ( 1 ).Value.Text = "1";
+
+					this.Variables.ElementAt ( 2 ).Value.Text = "z";
+					this.Equations.ElementAt ( 2 ).Value.Text = "x*y - C*z";
+					this.Initials.ElementAt ( 2 ).Value.Text = "0";
 
 					this.ParamterTextBoxes["A"].Text = "10";
 					this.ParamterTextBoxes["B"].Text = "28";
@@ -435,13 +490,13 @@ namespace SPBSU.Dynamic {
 					if ( this.Equations.Count < 2 ) {
 						AddEquation ();
 					}
-					this.Variables[0].Text = "x";
-					this.Equations[0].Text = "1-A*x*x+y";
-					this.Initials[0].Text = "0.6313";
+					this.Variables.ElementAt ( 0 ).Value.Text = "x";
+					this.Equations.ElementAt ( 0 ).Value.Text = "1-A*x*x+y";
+					this.Initials.ElementAt ( 0 ).Value.Text = "0.6313";
 
-					this.Variables[1].Text = "y";
-					this.Equations[1].Text = "B*x";
-					this.Initials[1].Text = "0.1894";
+					this.Variables.ElementAt ( 1 ).Value.Text = "y";
+					this.Equations.ElementAt ( 1 ).Value.Text = "B*x";
+					this.Initials.ElementAt(1).Value.Text = "0.1894";
 
 					this.ParamterTextBoxes["A"].Text = "1.4";
 					this.ParamterTextBoxes["B"].Text = "0.3";
@@ -449,24 +504,18 @@ namespace SPBSU.Dynamic {
 					this.checkBoxHDet.Checked = false;
 					this.checkBoxPoincare.Checked = false;
 					break;
-				case"Duffing":
-					if ( this.Equations.Count < 3 ) {
-						AddEquation ();
+				case "Lotka–Volterra":
+					if ( this.Equations.Count < 2 ) {
 						AddEquation ();
 					}
-					
-					this.Variables[0].Text = "x";
-					this.Equations[0].Text = "(a*cos(B*t))/(E*(-xxx-C*x-D*x*x*x))";
-					this.Initials[0].Text = "0";
 
-					this.Variables[1].Text = "xx";
-					this.Equations[1].Text = "x";
-					this.Initials[1].Text = "1";
+					this.Variables.ElementAt ( 0 ).Value.Text = "x";
+					this.Equations.ElementAt ( 0 ).Value.Text = "A*x-B*y*x";
+					this.Initials.ElementAt ( 0 ).Value.Text = "0.5";
 
-					this.Variables[2].Text = "xxx";
-					this.Equations[2].Text = "xx";
-					this.Initials[2].Text = "1";
-
+					this.Variables.ElementAt ( 1 ).Value.Text = "y";
+					this.Equations.ElementAt ( 1 ).Value.Text = "B*x*y-C*y";
+					this.Initials.ElementAt ( 1 ).Value.Text = "0.5";
 					this.ParamterTextBoxes["A"].Text = "1";
 					this.ParamterTextBoxes["B"].Text = "1";
 					this.ParamterTextBoxes["C"].Text = "1";
@@ -498,9 +547,7 @@ namespace SPBSU.Dynamic {
 			this.WindowState = FormWindowState.Minimized;
 			
 		}
-
-
-		
+				
 		private void trackBarParameter_Scroll ( object sender , EventArgs e ){
 			
 			string key = this.ParamterTrackBars.FirstOrDefault ( a => a.Value == ( sender as TrackBar ) ).Key;
@@ -529,8 +576,11 @@ namespace SPBSU.Dynamic {
 				form.Activate ();
 				Dictionary<string , string> eques = new Dictionary<string , string> ();
 				Dictionary<string , double> initials = new Dictionary<string , double> ();
-				for ( int i = 0 ; i < this.Equations.Count ; i++ ) {
-					eques.Add ( Variables[i].Text , Equations[i].Text );
+				//for ( int i = 0 ; i < this.Equations.Count ; i++ ) {
+				//	eques.Add ( Variables[i].Text , Equations[i].Text );
+				//}
+				foreach ( var key in this.Equations.Keys ) {
+					eques.Add ( Variables[key].Text , Equations[key].Text );
 				}
 				Compilator compilator = new Compilator ( new Dictionary<string , string> { { "H" , this.textBoxHamiltonian.Text } } ,
 														this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble ( b.Value.Text ) ) ,
@@ -644,6 +694,10 @@ namespace SPBSU.Dynamic {
 
 		private void radioButtonHeuns_CheckedChanged ( object sender , EventArgs e ) {
 			this.graphSystemBehavior1.IntegrationType = IntegrationType.HeunsMethod;
+		}
+
+		private void radioButtonEulerImplicit_CheckedChanged ( object sender , EventArgs e ) {
+			this.graphSystemBehavior1.IntegrationType = IntegrationType.EulerMethodImplicit;
 		}
 	}
 }

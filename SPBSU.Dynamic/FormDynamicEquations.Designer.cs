@@ -96,6 +96,7 @@
 			this.labelIterationsCount = new System.Windows.Forms.Label();
 			this.labelTimeElapsed = new System.Windows.Forms.Label();
 			this.radioButtonHeuns = new System.Windows.Forms.RadioButton();
+			this.radioButtonEulerImplicit = new System.Windows.Forms.RadioButton();
 			this.graphSystemBehavior1 = new Graph.GraphDynamicType();
 			this.panel1.SuspendLayout();
 			this.tabControlIntegrationParameters.SuspendLayout();
@@ -166,7 +167,7 @@
             "Henon-Heiles",
             "Lorenz Equation",
             "Henon Map",
-            "Duffing"});
+            "Lotka–Volterra"});
 			this.listBoxSystemName.Location = new System.Drawing.Point(356, 429);
 			this.listBoxSystemName.Name = "listBoxSystemName";
 			this.listBoxSystemName.Size = new System.Drawing.Size(120, 95);
@@ -299,7 +300,7 @@
 			// 
 			this.radioButtonEuler.AutoSize = true;
 			this.radioButtonEuler.Checked = true;
-			this.radioButtonEuler.Location = new System.Drawing.Point(1241, 44);
+			this.radioButtonEuler.Location = new System.Drawing.Point(1240, 60);
 			this.radioButtonEuler.Name = "radioButtonEuler";
 			this.radioButtonEuler.Size = new System.Drawing.Size(49, 17);
 			this.radioButtonEuler.TabIndex = 36;
@@ -311,7 +312,7 @@
 			// radioButtonDormandPrince
 			// 
 			this.radioButtonDormandPrince.AutoSize = true;
-			this.radioButtonDormandPrince.Location = new System.Drawing.Point(1241, 95);
+			this.radioButtonDormandPrince.Location = new System.Drawing.Point(1240, 128);
 			this.radioButtonDormandPrince.Name = "radioButtonDormandPrince";
 			this.radioButtonDormandPrince.Size = new System.Drawing.Size(98, 17);
 			this.radioButtonDormandPrince.TabIndex = 37;
@@ -359,7 +360,7 @@
 			// radioButtonIterativ
 			// 
 			this.radioButtonIterativ.AutoSize = true;
-			this.radioButtonIterativ.Location = new System.Drawing.Point(1241, 120);
+			this.radioButtonIterativ.Location = new System.Drawing.Point(1240, 151);
 			this.radioButtonIterativ.Name = "radioButtonIterativ";
 			this.radioButtonIterativ.Size = new System.Drawing.Size(57, 17);
 			this.radioButtonIterativ.TabIndex = 42;
@@ -600,14 +601,14 @@
 			this.buttonGif.Name = "buttonGif";
 			this.buttonGif.Size = new System.Drawing.Size(75, 23);
 			this.buttonGif.TabIndex = 51;
-			this.buttonGif.Text = "gif";
+			this.buttonGif.Text = "Animation";
 			this.buttonGif.UseVisualStyleBackColor = true;
 			this.buttonGif.Click += new System.EventHandler(this.buttonGif_Click);
 			// 
 			// radioButtonEulerSymplectic
 			// 
 			this.radioButtonEulerSymplectic.AutoSize = true;
-			this.radioButtonEulerSymplectic.Location = new System.Drawing.Point(1241, 69);
+			this.radioButtonEulerSymplectic.Location = new System.Drawing.Point(1240, 82);
 			this.radioButtonEulerSymplectic.Name = "radioButtonEulerSymplectic";
 			this.radioButtonEulerSymplectic.Size = new System.Drawing.Size(103, 17);
 			this.radioButtonEulerSymplectic.TabIndex = 52;
@@ -819,14 +820,26 @@
 			// radioButtonHeuns
 			// 
 			this.radioButtonHeuns.AutoSize = true;
-			this.radioButtonHeuns.Location = new System.Drawing.Point(1241, 150);
+			this.radioButtonHeuns.Location = new System.Drawing.Point(1240, 40);
 			this.radioButtonHeuns.Name = "radioButtonHeuns";
-			this.radioButtonHeuns.Size = new System.Drawing.Size(94, 17);
+			this.radioButtonHeuns.Size = new System.Drawing.Size(82, 17);
 			this.radioButtonHeuns.TabIndex = 56;
 			this.radioButtonHeuns.TabStop = true;
-			this.radioButtonHeuns.Text = "Heuns method";
+			this.radioButtonHeuns.Text = "Symplectic4";
 			this.radioButtonHeuns.UseVisualStyleBackColor = true;
 			this.radioButtonHeuns.CheckedChanged += new System.EventHandler(this.radioButtonHeuns_CheckedChanged);
+			// 
+			// radioButtonEulerImplicit
+			// 
+			this.radioButtonEulerImplicit.AutoSize = true;
+			this.radioButtonEulerImplicit.Location = new System.Drawing.Point(1240, 105);
+			this.radioButtonEulerImplicit.Name = "radioButtonEulerImplicit";
+			this.radioButtonEulerImplicit.Size = new System.Drawing.Size(84, 17);
+			this.radioButtonEulerImplicit.TabIndex = 57;
+			this.radioButtonEulerImplicit.TabStop = true;
+			this.radioButtonEulerImplicit.Text = "Euler Implicit";
+			this.radioButtonEulerImplicit.UseVisualStyleBackColor = true;
+			this.radioButtonEulerImplicit.CheckedChanged += new System.EventHandler(this.radioButtonEulerImplicit_CheckedChanged);
 			// 
 			// graphSystemBehavior1
 			// 
@@ -845,6 +858,7 @@
 			this.graphSystemBehavior1.MoveButtonsExist = true;
 			this.graphSystemBehavior1.Name = "graphSystemBehavior1";
 			this.graphSystemBehavior1.Parameters = null;
+			this.graphSystemBehavior1.SavePastValues = false;
 			this.graphSystemBehavior1.Scatter = false;
 			this.graphSystemBehavior1.Size = new System.Drawing.Size(464, 363);
 			this.graphSystemBehavior1.Solutions = null;
@@ -860,6 +874,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoScroll = true;
 			this.ClientSize = new System.Drawing.Size(1370, 724);
+			this.Controls.Add(this.radioButtonEulerImplicit);
 			this.Controls.Add(this.radioButtonHeuns);
 			this.Controls.Add(this.groupBoxCalculationsResult);
 			this.Controls.Add(this.tabControlIntegrationParameters);
@@ -957,7 +972,6 @@
 		private System.Windows.Forms.Label labelSectionPoint;
 		private System.Windows.Forms.TextBox textBoxSectionPoint;
 		private System.Windows.Forms.CheckBox checkBoxHDet;
-		private System.Windows.Forms.TextBox textBoxH;
 		private System.Windows.Forms.Label labelH;
 		private System.Windows.Forms.Label labelVarEquation;
 		private System.Windows.Forms.Label labelHDeterminingVariable;
@@ -990,6 +1004,8 @@
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.RadioButton radioButtonHeuns;
+		private System.Windows.Forms.RadioButton radioButtonEulerImplicit;
+		public System.Windows.Forms.TextBox textBoxH;
 	}
 }
 

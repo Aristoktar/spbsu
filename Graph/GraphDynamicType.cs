@@ -73,8 +73,8 @@ namespace Graph {
 						case IntegrationType.EulerMethod:
 							solution = Euler.Integrate ( this.functionsD , t0 , f0 , this.IntergrationParameters , out calculationResults , Parameters , this );
 							break;
-						case Mathematics.Intergration.IntegrationType.EulerMethodSymplectic:
-							solution = Euler.IntegrateSymplectic ( this.functionsD , t0 , f0 , Parameters , this.IntergrationParameters.PoincareParameters , this );
+						case Mathematics.Intergration.IntegrationType.EulerMethodImplicit:
+							solution = Euler.IntegrateImplicit ( this.functionsD , t0 , f0 , this.IntergrationParameters , out calculationResults , Parameters , this );
 							break;
 						case Mathematics.Intergration.IntegrationType.Iterative:
 							solution = Iterative.Integrate ( this.functionsD , t0 , f0 , Parameters );
@@ -86,7 +86,11 @@ namespace Graph {
 							solution = RungeKutta.DormandPrince ( this.functionsD , t0 , f0 , this.IntergrationParameters , out calculationResults , Parameters , this );
 							break;
 						case Mathematics.Intergration.IntegrationType.HeunsMethod:
-							solution = Heuns.Integrate ( this.functionsD , t0 , f0 , this.IntergrationParameters , out calculationResults , Parameters , this );
+							//solution = Heuns.Integrate ( this.functionsD , t0 , f0 , this.IntergrationParameters , out calculationResults , Parameters , this );
+							solution = RungeKutta.IntegrateSymplectic ( this.functionsD , t0 , f0 , this.IntergrationParameters , out calculationResults , Parameters , this );
+							break;
+						case Mathematics.Intergration.IntegrationType.EulerMethodSymplectic:
+							solution = RungeKutta.IntegrateEilerSymplectic( this.functionsD , t0 , f0 , this.IntergrationParameters , out calculationResults , Parameters , this );
 							break;
 
 						default: break;

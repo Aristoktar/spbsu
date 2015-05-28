@@ -33,6 +33,9 @@
 			this.checkBoxSaveToFolder = new System.Windows.Forms.CheckBox();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.trackBar1 = new System.Windows.Forms.TrackBar();
+			this.buttonSaveGif = new System.Windows.Forms.Button();
+			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+			this.label1 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
 			this.SuspendLayout();
@@ -43,7 +46,7 @@
 			this.textBoxInitial.Name = "textBoxInitial";
 			this.textBoxInitial.Size = new System.Drawing.Size(100, 20);
 			this.textBoxInitial.TabIndex = 1;
-			this.textBoxInitial.Text = "0";
+			this.textBoxInitial.Text = "0.0625";
 			// 
 			// textBoxFinal
 			// 
@@ -51,7 +54,7 @@
 			this.textBoxFinal.Name = "textBoxFinal";
 			this.textBoxFinal.Size = new System.Drawing.Size(100, 20);
 			this.textBoxFinal.TabIndex = 2;
-			this.textBoxFinal.Text = "0.5";
+			this.textBoxFinal.Text = "0.16666";
 			// 
 			// textBoxStep
 			// 
@@ -59,7 +62,7 @@
 			this.textBoxStep.Name = "textBoxStep";
 			this.textBoxStep.Size = new System.Drawing.Size(100, 20);
 			this.textBoxStep.TabIndex = 4;
-			this.textBoxStep.Text = "0.1";
+			this.textBoxStep.Text = "10";
 			// 
 			// comboBoxValueToVariate
 			// 
@@ -114,11 +117,32 @@
 			this.trackBar1.TabIndex = 10;
 			this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
 			// 
+			// buttonSaveGif
+			// 
+			this.buttonSaveGif.Location = new System.Drawing.Point(372, 305);
+			this.buttonSaveGif.Name = "buttonSaveGif";
+			this.buttonSaveGif.Size = new System.Drawing.Size(75, 23);
+			this.buttonSaveGif.TabIndex = 11;
+			this.buttonSaveGif.Text = "SaveGif";
+			this.buttonSaveGif.UseVisualStyleBackColor = true;
+			this.buttonSaveGif.Click += new System.EventHandler(this.buttonSaveGif_Click);
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(453, 168);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(40, 13);
+			this.label1.TabIndex = 12;
+			this.label1.Text = "images";
+			// 
 			// GifGenerator
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1200, 394);
+			this.Controls.Add(this.label1);
+			this.Controls.Add(this.buttonSaveGif);
 			this.Controls.Add(this.trackBar1);
 			this.Controls.Add(this.pictureBox1);
 			this.Controls.Add(this.checkBoxSaveToFolder);
@@ -149,5 +173,8 @@
 		private System.Windows.Forms.CheckBox checkBoxSaveToFolder;
 		private System.Windows.Forms.PictureBox pictureBox1;
 		private System.Windows.Forms.TrackBar trackBar1;
+		private System.Windows.Forms.Button buttonSaveGif;
+		private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+		private System.Windows.Forms.Label label1;
 	}
 }

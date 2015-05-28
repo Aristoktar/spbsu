@@ -14,6 +14,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicCompiling", "DynamicCompiling\DynamicCompiling.csproj", "{61E1D4A0-C776-486C-9268-65D02B4FF25E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPBSU.Dynamic", "SPBSU.Dynamic\SPBSU.Dynamic.csproj", "{114BA428-1D06-4910-A4AF-A05AA7833DA2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{01235A08-0493-4B29-AFA8-B279232A365F} = {01235A08-0493-4B29-AFA8-B279232A365F}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Components", "..\Gif\Components\Components.csproj", "{1C3A03CA-5E55-4CC4-9746-194A4188960A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +76,12 @@ Global
 		{114BA428-1D06-4910-A4AF-A05AA7833DA2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{114BA428-1D06-4910-A4AF-A05AA7833DA2}.Release|x64.ActiveCfg = Release|x64
 		{114BA428-1D06-4910-A4AF-A05AA7833DA2}.Release|x64.Build.0 = Release|x64
+		{1C3A03CA-5E55-4CC4-9746-194A4188960A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C3A03CA-5E55-4CC4-9746-194A4188960A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C3A03CA-5E55-4CC4-9746-194A4188960A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1C3A03CA-5E55-4CC4-9746-194A4188960A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C3A03CA-5E55-4CC4-9746-194A4188960A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C3A03CA-5E55-4CC4-9746-194A4188960A}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -71,6 +71,7 @@
     </Compile>
     <Compile Include="CalculationResults.cs" />
     <Compile Include="Delegates.cs" />
+    <Compile Include="Differential.cs" />
     <Compile Include="Hamiltonian.cs" />
     <Compile Include="Intergration\Euler.cs" />
     <Compile Include="Intergration\Heuns.cs" />

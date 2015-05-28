@@ -75,7 +75,7 @@
 
         #endregion
 
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        public System.Windows.Forms.SaveFileDialog saveFileDialog1;
 		private System.Windows.Forms.CheckBox checkBoxZoomrRecalc;
 		private System.Windows.Forms.Button button100Percent;
     }
