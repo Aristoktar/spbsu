@@ -81,12 +81,6 @@
       <DependentUpon>Graph2.cs</DependentUpon>
     </Compile>
     <Compile Include="GraphData.cs" />
-    <Compile Include="GraphMulti.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GraphMulti.Designer.cs">
-      <DependentUpon>GraphMulti.cs</DependentUpon>
-    </Compile>
     <Compile Include="Graph.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -119,9 +113,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Graph2.resx">
       <DependentUpon>Graph2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraphMulti.resx">
-      <DependentUpon>GraphMulti.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Graph.resx">
       <DependentUpon>Graph.cs</DependentUpon>

@@ -1,6 +1,6 @@
 ﻿namespace Graph
 {
-    partial class GraphMulti
+	partial class Graph
     {
 		///// <summary> 
 		///// Требуется переменная конструктора.

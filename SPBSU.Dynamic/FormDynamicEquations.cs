@@ -573,6 +573,7 @@ namespace SPBSU.Dynamic {
 			try {
 
 				HamiltonianPlot form = new HamiltonianPlot ();
+				form.graphSystemOscillogram1.setData ( 0 , 0 , 0 , 0 );
 				form.Activate ();
 				Dictionary<string , string> eques = new Dictionary<string , string> ();
 				Dictionary<string , double> initials = new Dictionary<string , double> ();
@@ -587,7 +588,7 @@ namespace SPBSU.Dynamic {
 														eques.Keys );
 				var temt = compilator.GetFuncs ();
 				var uio = Hamiltonian.Calc ( temt , this.graphSystemBehavior1.Solutions , this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble ( b.Value.Text ) ) );
-				form.graphSystemOscillogram1.setYdata ( uio["H"] );
+				form.graphSystemOscillogram1.setYdata ( uio["H"],this.graphSystemBehavior1.Solutions["t"]);
 				//form.graphSystemOscillogram1.setXdata ( uio["t"] );
 				form.graphSystemOscillogram1.zoom100Percent ();
 				form.graphSystemOscillogram1.Refresh ();

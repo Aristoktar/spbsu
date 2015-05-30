@@ -22,14 +22,14 @@ namespace SPBSU.Dynamic {
 		}
 
 		private void button1_Click ( object sender , EventArgs e ) {
-			string path = "D:\\" + DateTime.Now.Minute + ".bmp";
+			//string path = "D:\\" + DateTime.Now.Minute + ".bmp";
 
 
-			if ( this.graphSystemOscillogram1.saveFileDialog1.ShowDialog () == DialogResult.OK ) {
-				//this.img.Save(this.saveFileDialog1.FileName);
-				//this.
-				this.graphSystemOscillogram1.GetImage().Save ( this.graphSystemOscillogram1.saveFileDialog1.FileName );
-			}
+			//if ( this.graphSystemOscillogram1.saveFileDialog1.ShowDialog () == DialogResult.OK ) {
+			//	//this.img.Save(this.saveFileDialog1.FileName);
+			//	//this.
+			//	this.graphSystemOscillogram1.GetImage().Save ( this.graphSystemOscillogram1.saveFileDialog1.FileName );
+			//}
 		}
 	}
 }

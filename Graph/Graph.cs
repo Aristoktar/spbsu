@@ -81,7 +81,10 @@ namespace Graph
 			set;
 		}
 
-        protected Point CanvasLocation;
+		protected Point CanvasLocation {
+			get;
+			set;
+		}
         protected Size CanvasSize;
 
         protected int HeightBorderUp = 10;
@@ -127,6 +130,9 @@ namespace Graph
         private bool buttonsInited = false;
 
 		private Thread RedrawThread;
+
+		public int XLabelLength = 4;
+		public int YLabelLength = 4;
 
         public Graph()
         {
@@ -263,6 +269,14 @@ namespace Graph
         protected override void OnSizeChanged(EventArgs e)
         {
             this.CanvasSize = new Size(this.Width - (this.WidthBorderLeft + this.WidthBorderRight), this.Height - (this.HeightBorderUp + this.HeightBorderDown));
+			this.button100Percent.Location = new System.Drawing.Point(-9, this.Height-20);
+			try {
+				this.buttonSave.Location = new Point (this.Width-50,this.Height-20);
+				this.checkBoxZoomrRecalc.Location = new Point ( 200 , this.Height - 20 );
+				
+			}
+			catch {
+			}
         }
         protected override void OnMouseMove(MouseEventArgs e)
         {
@@ -582,8 +596,17 @@ namespace Graph
             {
                 double deltaX = (this.XMaxValue - this.XMinValue) / 4;
                 double deltaY = (this.YMaxValue - this.YMinValue) / 4;
-                eGraphics.DrawString((this.YMaxValue - deltaY * i).ToString("0.#####"), Font, Brushes.Black, new PointF(this.WidthBorderLeft - 34, (this.HeightBorderUp - 8) + i * ((this.Height - this.HeightBorderUp - this.HeightBorderDown) / 4)));
-                eGraphics.DrawString((this.XMinValue + deltaX * i).ToString("0.#####"), Font, Brushes.Black, new PointF((this.WidthBorderLeft - 6) + i * ((this.Width - this.WidthBorderLeft - this.WidthBorderRight) / 4), this.Height - this.HeightBorderDown + 6));
+				string xPattern ="0.";
+				string yPattern="0.";
+				for ( int j = 0 ; j < this.XLabelLength ; j++ ) {
+					xPattern += "#";
+				}
+				for ( int j = 0 ; j < this.XLabelLength ; j++ ) {
+					yPattern += "#";
+				}
+
+				eGraphics.DrawString ( ( this.YMaxValue - deltaY * i ).ToString ( yPattern ) , Font , Brushes.Black , new PointF ( this.WidthBorderLeft - 34 , ( this.HeightBorderUp - 8 ) + i * ( ( this.Height - this.HeightBorderUp - this.HeightBorderDown ) / 4 ) ) );
+                eGraphics.DrawString((this.XMinValue + deltaX * i).ToString(xPattern), Font, Brushes.Black, new PointF((this.WidthBorderLeft - 6) + i * ((this.Width - this.WidthBorderLeft - this.WidthBorderRight) / 4), this.Height - this.HeightBorderDown + 6));
 
             }
             eGraphics.DrawString(this.AxisXlabel, Font, Brushes.Red, this.Width / 2, this.Height - 15);
