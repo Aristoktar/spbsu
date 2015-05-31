@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Mathematics {
+	[Serializable()]
 	public class PoincareSectionParameters {
 		public string VariableForSection {
 			get;
@@ -22,7 +23,22 @@ namespace Mathematics {
 			get;
 			set;
 		}
-
+		public string H {
+			get;
+			set;
+		}
+		public string HForDet {
+			get;
+			set;
+		}
+		public string HForDetEquation {
+			get;
+			set;
+		}
+		public bool CheckDetH {
+			get;
+			set;
+		}
 
 	}
 }

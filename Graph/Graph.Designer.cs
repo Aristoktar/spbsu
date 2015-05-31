@@ -68,6 +68,7 @@
 			this.Name = "Graph";
 			this.Size = new System.Drawing.Size(464, 363);
 			this.Load += new System.EventHandler(this.Graph_Load);
+			this.SizeChanged += new System.EventHandler(this.Graph_SizeChanged);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -75,8 +76,8 @@
 
         #endregion
 
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
-		private System.Windows.Forms.CheckBox checkBoxZoomrRecalc;
+		private System.Windows.Forms.SaveFileDialog saveFileDialog1;
 		private System.Windows.Forms.Button button100Percent;
+		public System.Windows.Forms.CheckBox checkBoxZoomrRecalc;
     }
 }

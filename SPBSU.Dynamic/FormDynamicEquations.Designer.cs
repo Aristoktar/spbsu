@@ -98,6 +98,8 @@
 			this.radioButtonHeuns = new System.Windows.Forms.RadioButton();
 			this.radioButtonEulerImplicit = new System.Windows.Forms.RadioButton();
 			this.graphSystemBehavior1 = new Graph.GraphDynamicType();
+			this.buttonSaveSystem = new System.Windows.Forms.Button();
+			this.buttonFullScreen = new System.Windows.Forms.Button();
 			this.panel1.SuspendLayout();
 			this.tabControlIntegrationParameters.SuspendLayout();
 			this.tabPagePoincare.SuspendLayout();
@@ -597,7 +599,7 @@
 			// 
 			// buttonGif
 			// 
-			this.buttonGif.Location = new System.Drawing.Point(369, 555);
+			this.buttonGif.Location = new System.Drawing.Point(198, 559);
 			this.buttonGif.Name = "buttonGif";
 			this.buttonGif.Size = new System.Drawing.Size(75, 23);
 			this.buttonGif.TabIndex = 51;
@@ -868,12 +870,34 @@
 			this.graphSystemBehavior1.ZoomButtonsExist = true;
 			this.graphSystemBehavior1.CalculationFinished += new Graph.Events.CalculationFinishedHandler(this.graphSystemBehavior1_CalculationFinished);
 			// 
+			// buttonSaveSystem
+			// 
+			this.buttonSaveSystem.Location = new System.Drawing.Point(356, 540);
+			this.buttonSaveSystem.Name = "buttonSaveSystem";
+			this.buttonSaveSystem.Size = new System.Drawing.Size(75, 23);
+			this.buttonSaveSystem.TabIndex = 58;
+			this.buttonSaveSystem.Text = "Save";
+			this.buttonSaveSystem.UseVisualStyleBackColor = true;
+			this.buttonSaveSystem.Click += new System.EventHandler(this.buttonSaveSystem_Click);
+			// 
+			// buttonFullScreen
+			// 
+			this.buttonFullScreen.Location = new System.Drawing.Point(401, 385);
+			this.buttonFullScreen.Name = "buttonFullScreen";
+			this.buttonFullScreen.Size = new System.Drawing.Size(75, 23);
+			this.buttonFullScreen.TabIndex = 59;
+			this.buttonFullScreen.Text = "button1";
+			this.buttonFullScreen.UseVisualStyleBackColor = true;
+			this.buttonFullScreen.Click += new System.EventHandler(this.buttonFullScreen_Click);
+			// 
 			// FormDynamicEquations
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoScroll = true;
 			this.ClientSize = new System.Drawing.Size(1370, 724);
+			this.Controls.Add(this.buttonFullScreen);
+			this.Controls.Add(this.buttonSaveSystem);
 			this.Controls.Add(this.radioButtonEulerImplicit);
 			this.Controls.Add(this.radioButtonHeuns);
 			this.Controls.Add(this.groupBoxCalculationsResult);
@@ -937,7 +961,6 @@
 		private System.Windows.Forms.TextBox textBoxt0;
 		private System.Windows.Forms.ListBox listBoxX;
 		private System.Windows.Forms.ListBox listBoxY;
-		private System.Windows.Forms.ListBox listBoxSystemName;
 		private System.Windows.Forms.Label labelParametersLabel;
 		private System.Windows.Forms.Label labelA;
 		private System.Windows.Forms.Label labelC;
@@ -1006,6 +1029,9 @@
 		private System.Windows.Forms.RadioButton radioButtonHeuns;
 		private System.Windows.Forms.RadioButton radioButtonEulerImplicit;
 		public System.Windows.Forms.TextBox textBoxH;
+		private System.Windows.Forms.Button buttonSaveSystem;
+		public System.Windows.Forms.ListBox listBoxSystemName;
+		private System.Windows.Forms.Button buttonFullScreen;
 	}
 }
 

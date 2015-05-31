@@ -183,5 +183,13 @@ namespace Graph {
 			
 			this.Redraw ();
 		}
+
+		private void GraphDynamicType_SizeChanged ( object sender , EventArgs e ) {
+			//try {
+			this.checkBoxScatter.Location = new Point ( 300 , this.Height - 20 );
+			//}
+			//catch ( Exception ex ) {
+			//}
+		}
 	}
 }

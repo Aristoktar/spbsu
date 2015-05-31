@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Mathematics.Intergration {
+	[Serializable()]
 	public class IntegrationParameters {
 		public double Step {
 			get;

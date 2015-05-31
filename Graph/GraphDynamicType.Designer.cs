@@ -44,6 +44,7 @@
 			this.Controls.Add(this.checkBoxScatter);
 			this.Name = "GraphDynamicType";
 			this.Load += new System.EventHandler(this.GraphDynamicType_Load);
+			this.SizeChanged += new System.EventHandler(this.GraphDynamicType_SizeChanged);
 			this.Controls.SetChildIndex(this.checkBoxScatter, 0);
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -52,6 +53,7 @@
 
 		#endregion
 
-		private System.Windows.Forms.CheckBox checkBoxScatter;
+		public System.Windows.Forms.CheckBox checkBoxScatter;
+
 	}
 }

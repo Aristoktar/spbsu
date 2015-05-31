@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -13,6 +14,7 @@ using Graph.Events;
 using Mathematics;
 using Mathematics.Analysis;
 using Mathematics.Intergration;
+using SPBSU.Dynamic.Data;
 
 namespace SPBSU.Dynamic {
 	public partial class FormDynamicEquations : Form {
@@ -90,6 +92,17 @@ namespace SPBSU.Dynamic {
 			//this.ParametersButtonsEdit.Add ( "D" , this.buttonD );
 			//this.ParametersButtonsEdit.Add ( "E" , this.buttonE );
 			//this.ParametersButtonsEdit.Add ( "F" , this.buttonF );
+			DirectoryInfo dInfo = new DirectoryInfo ( Application.StartupPath + @"\EquationsSets\" );
+			if ( !dInfo.Exists ) {
+				dInfo.Create ();
+			}
+			else {
+				foreach ( var f in dInfo.GetFiles ( "*.equation" ) ) {
+					this.listBoxSystemName.Items.Add ( f.Name.Substring(0,f.Name.Length-9) );
+				}
+
+			}
+
 		}
 
 		private void button1_Click ( object sender , EventArgs e ) {
@@ -525,9 +538,60 @@ namespace SPBSU.Dynamic {
 					this.checkBoxHDet.Checked = false;
 					this.checkBoxPoincare.Checked = false;
 					break;
-				default: break;
+				default:
+					var set = new Serializer ().DeSerializeObject ( "EquationsSets/" + ( sender as ListBox ).SelectedItem.ToString () + ".equation" );
+					foreach ( var param in set.Parameters ) {
+						this.ParamterTextBoxes[param.Key].Text = param.Value.ToString();
+					}
+					SetEquationsCount ( set.Equations.Count );
+					for ( int i = 0 ; i < this.Equations.Count ; i++ ) {
+						this.Equations.ElementAt ( i ).Value.Text = set.Equations.ElementAt ( i ).Value.Text;
+						this.Initials.ElementAt ( i ).Value.Text = set.Equations.ElementAt ( i ).Value.Var0.ToString();
+						this.Variables.ElementAt ( i ).Value.Text = set.Equations.ElementAt ( i ).Value.Var.ToString ();
+					}
+					this.textBoxt0.Text = set.t0.ToString ();
+					if ( set.IntegrationParameters.PoincareParameters != null ) {
+						this.checkBoxPoincare.Checked = true;
+						this.textBoxThicknessOfLayer.Text = set.IntegrationParameters.PoincareParameters.ThicknessOfLayer.ToString ();
+						this.textBoxVarEquation.Text = set.IntegrationParameters.PoincareParameters.HForDetEquation;
+						this.textBoxH.Text = set.IntegrationParameters.PoincareParameters.H;
+						this.comboBoxVarForPoincare.SelectedIndex = this.comboBoxVarForPoincare.Items.IndexOf ( set.IntegrationParameters.PoincareParameters.VariableForSection );
+						this.comboBoxVarForDetH.SelectedIndex = this.comboBoxVarForDetH.Items.IndexOf ( set.IntegrationParameters.PoincareParameters.HForDet );
+						this.textBoxHitCount.Text = set.IntegrationParameters.PoincareParameters.HitPointsCount.ToString ();
+						this.textBoxSectionPoint.Text = set.IntegrationParameters.PoincareParameters.PointOfSection.ToString ();
+
+						this.checkBoxHDet.Checked = set.IntegrationParameters.PoincareParameters.CheckDetH;
+					}
+					else {
+						this.checkBoxPoincare.Checked = false;
+						this.checkBoxHDet.Checked = false;
+					}
+					this.textBoxStep.Text = set.IntegrationParameters.Step.ToString ();
+					this.textBoxIterations.Text = set.IntegrationParameters.IterationsCount.ToString ();
+					this.checkBoxDirectionLeft.Checked = set.IntegrationParameters.LeftDirection;
+					this.checkBoxDirectionRight.Checked = set.IntegrationParameters.RightDirection;
+					this.textBoxHamiltonian.Text = set.Hamiltonian;
+					
+
+					break;
 			}
 			//this.graphSystemBehavior1.Redraw ();
+		}
+
+		public void SetEquationsCount ( int count ) {
+			if ( this.Equations.Count == count ) return;
+			if ( this.Equations.Count > count ) {
+				while ( this.Equations.Count != count ) {
+					this.DelEquation ( this.Equations.Last ().Key );
+				}
+				return;
+			}
+			if ( this.Equations.Count < count ) {
+				while ( this.Equations.Count != count ) {
+					this.AddEquation ();
+				}
+				return;
+			}
 		}
 
 		private void buttonParameterEdit_Click ( object sender , EventArgs e ) {
@@ -699,6 +763,61 @@ namespace SPBSU.Dynamic {
 
 		private void radioButtonEulerImplicit_CheckedChanged ( object sender , EventArgs e ) {
 			this.graphSystemBehavior1.IntegrationType = IntegrationType.EulerMethodImplicit;
+		}
+
+		private void buttonSaveSystem_Click ( object sender , EventArgs e ) {
+			Dictionary<string , Equation> eques = new Dictionary<string , Equation> ();
+			IntegrationParameters param = new IntegrationParameters {
+				Error = Convert.ToDouble ( this.textBoxError.Text ) ,
+				IterationsCount = Convert.ToInt32 ( this.textBoxIterations.Text ) ,
+				LeftDirection = this.checkBoxDirectionLeft.Checked ,
+				RightDirection = this.checkBoxDirectionRight.Checked ,
+				Step = Convert.ToDouble ( this.textBoxStep.Text ),
+				PoincareParameters = this.checkBoxPoincare.Checked?new PoincareSectionParameters{
+					VariableForSection = this.comboBoxVarForPoincare.SelectedItem.ToString () ,
+					HitPointsCount = Convert.ToInt32 ( this.textBoxHitCount.Text ) ,
+					ThicknessOfLayer = Convert.ToDouble ( this.textBoxThicknessOfLayer.Text ),
+					PointOfSection = Convert.ToDouble(this.textBoxSectionPoint.Text),
+					H = this.textBoxH.Text,
+					HForDet =this.comboBoxVarForDetH.Text,
+					HForDetEquation = this.textBoxVarEquation.Text,
+					CheckDetH = this.checkBoxHDet.Checked
+				}:null
+			};
+			foreach ( var var in this.Variables ) {
+				eques.Add ( var.Value.Text , new Equation {
+					Text = this.Equations[var.Key].Text ,
+					Var = var.Value.Text ,
+					Var0 = Convert.ToDouble ( this.Initials[var.Key].Text )
+				} );
+			}
+			EquationsSet set = new EquationsSet {
+				t0 = Convert.ToDouble ( this.textBoxt0.Text ),
+				Equations = eques,
+				Parameters = this.ParamterTextBoxes.ToDictionary(a=>a.Key,a=>Convert.ToDouble(a.Value.Text)),
+				IntegrationParameters = param,
+				Hamiltonian = this.textBoxHamiltonian.Text
+			};
+			SaveSystemForm form = new SaveSystemForm ( set,this );
+			form.Show ();
+		}
+
+		private void buttonFullScreen_Click ( object sender , EventArgs e ) {
+			GraphFullScreen form = new GraphFullScreen ();
+			form.graphDynamicType.setData (0,0,0,0);
+			form.graphDynamicType.XMaxValue = this.graphSystemBehavior1.XMaxValue;
+			form.graphDynamicType.XMinValue = this.graphSystemBehavior1.XMinValue;
+			form.graphDynamicType.YMaxValue = this.graphSystemBehavior1.YMaxValue;
+			form.graphDynamicType.YMinValue = this.graphSystemBehavior1.YMinValue;
+			form.graphDynamicType.dataX = this.graphSystemBehavior1.dataX;
+			form.graphDynamicType.dataY = this.graphSystemBehavior1.dataY;
+			form.graphDynamicType.AxisXlabel = this.graphSystemBehavior1.AxisXlabel;
+			form.graphDynamicType.AxisYlabel = this.graphSystemBehavior1.AxisYlabel;
+			form.graphDynamicType.checkBoxScatter.Checked = this.graphSystemBehavior1.checkBoxScatter.Checked;
+			form.graphDynamicType.checkBoxZoomrRecalc.Checked = this.graphSystemBehavior1.checkBoxZoomrRecalc.Checked;
+			
+			form.Show ();
+			form.graphDynamicType.Redraw ();
 		}
 	}
 }

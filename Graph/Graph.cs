@@ -97,10 +97,10 @@ namespace Graph
         protected int MouseX;
         protected int MouseY;
 
-        protected double XMinValue;
-        protected double XMaxValue;
-        protected double YMinValue;
-        protected double YMaxValue;
+        public double XMinValue;
+        public double XMaxValue;
+		public double YMinValue;
+		public double YMaxValue;
 
 		protected List<PointF> ZoomBoxList;
 		protected Bitmap ImgGraph {
@@ -112,8 +112,8 @@ namespace Graph
         
 
         protected double[][] dataArrayOfArrays;
-        protected double[] dataY;
-        protected double[] dataX;
+        public double[] dataY;
+        public double[] dataX;
         protected string equation = "";
         private Button buttonZoomIn;
         private Button buttonZoomOut;
@@ -266,18 +266,7 @@ namespace Graph
             
         
         }
-        protected override void OnSizeChanged(EventArgs e)
-        {
-            this.CanvasSize = new Size(this.Width - (this.WidthBorderLeft + this.WidthBorderRight), this.Height - (this.HeightBorderUp + this.HeightBorderDown));
-			this.button100Percent.Location = new System.Drawing.Point(-9, this.Height-20);
-			try {
-				this.buttonSave.Location = new Point (this.Width-50,this.Height-20);
-				this.checkBoxZoomrRecalc.Location = new Point ( 200 , this.Height - 20 );
-				
-			}
-			catch {
-			}
-        }
+        
         protected override void OnMouseMove(MouseEventArgs e)
         {
             
@@ -1055,6 +1044,20 @@ namespace Graph
 		public event ImageCreatedDelegate ImageCreated;
 
 		public event CalculationFinishedHandler CalculationFinished;
+
+		private void Graph_SizeChanged ( object sender , EventArgs e ) {
+			this.CanvasSize = new Size ( this.Width - ( this.WidthBorderLeft + this.WidthBorderRight ) , this.Height - ( this.HeightBorderUp + this.HeightBorderDown ) );
+			this.button100Percent.Location = new System.Drawing.Point ( -9 , this.Height - 20 );
+			try {
+				this.checkBoxZoomrRecalc.Location = new Point ( 200 , this.Height - 20 );
+				this.buttonSave.Location = new Point ( this.Width - 50 , this.Height - 20 );
+
+
+
+			}
+			catch ( Exception ex ) {
+			}
+		}
     }
     
     

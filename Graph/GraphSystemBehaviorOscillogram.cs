@@ -14,7 +14,6 @@ namespace Graph {
 		}
 
 		protected void InitializeComponent () {
-			this.WidthBorderLeft = 150;
 			this.button1 = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
