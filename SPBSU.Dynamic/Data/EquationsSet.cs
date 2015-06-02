@@ -30,12 +30,18 @@ namespace SPBSU.Dynamic.Data {
 			get;
 			set;
 		}
+		public List<Dictionary<string , double>> SetOfInitials {
+			get;
+			set;
+		}
+
 		public EquationsSet () {
 		}
 		public EquationsSet ( SerializationInfo info , StreamingContext ctxt ) {
 			this.Equations = (Dictionary<string , Equation>) info.GetValue ( "Equations" , typeof ( Dictionary<string , Equation> ) );
 			this.Parameters = (Dictionary<string , double>) info.GetValue ( "Parameters" , typeof ( Dictionary<string , double> ) );
 			this.IntegrationParameters = (IntegrationParameters) info.GetValue ( "IntegrationParameters" , typeof ( IntegrationParameters ) );
+			this.SetOfInitials = (List<Dictionary<string , double>>) info.GetValue ( "SetOfInitials" , typeof ( List<Dictionary<string , double>> ) );
 			this.t0 = (double) info.GetValue ( "t0" , typeof ( double ) );
 			this.Hamiltonian = (string) info.GetString ( "Hamiltonian");
 		}
@@ -45,6 +51,7 @@ namespace SPBSU.Dynamic.Data {
 			info.AddValue ( "t0" , t0 );
 			info.AddValue ( "IntegrationParameters" , this.IntegrationParameters );
 			info.AddValue ( "Hamiltonian" , this.Hamiltonian );
+			info.AddValue ( "SetOfInitials" , this.SetOfInitials );
 
 		}
 	}

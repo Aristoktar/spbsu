@@ -720,8 +720,8 @@ namespace Mathematics.Intergration {
 						int row = i;
 						KR[key + "k" + i.ToString ()] = 1;// new Random().Next(1);
 						KL[key + "k" + i.ToString ()] = 1;// new Random().Next(1);
-						functionsKR[key + "k" + i.ToString ()] = ( t1 , f11 , parameters1 ) => {
-							Dictionary<string , double> f1 = new Dictionary<string , double> ( f11 );
+						functionsKR[key + "k" + i.ToString ()] = ( t1 , f1 , parameters1 ) => {
+							//Dictionary<string , double> f1 = new Dictionary<string , double> ( f11 );
 							double sum = 0; Dictionary<string , double> fKs = new Dictionary<string , double> ( fR );
 							foreach ( var key1 in functions.Keys ) {
 								sum = 0;
@@ -734,8 +734,8 @@ namespace Mathematics.Intergration {
 							double func = functions[key].Invoke ( tR , fKs , parameters1 );
 							return hR * func - k;
 						};
-						functionsKL[key + "k" + i.ToString ()] = ( t1 , f11 , parameters1 ) => {
-							Dictionary<string , double> f1 = new Dictionary<string , double> ( f11 );
+						functionsKL[key + "k" + i.ToString ()] = ( t1 , f1 , parameters1 ) => {
+							//Dictionary<string , double> f1 = new Dictionary<string , double> ( f11 );
 							double sum = 0; Dictionary<string , double> fKs = new Dictionary<string , double> ( fL );
 							foreach ( var key1 in functions.Keys ) {
 								sum = 0;

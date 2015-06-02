@@ -42,6 +42,11 @@ namespace SPBSU.Dynamic {
 		public const int MaxEquationsCount = 60;
 
 		private int CurrentEqNumerator;
+
+		public List<Dictionary<string , double>> SetOfInitials {
+			get;
+			set;
+		}
 		public FormDynamicEquations () {
 			InitializeComponent ();
 			CurrentEqNumerator = 0;
@@ -58,6 +63,8 @@ namespace SPBSU.Dynamic {
 
 			AddEquation ();
 			VariablesChanged (null,new EventArgs());
+
+			this.graphSystemBehavior1.IntegrationType = IntegrationType.RungeKutta4;
 		}
 
 		private void Form1_Load ( object sender , EventArgs e ) {
@@ -274,6 +281,8 @@ namespace SPBSU.Dynamic {
 			
 		}
 		public void buttonCalc_Click ( object sender , EventArgs e ) {
+
+			//this.SetOfInitials = null;
 			Dictionary<string , double> parameters = new Dictionary<string,double>();
 			try {
 				Dictionary<string , string> Eques = new Dictionary<string , string> ();
@@ -412,11 +421,11 @@ namespace SPBSU.Dynamic {
 
 		private void listBoxSystemName_DoubleClick ( object sender , EventArgs e ) {
 			switch ( ( sender as ListBox ).SelectedItem.ToString() ) {
-				case "Complex System Slides":
-					if ( this.Equations.Count >= 2 ) {
-						this.Equations.ElementAt ( 0 ).Value.Text = "a";
-					}
-					break;
+				//case "Complex System Slides":
+				//	if ( this.Equations.Count >= 2 ) {
+				//		this.Equations.ElementAt ( 0 ).Value.Text = "a";
+				//	}
+				//	break;
 				case "Harmonic oscillator":
 					if ( this.Equations.Count < 2 ) {
 						AddEquation ();				
@@ -459,21 +468,21 @@ namespace SPBSU.Dynamic {
 					this.checkBoxHDet.Checked = true;
 					this.checkBoxPoincare.Checked = true;
 					break;
-				case "WikipediaRungeSample":
-					if ( this.Equations.Count < 2 ) {
-						AddEquation ();
-					}
-					this.Equations.ElementAt ( 0 ).Value.Text = "y";
-					this.Equations.ElementAt ( 1 ).Value.Text = "cos(3*t)-4*dy";
-					this.Variables.ElementAt ( 0 ).Value.Text = "dy";
-					this.Variables.ElementAt ( 1 ).Value.Text = "y";
-					this.Initials.ElementAt ( 0 ).Value.Text = "2";
-					this.Initials.ElementAt ( 1 ).Value.Text = "0.8";
-					this.textBoxHamiltonian.Text = "y+dy";
+				//case "WikipediaRungeSample":
+				//	if ( this.Equations.Count < 2 ) {
+				//		AddEquation ();
+				//	}
+				//	this.Equations.ElementAt ( 0 ).Value.Text = "y";
+				//	this.Equations.ElementAt ( 1 ).Value.Text = "cos(3*t)-4*dy";
+				//	this.Variables.ElementAt ( 0 ).Value.Text = "dy";
+				//	this.Variables.ElementAt ( 1 ).Value.Text = "y";
+				//	this.Initials.ElementAt ( 0 ).Value.Text = "2";
+				//	this.Initials.ElementAt ( 1 ).Value.Text = "0.8";
+				//	this.textBoxHamiltonian.Text = "y+dy";
 					
-					this.checkBoxHDet.Checked = false;
-					this.checkBoxPoincare.Checked = false;
-					break;
+				//	this.checkBoxHDet.Checked = false;
+				//	this.checkBoxPoincare.Checked = false;
+				//	break;
 				case "Lorenz Equation":
 					if ( this.Equations.Count < 3 ) {
 						AddEquation ();
@@ -499,24 +508,24 @@ namespace SPBSU.Dynamic {
 					this.checkBoxHDet.Checked = false;
 					this.checkBoxPoincare.Checked = false;
 					break;
-				case"Henon Map":
-					if ( this.Equations.Count < 2 ) {
-						AddEquation ();
-					}
-					this.Variables.ElementAt ( 0 ).Value.Text = "x";
-					this.Equations.ElementAt ( 0 ).Value.Text = "1-A*x*x+y";
-					this.Initials.ElementAt ( 0 ).Value.Text = "0.6313";
+				//case"Henon Map":
+				//	if ( this.Equations.Count < 2 ) {
+				//		AddEquation ();
+				//	}
+				//	this.Variables.ElementAt ( 0 ).Value.Text = "x";
+				//	this.Equations.ElementAt ( 0 ).Value.Text = "1-A*x*x+y";
+				//	this.Initials.ElementAt ( 0 ).Value.Text = "0.6313";
 
-					this.Variables.ElementAt ( 1 ).Value.Text = "y";
-					this.Equations.ElementAt ( 1 ).Value.Text = "B*x";
-					this.Initials.ElementAt(1).Value.Text = "0.1894";
+				//	this.Variables.ElementAt ( 1 ).Value.Text = "y";
+				//	this.Equations.ElementAt ( 1 ).Value.Text = "B*x";
+				//	this.Initials.ElementAt(1).Value.Text = "0.1894";
 
-					this.ParamterTextBoxes["A"].Text = "1.4";
-					this.ParamterTextBoxes["B"].Text = "0.3";
+				//	this.ParamterTextBoxes["A"].Text = "1.4";
+				//	this.ParamterTextBoxes["B"].Text = "0.3";
 					
-					this.checkBoxHDet.Checked = false;
-					this.checkBoxPoincare.Checked = false;
-					break;
+				//	this.checkBoxHDet.Checked = false;
+				//	this.checkBoxPoincare.Checked = false;
+				//	break;
 				case "Lotka–Volterra":
 					if ( this.Equations.Count < 2 ) {
 						AddEquation ();
@@ -565,6 +574,9 @@ namespace SPBSU.Dynamic {
 					else {
 						this.checkBoxPoincare.Checked = false;
 						this.checkBoxHDet.Checked = false;
+					}
+					if ( set.SetOfInitials != null ) {
+						this.SetOfInitials = set.SetOfInitials;
 					}
 					this.textBoxStep.Text = set.IntegrationParameters.Step.ToString ();
 					this.textBoxIterations.Text = set.IntegrationParameters.IterationsCount.ToString ();
@@ -691,10 +703,8 @@ namespace SPBSU.Dynamic {
 		}
 
 		private void buttonRedrawAxes_Click ( object sender , EventArgs e ) {
-			this.graphSystemBehavior1.AxisXlabel = this.listBoxX.SelectedItem.ToString ();
-			this.graphSystemBehavior1.AxisYlabel = this.listBoxY.SelectedItem.ToString ();
-			this.graphSystemBehavior1.RedrawWithSetAxesData (this.graphSystemBehavior1.Solutions[this.listBoxX.SelectedItem.ToString()],
-															this.graphSystemBehavior1.Solutions[this.listBoxY.SelectedItem.ToString ()] );
+			this.graphSystemBehavior1.RedrawWithChangeData ( this.listBoxX.SelectedItem.ToString () , this.listBoxY.SelectedItem.ToString () );
+
 		}
 
 		private void checkBoxPoincare_CheckedChanged ( object sender , EventArgs e ) {
@@ -796,7 +806,8 @@ namespace SPBSU.Dynamic {
 				Equations = eques,
 				Parameters = this.ParamterTextBoxes.ToDictionary(a=>a.Key,a=>Convert.ToDouble(a.Value.Text)),
 				IntegrationParameters = param,
-				Hamiltonian = this.textBoxHamiltonian.Text
+				Hamiltonian = this.textBoxHamiltonian.Text,
+				SetOfInitials = this.SetOfInitials==null?null:this.SetOfInitials
 			};
 			SaveSystemForm form = new SaveSystemForm ( set,this );
 			form.Show ();
@@ -819,5 +830,63 @@ namespace SPBSU.Dynamic {
 			form.Show ();
 			form.graphDynamicType.Redraw ();
 		}
+
+		private void checkBoxSavePastValues_CheckedChanged ( object sender , EventArgs e ) {
+			this.graphSystemBehavior1.deletePastData = !this.checkBoxSavePastValues.Checked;
+		}
+
+		private void buttonColor_Click ( object sender , EventArgs e ) {
+			if ( this.colorDialog1.ShowDialog () == System.Windows.Forms.DialogResult.OK ) {
+				Color c = this.colorDialog1.Color;
+				( sender as Button ).BackColor = c;
+				this.graphSystemBehavior1.ColorForNewData = c;
+			}
+			
+		}
+
+		private void buttonSetOfInitials_Click ( object sender , EventArgs e ) {
+			SetOfInitialsForm form = new SetOfInitialsForm ( this.Equations.Keys.ToList (),this.SetOfInitials );
+			
+
+			if ( form.ShowDialog () == System.Windows.Forms.DialogResult.OK ) {
+				this.SetOfInitials = form.SetOfInitials;
+				this.buttonCalcSet.Enabled = true;
+			}
+		}
+
+		int current = 0;
+		private void buttonCalcSet_Click ( object sender , EventArgs e ) {
+			int current = 0;
+			foreach ( var key in this.SetOfInitials.ElementAt ( current ).Keys ) {
+				this.Initials[key].Text = this.SetOfInitials.ElementAt ( current )[key].ToString ();
+			}
+			current++;
+			this.buttonCalc_Click ( null , null );
+			this.graphSystemBehavior1.ImageCreated += graphSystemBehavior1_ImageCreated;
+
+		}
+
+		void graphSystemBehavior1_ImageCreated () {
+			if ( current == this.SetOfInitials.Count ) {
+				
+				this.Invoke ( new Action ( () => {
+					this.graphSystemBehavior1.ImageCreated -= this.graphSystemBehavior1_ImageCreated;
+				} ) );
+				return;
+
+			}
+			foreach ( var key in this.SetOfInitials.ElementAt ( current ).Keys ) {
+				this.Invoke ( new Action ( () => {
+					this.Initials[key].Text = this.SetOfInitials.ElementAt ( current )[key].ToString ();
+				} ) );
+			}
+			current++;
+			this.Invoke ( new Action ( () => {
+				this.buttonCalc_Click ( null , null );
+			} ) );
+		}
+
+
+
 	}
 }

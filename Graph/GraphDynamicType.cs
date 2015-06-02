@@ -54,12 +54,20 @@ namespace Graph {
 		}
 
 		public bool deletePastData = false;
+		public Color ColorForNewData {
+			get;
+			set;
+		}
 
 
 		protected override void calculate ( out CalculationFinishedEventArgs calculationFinishedEventArgs ) {
 			Stopwatch s = new Stopwatch ();
 			s.Start ();
 			CalculationResults calculationResults = new CalculationResults ();
+
+			if ( this.ColorForNewData.IsEmpty ) {
+				this.ColorForNewData = Color.Black;
+			}
 			//base.calculate ();
 			try {
 
@@ -98,9 +106,36 @@ namespace Graph {
 						default: break;
 					}
 					s.Stop ();
-					this.Solutions = solution;
-					dataX = solution[this.AxisXlabel].ToArray ();
-					dataY = solution[this.AxisYlabel].ToArray ();
+					//this.Solutions = solution;
+					//if ( this.deletePastData ) {
+
+					//	dataX = solution[this.AxisXlabel];
+					//	dataY = solution[this.AxisYlabel];
+					//}
+					//else {
+					//	if ( dataX == null ) dataX = new List<double> ();
+					//	if ( dataY == null ) dataY = new List<double> ();
+
+					//	dataX.AddRange(solution[this.AxisXlabel]);
+					//	dataY.AddRange(solution[this.AxisYlabel]);
+					//}
+
+
+					if ( this.deletePastData ) {
+						this.Data = new List<GraphData> ();
+					}
+					else {
+						if ( this.Data == null ) this.Data = new List<GraphData> ();
+					}
+
+					this.Data.Add ( new GraphData {
+						dataX = solution[this.AxisXlabel] ,
+						dataY = solution[this.AxisYlabel] ,
+						Solution = solution,
+						DataColor = this.ColorForNewData
+					} );
+					
+
 					calculationFinishedEventArgs = new CalculationFinishedEventArgs {
 						TimeElapsed = s.Elapsed ,
 						FuncInvoked = calculationResults.FuncInvoked ,
@@ -113,9 +148,24 @@ namespace Graph {
 				MessageBox.Show(ex.ErrorMessage);
 				if ( ex.CalcedValues != null ) {
 					s.Stop ();
-					this.Solutions = ex.CalcedValues;
-					dataX = ex.CalcedValues[this.AxisXlabel].ToArray ();
-					dataY = ex.CalcedValues[this.AxisYlabel].ToArray ();
+					//this.Solutions = ex.CalcedValues;
+					//dataX = ex.CalcedValues[this.AxisXlabel];
+					//dataY = ex.CalcedValues[this.AxisYlabel];]
+
+					if ( this.deletePastData ) {
+						this.Data = new List<GraphData> ();
+					}
+					else {
+						if ( this.Data == null ) this.Data = new List<GraphData> ();
+					}
+
+					this.Data.Add ( new GraphData {
+						dataX = ex.CalcedValues[this.AxisXlabel] ,
+						dataY = ex.CalcedValues[this.AxisYlabel] ,
+						Solution = ex.CalcedValues,
+						DataColor = this.ColorForNewData
+					} );
+
 					calculationFinishedEventArgs = new CalculationFinishedEventArgs {
 						TimeElapsed = s.Elapsed ,
 						FuncInvoked = calculationResults.FuncInvoked ,
@@ -144,6 +194,7 @@ namespace Graph {
 
 		public GraphDynamicType () {
 			InitializeComponent ();
+			this.Scatter = true;
 		}
 
 		private void GraphDynamicType_Load ( object sender , EventArgs e ) {
@@ -192,6 +243,19 @@ namespace Graph {
 			//}
 			//catch ( Exception ex ) {
 			//}
+		}
+
+		public void RedrawWithChangeData(string X,string Y) {
+			
+			this.AxisXlabel = X;
+			this.AxisYlabel = Y;
+			if ( this.Data == null ) return;
+			foreach ( var data in this.Data ) {
+				data.dataX = data.Solution[X];
+				data.dataY = data.Solution[Y];
+			}
+			this.CreateGraphImage ();
+			this.Invalidate ();
 		}
 	}
 }

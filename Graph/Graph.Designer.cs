@@ -40,8 +40,6 @@
 			// checkBoxZoomrRecalc
 			// 
 			this.checkBoxZoomrRecalc.AutoSize = true;
-			this.checkBoxZoomrRecalc.Checked = true;
-			this.checkBoxZoomrRecalc.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkBoxZoomrRecalc.Location = new System.Drawing.Point(305, 343);
 			this.checkBoxZoomrRecalc.Name = "checkBoxZoomrRecalc";
 			this.checkBoxZoomrRecalc.Size = new System.Drawing.Size(90, 17);

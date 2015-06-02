@@ -29,6 +29,8 @@
 			// checkBoxScatter
 			// 
 			this.checkBoxScatter.AutoSize = true;
+			this.checkBoxScatter.Checked = true;
+			this.checkBoxScatter.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.checkBoxScatter.Location = new System.Drawing.Point(66, 343);
 			this.checkBoxScatter.Name = "checkBoxScatter";
 			this.checkBoxScatter.Size = new System.Drawing.Size(81, 17);
@@ -45,6 +47,7 @@
 			this.Name = "GraphDynamicType";
 			this.Load += new System.EventHandler(this.GraphDynamicType_Load);
 			this.SizeChanged += new System.EventHandler(this.GraphDynamicType_SizeChanged);
+			this.Controls.SetChildIndex(this.checkBoxZoomrRecalc, 0);
 			this.Controls.SetChildIndex(this.checkBoxScatter, 0);
 			this.ResumeLayout(false);
 			this.PerformLayout();

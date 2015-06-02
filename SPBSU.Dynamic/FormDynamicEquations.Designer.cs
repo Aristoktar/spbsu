@@ -97,9 +97,14 @@
 			this.labelTimeElapsed = new System.Windows.Forms.Label();
 			this.radioButtonHeuns = new System.Windows.Forms.RadioButton();
 			this.radioButtonEulerImplicit = new System.Windows.Forms.RadioButton();
-			this.graphSystemBehavior1 = new Graph.GraphDynamicType();
 			this.buttonSaveSystem = new System.Windows.Forms.Button();
 			this.buttonFullScreen = new System.Windows.Forms.Button();
+			this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+			this.checkBoxSavePastValues = new System.Windows.Forms.CheckBox();
+			this.buttonColor = new System.Windows.Forms.Button();
+			this.graphSystemBehavior1 = new Graph.GraphDynamicType();
+			this.buttonSetOfInitials = new System.Windows.Forms.Button();
+			this.buttonCalcSet = new System.Windows.Forms.Button();
 			this.panel1.SuspendLayout();
 			this.tabControlIntegrationParameters.SuspendLayout();
 			this.tabPagePoincare.SuspendLayout();
@@ -130,7 +135,7 @@
 			// labelt0
 			// 
 			this.labelt0.AutoSize = true;
-			this.labelt0.Location = new System.Drawing.Point(793, 63);
+			this.labelt0.Location = new System.Drawing.Point(793, 44);
 			this.labelt0.Name = "labelt0";
 			this.labelt0.Size = new System.Drawing.Size(16, 13);
 			this.labelt0.TabIndex = 3;
@@ -138,7 +143,7 @@
 			// 
 			// textBoxt0
 			// 
-			this.textBoxt0.Location = new System.Drawing.Point(836, 59);
+			this.textBoxt0.Location = new System.Drawing.Point(836, 41);
 			this.textBoxt0.Name = "textBoxt0";
 			this.textBoxt0.Size = new System.Drawing.Size(35, 20);
 			this.textBoxt0.TabIndex = 4;
@@ -164,11 +169,9 @@
 			// 
 			this.listBoxSystemName.FormattingEnabled = true;
 			this.listBoxSystemName.Items.AddRange(new object[] {
-            "WikipediaRungeSample",
             "Harmonic oscillator",
             "Henon-Heiles",
             "Lorenz Equation",
-            "Henon Map",
             "Lotka–Volterra"});
 			this.listBoxSystemName.Location = new System.Drawing.Point(356, 429);
 			this.listBoxSystemName.Name = "listBoxSystemName";
@@ -179,7 +182,7 @@
 			// labelParametersLabel
 			// 
 			this.labelParametersLabel.AutoSize = true;
-			this.labelParametersLabel.Location = new System.Drawing.Point(800, 105);
+			this.labelParametersLabel.Location = new System.Drawing.Point(801, 130);
 			this.labelParametersLabel.Name = "labelParametersLabel";
 			this.labelParametersLabel.Size = new System.Drawing.Size(60, 13);
 			this.labelParametersLabel.TabIndex = 8;
@@ -188,7 +191,7 @@
 			// labelA
 			// 
 			this.labelA.AutoSize = true;
-			this.labelA.Location = new System.Drawing.Point(789, 136);
+			this.labelA.Location = new System.Drawing.Point(790, 161);
 			this.labelA.Name = "labelA";
 			this.labelA.Size = new System.Drawing.Size(14, 13);
 			this.labelA.TabIndex = 9;
@@ -197,7 +200,7 @@
 			// labelC
 			// 
 			this.labelC.AutoSize = true;
-			this.labelC.Location = new System.Drawing.Point(787, 190);
+			this.labelC.Location = new System.Drawing.Point(788, 215);
 			this.labelC.Name = "labelC";
 			this.labelC.Size = new System.Drawing.Size(14, 13);
 			this.labelC.TabIndex = 10;
@@ -206,7 +209,7 @@
 			// labelD
 			// 
 			this.labelD.AutoSize = true;
-			this.labelD.Location = new System.Drawing.Point(789, 216);
+			this.labelD.Location = new System.Drawing.Point(790, 241);
 			this.labelD.Name = "labelD";
 			this.labelD.Size = new System.Drawing.Size(15, 13);
 			this.labelD.TabIndex = 11;
@@ -215,7 +218,7 @@
 			// labelB
 			// 
 			this.labelB.AutoSize = true;
-			this.labelB.Location = new System.Drawing.Point(789, 164);
+			this.labelB.Location = new System.Drawing.Point(790, 189);
 			this.labelB.Name = "labelB";
 			this.labelB.Size = new System.Drawing.Size(14, 13);
 			this.labelB.TabIndex = 12;
@@ -224,7 +227,7 @@
 			// labelE
 			// 
 			this.labelE.AutoSize = true;
-			this.labelE.Location = new System.Drawing.Point(787, 242);
+			this.labelE.Location = new System.Drawing.Point(788, 267);
 			this.labelE.Name = "labelE";
 			this.labelE.Size = new System.Drawing.Size(14, 13);
 			this.labelE.TabIndex = 13;
@@ -233,7 +236,7 @@
 			// labelF
 			// 
 			this.labelF.AutoSize = true;
-			this.labelF.Location = new System.Drawing.Point(788, 268);
+			this.labelF.Location = new System.Drawing.Point(789, 293);
 			this.labelF.Name = "labelF";
 			this.labelF.Size = new System.Drawing.Size(13, 13);
 			this.labelF.TabIndex = 14;
@@ -241,7 +244,7 @@
 			// 
 			// textBoxA
 			// 
-			this.textBoxA.Location = new System.Drawing.Point(822, 133);
+			this.textBoxA.Location = new System.Drawing.Point(823, 158);
 			this.textBoxA.Name = "textBoxA";
 			this.textBoxA.Size = new System.Drawing.Size(48, 20);
 			this.textBoxA.TabIndex = 21;
@@ -249,7 +252,7 @@
 			// 
 			// textBoxE
 			// 
-			this.textBoxE.Location = new System.Drawing.Point(822, 239);
+			this.textBoxE.Location = new System.Drawing.Point(823, 264);
 			this.textBoxE.Name = "textBoxE";
 			this.textBoxE.Size = new System.Drawing.Size(48, 20);
 			this.textBoxE.TabIndex = 22;
@@ -257,7 +260,7 @@
 			// 
 			// textBoxD
 			// 
-			this.textBoxD.Location = new System.Drawing.Point(822, 213);
+			this.textBoxD.Location = new System.Drawing.Point(823, 238);
 			this.textBoxD.Name = "textBoxD";
 			this.textBoxD.Size = new System.Drawing.Size(48, 20);
 			this.textBoxD.TabIndex = 23;
@@ -265,7 +268,7 @@
 			// 
 			// textBoxC
 			// 
-			this.textBoxC.Location = new System.Drawing.Point(822, 187);
+			this.textBoxC.Location = new System.Drawing.Point(823, 212);
 			this.textBoxC.Name = "textBoxC";
 			this.textBoxC.Size = new System.Drawing.Size(48, 20);
 			this.textBoxC.TabIndex = 24;
@@ -273,7 +276,7 @@
 			// 
 			// textBoxB
 			// 
-			this.textBoxB.Location = new System.Drawing.Point(822, 161);
+			this.textBoxB.Location = new System.Drawing.Point(823, 186);
 			this.textBoxB.Name = "textBoxB";
 			this.textBoxB.Size = new System.Drawing.Size(48, 20);
 			this.textBoxB.TabIndex = 25;
@@ -281,7 +284,7 @@
 			// 
 			// textBoxF
 			// 
-			this.textBoxF.Location = new System.Drawing.Point(822, 265);
+			this.textBoxF.Location = new System.Drawing.Point(823, 290);
 			this.textBoxF.Name = "textBoxF";
 			this.textBoxF.Size = new System.Drawing.Size(48, 20);
 			this.textBoxF.TabIndex = 26;
@@ -290,10 +293,12 @@
 			// radioButtonRungeKutta4
 			// 
 			this.radioButtonRungeKutta4.AutoSize = true;
+			this.radioButtonRungeKutta4.Checked = true;
 			this.radioButtonRungeKutta4.Location = new System.Drawing.Point(1240, 18);
 			this.radioButtonRungeKutta4.Name = "radioButtonRungeKutta4";
 			this.radioButtonRungeKutta4.Size = new System.Drawing.Size(88, 17);
 			this.radioButtonRungeKutta4.TabIndex = 35;
+			this.radioButtonRungeKutta4.TabStop = true;
 			this.radioButtonRungeKutta4.Text = "RungeKutta4";
 			this.radioButtonRungeKutta4.UseVisualStyleBackColor = true;
 			this.radioButtonRungeKutta4.CheckedChanged += new System.EventHandler(this.radioButtonRungeKutta4_CheckedChanged);
@@ -301,12 +306,10 @@
 			// radioButtonEuler
 			// 
 			this.radioButtonEuler.AutoSize = true;
-			this.radioButtonEuler.Checked = true;
 			this.radioButtonEuler.Location = new System.Drawing.Point(1240, 60);
 			this.radioButtonEuler.Name = "radioButtonEuler";
 			this.radioButtonEuler.Size = new System.Drawing.Size(49, 17);
 			this.radioButtonEuler.TabIndex = 36;
-			this.radioButtonEuler.TabStop = true;
 			this.radioButtonEuler.Text = "Euler";
 			this.radioButtonEuler.UseVisualStyleBackColor = true;
 			this.radioButtonEuler.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
@@ -362,11 +365,11 @@
 			// radioButtonIterativ
 			// 
 			this.radioButtonIterativ.AutoSize = true;
+			this.radioButtonIterativ.Enabled = false;
 			this.radioButtonIterativ.Location = new System.Drawing.Point(1240, 151);
 			this.radioButtonIterativ.Name = "radioButtonIterativ";
 			this.radioButtonIterativ.Size = new System.Drawing.Size(57, 17);
 			this.radioButtonIterativ.TabIndex = 42;
-			this.radioButtonIterativ.TabStop = true;
 			this.radioButtonIterativ.Text = "Iterativ";
 			this.radioButtonIterativ.UseVisualStyleBackColor = true;
 			this.radioButtonIterativ.CheckedChanged += new System.EventHandler(this.radioButtonIterativ_CheckedChanged);
@@ -614,7 +617,6 @@
 			this.radioButtonEulerSymplectic.Name = "radioButtonEulerSymplectic";
 			this.radioButtonEulerSymplectic.Size = new System.Drawing.Size(103, 17);
 			this.radioButtonEulerSymplectic.TabIndex = 52;
-			this.radioButtonEulerSymplectic.TabStop = true;
 			this.radioButtonEulerSymplectic.Text = "Euler Symplectic";
 			this.radioButtonEulerSymplectic.UseVisualStyleBackColor = true;
 			this.radioButtonEulerSymplectic.CheckedChanged += new System.EventHandler(this.radioButtonEulerSymplectic_CheckedChanged);
@@ -826,7 +828,6 @@
 			this.radioButtonHeuns.Name = "radioButtonHeuns";
 			this.radioButtonHeuns.Size = new System.Drawing.Size(82, 17);
 			this.radioButtonHeuns.TabIndex = 56;
-			this.radioButtonHeuns.TabStop = true;
 			this.radioButtonHeuns.Text = "Symplectic4";
 			this.radioButtonHeuns.UseVisualStyleBackColor = true;
 			this.radioButtonHeuns.CheckedChanged += new System.EventHandler(this.radioButtonHeuns_CheckedChanged);
@@ -838,10 +839,52 @@
 			this.radioButtonEulerImplicit.Name = "radioButtonEulerImplicit";
 			this.radioButtonEulerImplicit.Size = new System.Drawing.Size(84, 17);
 			this.radioButtonEulerImplicit.TabIndex = 57;
-			this.radioButtonEulerImplicit.TabStop = true;
 			this.radioButtonEulerImplicit.Text = "Euler Implicit";
 			this.radioButtonEulerImplicit.UseVisualStyleBackColor = true;
 			this.radioButtonEulerImplicit.CheckedChanged += new System.EventHandler(this.radioButtonEulerImplicit_CheckedChanged);
+			// 
+			// buttonSaveSystem
+			// 
+			this.buttonSaveSystem.Location = new System.Drawing.Point(356, 540);
+			this.buttonSaveSystem.Name = "buttonSaveSystem";
+			this.buttonSaveSystem.Size = new System.Drawing.Size(75, 23);
+			this.buttonSaveSystem.TabIndex = 58;
+			this.buttonSaveSystem.Text = "Save";
+			this.buttonSaveSystem.UseVisualStyleBackColor = true;
+			this.buttonSaveSystem.Click += new System.EventHandler(this.buttonSaveSystem_Click);
+			// 
+			// buttonFullScreen
+			// 
+			this.buttonFullScreen.Location = new System.Drawing.Point(401, 385);
+			this.buttonFullScreen.Name = "buttonFullScreen";
+			this.buttonFullScreen.Size = new System.Drawing.Size(75, 23);
+			this.buttonFullScreen.TabIndex = 59;
+			this.buttonFullScreen.Text = "full screen";
+			this.buttonFullScreen.UseVisualStyleBackColor = true;
+			this.buttonFullScreen.Click += new System.EventHandler(this.buttonFullScreen_Click);
+			// 
+			// checkBoxSavePastValues
+			// 
+			this.checkBoxSavePastValues.AutoSize = true;
+			this.checkBoxSavePastValues.Checked = true;
+			this.checkBoxSavePastValues.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.checkBoxSavePastValues.Location = new System.Drawing.Point(238, 388);
+			this.checkBoxSavePastValues.Name = "checkBoxSavePastValues";
+			this.checkBoxSavePastValues.Size = new System.Drawing.Size(110, 17);
+			this.checkBoxSavePastValues.TabIndex = 60;
+			this.checkBoxSavePastValues.Text = "Save Past Values";
+			this.checkBoxSavePastValues.UseVisualStyleBackColor = true;
+			this.checkBoxSavePastValues.CheckedChanged += new System.EventHandler(this.checkBoxSavePastValues_CheckedChanged);
+			// 
+			// buttonColor
+			// 
+			this.buttonColor.Location = new System.Drawing.Point(57, 540);
+			this.buttonColor.Name = "buttonColor";
+			this.buttonColor.Size = new System.Drawing.Size(75, 23);
+			this.buttonColor.TabIndex = 61;
+			this.buttonColor.Text = "Select Color";
+			this.buttonColor.UseVisualStyleBackColor = true;
+			this.buttonColor.Click += new System.EventHandler(this.buttonColor_Click);
 			// 
 			// graphSystemBehavior1
 			// 
@@ -850,6 +893,8 @@
 			this.graphSystemBehavior1.AxisXlabel = "x";
 			this.graphSystemBehavior1.AxisYlabel = "y";
 			this.graphSystemBehavior1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+			this.graphSystemBehavior1.ColorForNewData = System.Drawing.Color.Empty;
+			this.graphSystemBehavior1.Data = null;
 			this.graphSystemBehavior1.f0 = null;
 			this.graphSystemBehavior1.functionsD = null;
 			this.graphSystemBehavior1.GraphHist = false;
@@ -870,25 +915,26 @@
 			this.graphSystemBehavior1.ZoomButtonsExist = true;
 			this.graphSystemBehavior1.CalculationFinished += new Graph.Events.CalculationFinishedHandler(this.graphSystemBehavior1_CalculationFinished);
 			// 
-			// buttonSaveSystem
+			// buttonSetOfInitials
 			// 
-			this.buttonSaveSystem.Location = new System.Drawing.Point(356, 540);
-			this.buttonSaveSystem.Name = "buttonSaveSystem";
-			this.buttonSaveSystem.Size = new System.Drawing.Size(75, 23);
-			this.buttonSaveSystem.TabIndex = 58;
-			this.buttonSaveSystem.Text = "Save";
-			this.buttonSaveSystem.UseVisualStyleBackColor = true;
-			this.buttonSaveSystem.Click += new System.EventHandler(this.buttonSaveSystem_Click);
+			this.buttonSetOfInitials.Location = new System.Drawing.Point(796, 67);
+			this.buttonSetOfInitials.Name = "buttonSetOfInitials";
+			this.buttonSetOfInitials.Size = new System.Drawing.Size(75, 23);
+			this.buttonSetOfInitials.TabIndex = 62;
+			this.buttonSetOfInitials.Text = "Set of init";
+			this.buttonSetOfInitials.UseVisualStyleBackColor = true;
+			this.buttonSetOfInitials.Click += new System.EventHandler(this.buttonSetOfInitials_Click);
 			// 
-			// buttonFullScreen
+			// buttonCalcSet
 			// 
-			this.buttonFullScreen.Location = new System.Drawing.Point(401, 385);
-			this.buttonFullScreen.Name = "buttonFullScreen";
-			this.buttonFullScreen.Size = new System.Drawing.Size(75, 23);
-			this.buttonFullScreen.TabIndex = 59;
-			this.buttonFullScreen.Text = "button1";
-			this.buttonFullScreen.UseVisualStyleBackColor = true;
-			this.buttonFullScreen.Click += new System.EventHandler(this.buttonFullScreen_Click);
+			this.buttonCalcSet.Enabled = false;
+			this.buttonCalcSet.Location = new System.Drawing.Point(796, 96);
+			this.buttonCalcSet.Name = "buttonCalcSet";
+			this.buttonCalcSet.Size = new System.Drawing.Size(75, 23);
+			this.buttonCalcSet.TabIndex = 63;
+			this.buttonCalcSet.Text = "Calc set";
+			this.buttonCalcSet.UseVisualStyleBackColor = true;
+			this.buttonCalcSet.Click += new System.EventHandler(this.buttonCalcSet_Click);
 			// 
 			// FormDynamicEquations
 			// 
@@ -896,6 +942,10 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoScroll = true;
 			this.ClientSize = new System.Drawing.Size(1370, 724);
+			this.Controls.Add(this.buttonCalcSet);
+			this.Controls.Add(this.buttonSetOfInitials);
+			this.Controls.Add(this.buttonColor);
+			this.Controls.Add(this.checkBoxSavePastValues);
 			this.Controls.Add(this.buttonFullScreen);
 			this.Controls.Add(this.buttonSaveSystem);
 			this.Controls.Add(this.radioButtonEulerImplicit);
@@ -1032,6 +1082,11 @@
 		private System.Windows.Forms.Button buttonSaveSystem;
 		public System.Windows.Forms.ListBox listBoxSystemName;
 		private System.Windows.Forms.Button buttonFullScreen;
+		private System.Windows.Forms.ColorDialog colorDialog1;
+		private System.Windows.Forms.CheckBox checkBoxSavePastValues;
+		private System.Windows.Forms.Button buttonColor;
+		private System.Windows.Forms.Button buttonSetOfInitials;
+		private System.Windows.Forms.Button buttonCalcSet;
 	}
 }
 

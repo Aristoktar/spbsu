@@ -43,12 +43,12 @@ namespace Graph {
 			this.XLabelLength = 15;
 			if ( data_X == null ) {
 				
-				this.dataY = data_Y.ToArray ();
+				this.dataY = data_Y;
 				List<double> data_X_temp = new List<double> ();
 				for ( int i = 0 ; i < data_Y.Count ; i++ ) {
 					data_X_temp.Add ( i );
 				}
-				this.dataX = data_X.ToArray ();
+				this.dataX = data_X;
 			}
 			else {
 				double delta = Math.Abs(data_X[data_X.Count - 1] - data_X[data_X.Count - 2]);
@@ -65,14 +65,14 @@ namespace Graph {
 					max++;
 				}
 
-				this.dataY = data_Y.ToArray ();
+				this.dataY = data_Y;
 				List<double> data_X_temp = new List<double> ();
 				for ( int i = 0 ; i < data_Y.Count ; i++ ) {
 					data_X_temp.Insert ( 0 , max );
 					if ( lessZero ) max++;
 					else max--;
 				}
-				this.dataX = data_X_temp.ToArray ();
+				this.dataX = data_X_temp;
 			}
 		}
 

@@ -112,8 +112,12 @@ namespace Graph
         
 
         protected double[][] dataArrayOfArrays;
-        public double[] dataY;
-        public double[] dataX;
+        public List<double> dataY;
+        public List<double> dataX;
+		public List<GraphData> Data {
+			get;
+			set;
+		}
         protected string equation = "";
         private Button buttonZoomIn;
         private Button buttonZoomOut;
@@ -162,33 +166,33 @@ namespace Graph
         /// </summary>
         protected virtual void calculate()
         {
-			
-            if (!string.IsNullOrWhiteSpace(this.equation))
-            {
-                this.countXs = 100;
-                this.deltaXs = (double)(this.XMaxValue - this.XMinValue) / this.countXs;
+			//commented when dataX array -> List
+			//if (!string.IsNullOrWhiteSpace(this.equation))
+			//{
+			//	this.countXs = 100;
+			//	this.deltaXs = (double)(this.XMaxValue - this.XMinValue) / this.countXs;
 
-                treeParse.treeParse tree = new treeParse.treeParse(this.equation);
-                tree.init();
+			//	treeParse.treeParse tree = new treeParse.treeParse(this.equation);
+			//	tree.init();
 
-                this.dataX = new double[0];
-                this.dataY = new double[0];
-                var timer = Stopwatch.StartNew();
+			//	this.dataX = new List<double> ();
+			//	this.dataY = new List<double> ();
+			//	var timer = Stopwatch.StartNew();
 
-                for (int i = 0; i <= this.countXs; i++)
-                {
-                    double dtemp = (double)this.XMinValue + deltaXs * i;
-                    double tempt = tree.calculate("x",dtemp);
+			//	for (int i = 0; i <= this.countXs; i++)
+			//	{
+			//		double dtemp = (double)this.XMinValue + deltaXs * i;
+			//		double tempt = tree.calculate("x",dtemp);
 
-                    Array.Resize<double>(ref this.dataX, this.dataX.Length + 1);
-                    Array.Resize<double>(ref this.dataY, this.dataY.Length + 1);
-                    this.dataX[this.dataX.Length - 1] = dtemp;
-                    this.dataY[this.dataY.Length - 1] = tempt;
-                }
-                timer.Stop();
-                //MessageBox.Show(timer.Elapsed.ToString());
+			//		Array.Resize<double>(ref this.dataX, this.dataX.Length + 1);
+			//		Array.Resize<double>(ref this.dataY, this.dataY.Length + 1);
+			//		this.dataX[this.dataX.Length - 1] = dtemp;
+			//		this.dataY[this.dataY.Length - 1] = tempt;
+			//	}
+			//	timer.Stop();
+			//	//MessageBox.Show(timer.Elapsed.ToString());
 
-            }
+			//}
         }
 		protected virtual void calculate (out CalculationFinishedEventArgs calculationFinishedEventArgs) {
 			calculationFinishedEventArgs = new CalculationFinishedEventArgs ();
@@ -433,9 +437,8 @@ namespace Graph
 		}
 
 		public void RedrawWithSetAxesData ( List<double> newDataX , List<double> newDataY ) {
-			this.dataX = newDataX.ToArray ();
-			this.dataY = newDataY.ToArray ();
-			
+			this.dataX = newDataX;
+			this.dataY = newDataY;
 			this.CreateGraphImage ();
 			this.Invalidate ();
 		}
@@ -490,68 +493,68 @@ namespace Graph
             }
 
 			
-            if (this.dataX != null && this.dataY  != null)
-            {
-				int delay = this.dataX.Length / 1000;
-				if ( delay == 0 ) {
-					delay = 1;
+            if (this.Data!=null) {
+				
+				
+				Graphics g = Graphics.FromImage ( this.ImgGraph );
+				foreach(var dataVal in this.Data)
+				{
+					if ( dataVal.dataX.Count != dataVal.dataY.Count )
+						continue;
+
+					int delay = dataVal.dataX.Count / 1000;
+					if ( delay == 0 ) {
+						delay = 1;
+					}
+					for ( int i = 0 ; i < dataVal.dataX.Count ; i++ ) {
+						if ( this.Scatter ) {
+							float y = (float) this.UsersToPixel ( dataVal.dataY[i] , Axes.y );
+							float x = (float) this.UsersToPixel ( dataVal.dataX[i] , Axes.x );
+							if ( y < this.Height * 1000 &&
+								y > -this.Height * 1000 &&
+								x < this.Width * 1000 &&
+								x > -this.Width * 1000 ) {
+
+									g.DrawEllipse ( new Pen ( dataVal.DataColor) , x , y , 1 , 1 );
+							} if ( Animate && i % delay == 0 ) {
+
+								Thread.Sleep ( AnimatePeriod );
+								g.Save ();
+								this.Invalidate ();
+							}
+						}
+						else {
+							if ( i == 0 )
+								continue;
+							float y = (float) this.UsersToPixel ( dataVal.dataY[i] , Axes.y );
+							float x = (float) this.UsersToPixel ( dataVal.dataX[i] , Axes.x );
+							float yPast = (float) this.UsersToPixel ( dataVal.dataY[i - 1] , Axes.y );
+							float xPast = (float) this.UsersToPixel ( dataVal.dataX[i - 1] , Axes.x );
+							if ( y < this.Height * 1000 &&
+								y > -this.Height * 1000 &&
+								yPast > -this.Height * 1000 &&
+								yPast < this.Height * 1000 &&
+								x < this.Width * 1000 &&
+								x > -this.Width * 1000 &&
+								xPast > -this.Width * 1000 &&
+								xPast < this.Width * 1000
+								) {
+								PointF p1 = new PointF ( xPast , xPast );
+								PointF p2 = new PointF ( x , y );
+								g.DrawLine ( new Pen(dataVal.DataColor) , x , y , xPast , yPast );
+							}
+							if ( Animate && i % delay == 0 ) {
+
+								Thread.Sleep ( AnimatePeriod );
+								g.Save ();
+								this.Invalidate ();
+
+							}
+						}
+					}
 				}
-                if (this.dataY.Length != this.dataX.Length)
-                    return;
-                Graphics g = Graphics.FromImage(this.ImgGraph);
-                for (int i = 0; i < this.dataX.Length; i++)
-                {
-                    if (this.Scatter)
-                    {
-                        float y = (float)this.UsersToPixel(this.dataY[i], Axes.y);
-                        float x = (float)this.UsersToPixel(this.dataX[i], Axes.x);
-                        if (y < this.Height * 1000 &&
-							y > -this.Height * 1000 &&
-							x < this.Width * 1000 &&
-							x > -this.Width * 1000)
-                        {
-                            
-                            g.DrawEllipse(Pens.Blue, x, y, 1, 1);
-						} if ( Animate && i % delay == 0 ) {
-
-							Thread.Sleep (AnimatePeriod );
-							g.Save ();
-							this.Invalidate ();
-						}
-                    }
-                    else
-                    {
-                        if (i == 0)
-                            continue;
-                        float y = (float)this.UsersToPixel(this.dataY[i], Axes.y);
-                        float x = (float)this.UsersToPixel(this.dataX[i], Axes.x);
-                        float yPast = (float)this.UsersToPixel(this.dataY[i-1], Axes.y);
-                        float xPast = (float)this.UsersToPixel(this.dataX[i-1], Axes.x);
-                        if (y < this.Height * 1000 && 
-							y > -this.Height * 1000 && 
-							yPast > -this.Height * 1000 && 
-							yPast < this.Height * 1000 &&
-							x < this.Width * 1000 &&
-							x > -this.Width * 1000 &&
-							xPast > -this.Width * 1000 &&
-							xPast < this.Width * 1000
-							)
-                        {
-                            PointF p1 = new PointF(xPast,xPast);
-                            PointF p2 = new PointF(x, y);
-                            g.DrawLine(Pens.Blue, x,y,xPast,yPast);
-                        }
-						if ( Animate && i % delay == 0 ) {
-
-							Thread.Sleep ( AnimatePeriod );
-							g.Save ();
-							this.Invalidate ();
-							
-						}
-                    }
-                }
-                g.Save();
-            }
+				g.Save ();
+			}
         }
 
         protected virtual void CreateAxesAndLabelsImage()
@@ -1002,21 +1005,29 @@ namespace Graph
 		public void zoom100Percent () {
 			try {
 
-				if ( this.dataX != null && this.dataY != null ) {
+				if ( this.Data != null ) {
 
-					this.XMinValue = this.dataX
-						.Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
-							.Min ();
-					this.XMaxValue = this.dataX
-						.Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
-							.Max ();
+					this.XMinValue = this.Data.Select ( b => b.dataX.
+						Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
+							.Min () ).ToList ().Min ();
 
-					this.YMaxValue = this.dataY
+					//this.XMinValue = this.dataX
+					//	.Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
+					//		.Min ();
+					this.XMaxValue = this.Data.Select ( b => b.dataX.
+						Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
+							.Max () ).ToList ().Max ();
+					//this.XMaxValue = this.Data.Select(b=>b.
+					//	.Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
+					//		.Max ();
+
+					this.YMaxValue = this.Data.Select(b=>b.dataY
 						.Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
-							.Max ();
-					this.YMinValue = this.dataY
+							.Max ()).ToList().Max();
+
+					this.YMinValue = this.Data.Select(b=>b.dataY
 						.Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
-							.Min ();
+							.Min () ).ToList ().Min ();
 					this.Draw ();
 					
 				}
