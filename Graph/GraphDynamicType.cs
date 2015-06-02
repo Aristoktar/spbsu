@@ -53,6 +53,8 @@ namespace Graph {
 			set;
 		}
 
+		public bool deletePastData = false;
+
 
 		protected override void calculate ( out CalculationFinishedEventArgs calculationFinishedEventArgs ) {
 			Stopwatch s = new Stopwatch ();
