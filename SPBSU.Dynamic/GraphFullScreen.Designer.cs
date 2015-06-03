@@ -41,7 +41,7 @@
 			this.graphDynamicType.MoveButtonsExist = true;
 			this.graphDynamicType.Name = "graphSystemBehavior1";
 			this.graphDynamicType.SavePastValues = false;
-			this.graphDynamicType.Scatter = false;
+			this.graphDynamicType.Scatter = true;
 			this.graphDynamicType.Size = new System.Drawing.Size(1091, 525);
 			this.graphDynamicType.t0 = 0D;
 			this.graphDynamicType.TabIndex = 0;

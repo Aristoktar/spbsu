@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -35,6 +36,8 @@ namespace SPBSU.Dynamic.Data {
 			set;
 		}
 
+		public List<Color> Colors;
+
 		public EquationsSet () {
 		}
 		public EquationsSet ( SerializationInfo info , StreamingContext ctxt ) {
@@ -44,6 +47,7 @@ namespace SPBSU.Dynamic.Data {
 			this.SetOfInitials = (List<Dictionary<string , double>>) info.GetValue ( "SetOfInitials" , typeof ( List<Dictionary<string , double>> ) );
 			this.t0 = (double) info.GetValue ( "t0" , typeof ( double ) );
 			this.Hamiltonian = (string) info.GetString ( "Hamiltonian");
+			this.Colors = (List<Color>) info.GetValue ( "Colors" , typeof ( List<Color> ) );
 		}
 		public void GetObjectData ( SerializationInfo info , StreamingContext context ) {
 			info.AddValue ( "Equations" , this.Equations );
@@ -52,7 +56,7 @@ namespace SPBSU.Dynamic.Data {
 			info.AddValue ( "IntegrationParameters" , this.IntegrationParameters );
 			info.AddValue ( "Hamiltonian" , this.Hamiltonian );
 			info.AddValue ( "SetOfInitials" , this.SetOfInitials );
-
+			info.AddValue ( "Colors" , this.Colors );
 		}
 	}
 }

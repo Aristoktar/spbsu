@@ -12,7 +12,7 @@ namespace Mathematics.Intergration {
 		Iterative = 3,
 		PoincareMap= 2,
 		DormandPrince = 5,
-		HeunsMethod=6,
+		Symplectic4=6,
 		EulerMethodSymplectic = 7
 		
 		

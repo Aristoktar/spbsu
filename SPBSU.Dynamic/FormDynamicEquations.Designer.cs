@@ -906,7 +906,7 @@
 			this.graphSystemBehavior1.Name = "graphSystemBehavior1";
 			this.graphSystemBehavior1.Parameters = null;
 			this.graphSystemBehavior1.SavePastValues = false;
-			this.graphSystemBehavior1.Scatter = false;
+			this.graphSystemBehavior1.Scatter = true;
 			this.graphSystemBehavior1.Size = new System.Drawing.Size(464, 363);
 			this.graphSystemBehavior1.Solutions = null;
 			this.graphSystemBehavior1.t0 = 0D;

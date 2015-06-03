@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DynamicCompiling;
+using Graph;
 using Graph.Events;
 using Mathematics;
 using Mathematics.Analysis;
@@ -44,6 +45,10 @@ namespace SPBSU.Dynamic {
 		private int CurrentEqNumerator;
 
 		public List<Dictionary<string , double>> SetOfInitials {
+			get;
+			set;
+		}
+		public List<Color> ColorsOfInitials {
 			get;
 			set;
 		}
@@ -583,6 +588,7 @@ namespace SPBSU.Dynamic {
 					this.checkBoxDirectionLeft.Checked = set.IntegrationParameters.LeftDirection;
 					this.checkBoxDirectionRight.Checked = set.IntegrationParameters.RightDirection;
 					this.textBoxHamiltonian.Text = set.Hamiltonian;
+					this.ColorsOfInitials = set.Colors;
 					
 
 					break;
@@ -663,8 +669,17 @@ namespace SPBSU.Dynamic {
 														this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble ( b.Value.Text ) ) ,
 														eques.Keys );
 				var temt = compilator.GetFuncs ();
-				var uio = Hamiltonian.Calc ( temt , this.graphSystemBehavior1.Solutions , this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble ( b.Value.Text ) ) );
-				form.graphSystemOscillogram1.setYdata ( uio["H"],this.graphSystemBehavior1.Solutions["t"]);
+				List<GraphData> data = new List<GraphData> ();
+				foreach ( var sol in this.graphSystemBehavior1.Data ) {
+					var uio = Hamiltonian.Calc ( temt , sol.Solution , this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble ( b.Value.Text ) ) );
+					data.Add ( new GraphData {
+						DataColor = sol.DataColor,
+						dataY = uio["H"],
+						dataX = sol.Solution["t"]
+
+					} );
+				}
+				form.graphSystemOscillogram1.setYdata ( data);
 				//form.graphSystemOscillogram1.setXdata ( uio["t"] );
 				form.graphSystemOscillogram1.zoom100Percent ();
 				form.graphSystemOscillogram1.Refresh ();
@@ -690,7 +705,7 @@ namespace SPBSU.Dynamic {
 
 				LyapunovSpectrumPlot form = new LyapunovSpectrumPlot ();
 				var parameters = this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble ( b.Value.Text ) );
-				form.graphSystemOscillogram1.setYdata ( Lyapunov.Spectrum ( this.graphSystemBehavior1.Solutions , this.graphSystemBehavior1.functionsD , parameters )[v.ToString()] );
+				form.graphSystemOscillogram1.setYdata ( Lyapunov.Spectrum ( this.graphSystemBehavior1.Solutions , this.graphSystemBehavior1.functionsD , parameters )[v.ToString ()] , this.colorDialog1.Color );
 				form.graphSystemOscillogram1.AxisXlabel = "t";
 				form.graphSystemOscillogram1.AxisYlabel = "λ(" + v.ToString () + ")";
 				form.Show ();
@@ -768,7 +783,7 @@ namespace SPBSU.Dynamic {
 		}
 
 		private void radioButtonHeuns_CheckedChanged ( object sender , EventArgs e ) {
-			this.graphSystemBehavior1.IntegrationType = IntegrationType.HeunsMethod;
+			this.graphSystemBehavior1.IntegrationType = IntegrationType.Symplectic4;
 		}
 
 		private void radioButtonEulerImplicit_CheckedChanged ( object sender , EventArgs e ) {
@@ -807,7 +822,8 @@ namespace SPBSU.Dynamic {
 				Parameters = this.ParamterTextBoxes.ToDictionary(a=>a.Key,a=>Convert.ToDouble(a.Value.Text)),
 				IntegrationParameters = param,
 				Hamiltonian = this.textBoxHamiltonian.Text,
-				SetOfInitials = this.SetOfInitials==null?null:this.SetOfInitials
+				SetOfInitials = this.SetOfInitials==null?null:this.SetOfInitials,
+				Colors = this.ColorsOfInitials==null?null:this.ColorsOfInitials
 			};
 			SaveSystemForm form = new SaveSystemForm ( set,this );
 			form.Show ();
@@ -822,10 +838,13 @@ namespace SPBSU.Dynamic {
 			form.graphDynamicType.YMinValue = this.graphSystemBehavior1.YMinValue;
 			form.graphDynamicType.dataX = this.graphSystemBehavior1.dataX;
 			form.graphDynamicType.dataY = this.graphSystemBehavior1.dataY;
+
 			form.graphDynamicType.AxisXlabel = this.graphSystemBehavior1.AxisXlabel;
 			form.graphDynamicType.AxisYlabel = this.graphSystemBehavior1.AxisYlabel;
 			form.graphDynamicType.checkBoxScatter.Checked = this.graphSystemBehavior1.checkBoxScatter.Checked;
 			form.graphDynamicType.checkBoxZoomrRecalc.Checked = this.graphSystemBehavior1.checkBoxZoomrRecalc.Checked;
+
+			form.graphDynamicType.Data = this.graphSystemBehavior1.Data;
 			
 			form.Show ();
 			form.graphDynamicType.Redraw ();
@@ -845,11 +864,12 @@ namespace SPBSU.Dynamic {
 		}
 
 		private void buttonSetOfInitials_Click ( object sender , EventArgs e ) {
-			SetOfInitialsForm form = new SetOfInitialsForm ( this.Equations.Keys.ToList (),this.SetOfInitials );
+			SetOfInitialsForm form = new SetOfInitialsForm ( this.Equations.Keys.ToList (),this.SetOfInitials,this.ColorsOfInitials);
 			
 
 			if ( form.ShowDialog () == System.Windows.Forms.DialogResult.OK ) {
 				this.SetOfInitials = form.SetOfInitials;
+				this.ColorsOfInitials = form.ColorButtons.Select ( a => a.BackColor ).ToList ();
 				this.buttonCalcSet.Enabled = true;
 			}
 		}
@@ -860,6 +880,8 @@ namespace SPBSU.Dynamic {
 			foreach ( var key in this.SetOfInitials.ElementAt ( current ).Keys ) {
 				this.Initials[key].Text = this.SetOfInitials.ElementAt ( current )[key].ToString ();
 			}
+			
+			this.graphSystemBehavior1.ColorForNewData = this.ColorsOfInitials.ElementAt ( current );
 			current++;
 			this.buttonCalc_Click ( null , null );
 			this.graphSystemBehavior1.ImageCreated += graphSystemBehavior1_ImageCreated;
@@ -880,6 +902,7 @@ namespace SPBSU.Dynamic {
 					this.Initials[key].Text = this.SetOfInitials.ElementAt ( current )[key].ToString ();
 				} ) );
 			}
+			this.graphSystemBehavior1.ColorForNewData = this.ColorsOfInitials.ElementAt ( current );
 			current++;
 			this.Invoke ( new Action ( () => {
 				this.buttonCalc_Click ( null , null );

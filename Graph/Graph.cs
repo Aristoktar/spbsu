@@ -125,7 +125,10 @@ namespace Graph
         private Button buttonLeft;
         private Button buttonUp;
         private Button buttonDown;
-        private Button buttonSave;
+		private Button buttonSave {
+			get;
+			set;
+		}
 
         public int countXs = 500;
         public int countYs = 200;
@@ -155,7 +158,7 @@ namespace Graph
                 ).SetValue(this, true, null);
             ZoomBoxList = new List<PointF>();
             this.dataArrayOfArrays = new double[0][];
-
+			this.Scatter = true;
 			this.AnimatePeriod = 1;
         }
 
@@ -1006,10 +1009,10 @@ namespace Graph
 			try {
 
 				if ( this.Data != null ) {
-
-					this.XMinValue = this.Data.Select ( b => b.dataX.
+					var lemtList = this.Data.Select ( b => b.dataX.
 						Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
-							.Min () ).ToList ().Min ();
+							.Min () ).ToList ();
+					this.XMinValue = lemtList.Min ();
 
 					//this.XMinValue = this.dataX
 					//	.Where ( a => !( Double.IsInfinity ( a ) || Double.IsNaN ( a ) ) && ( a < Int16.MaxValue ) && ( a > Int16.MinValue ) )
@@ -1032,7 +1035,8 @@ namespace Graph
 					
 				}
 			}
-			catch {
+			catch(Exception ex) {
+				MessageBox.Show ( ex.ToString () );
 			}
 		}
 

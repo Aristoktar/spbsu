@@ -31,6 +31,7 @@
 			this.buttonCalculate = new System.Windows.Forms.Button();
 			this.buttonClose = new System.Windows.Forms.Button();
 			this.buttonSaveClose = new System.Windows.Forms.Button();
+			this.colorDialog1 = new System.Windows.Forms.ColorDialog();
 			this.SuspendLayout();
 			// 
 			// textBoxCount
@@ -140,5 +141,6 @@
 		private System.Windows.Forms.Button buttonCalculate;
 		private System.Windows.Forms.Button buttonClose;
 		private System.Windows.Forms.Button buttonSaveClose;
+		private System.Windows.Forms.ColorDialog colorDialog1;
 	}
 }

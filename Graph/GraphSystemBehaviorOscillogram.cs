@@ -38,7 +38,7 @@ namespace Graph {
 			this.PerformLayout();
 
 		}
-		public void setYdata(List<double> data_Y,List<double>data_X = null)
+		public void setYdata(List<double> data_Y,Color color,List<double>data_X = null)
 		{
 			this.XLabelLength = 15;
 			if ( data_X == null ) {
@@ -65,17 +65,54 @@ namespace Graph {
 					max++;
 				}
 
-				this.dataY = data_Y;
+				//this.dataY = data_Y;
 				List<double> data_X_temp = new List<double> ();
 				for ( int i = 0 ; i < data_Y.Count ; i++ ) {
 					data_X_temp.Insert ( 0 , max );
 					if ( lessZero ) max++;
 					else max--;
 				}
-				this.dataX = data_X_temp;
+				//this.dataX = data_X_temp;
+				if ( this.Data == null ) this.Data = new List<GraphData> ();
+				this.Data.Add ( new GraphData {
+					dataX = data_X_temp ,
+					dataY = data_Y ,
+					DataColor = color
+				} );
 			}
 		}
+		public void setYdata ( List<GraphData> data) {
+			this.XLabelLength = 15;
+			foreach(var sol in data){
+				double delta = Math.Abs ( sol.dataX[sol.dataX.Count- 1] - sol.dataX[sol.dataX.Count - 2] );
+				int max = (int) ( sol.dataX[sol.dataX.Count - 1] / delta );
+				bool lessZero;
+				if ( max < 0 ) {
+					lessZero = true;
+					max--;
 
+				}
+				else {
+					lessZero = false;
+					max++;
+				}
+
+				//this.dataY = data_Y;
+				List<double> data_X_temp = new List<double> ();
+				for ( int i = 0 ; i < sol.dataY.Count ; i++ ) {
+					data_X_temp.Insert ( 0 , max );
+					if ( lessZero ) max++;
+					else max--;
+				}
+				//this.dataX = data_X_temp;
+				if ( this.Data == null ) this.Data = new List<GraphData> ();
+				this.Data.Add ( new GraphData {
+					dataX = data_X_temp ,
+					dataY = sol.dataY ,
+					DataColor = sol.DataColor
+				} );
+			}
+		}
 		private void button1_Click ( object sender , EventArgs e ) {
 			//string path = "D:\\" + DateTime.Now.Minute + ".bmp";
 

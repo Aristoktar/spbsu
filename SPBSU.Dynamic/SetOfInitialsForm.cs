@@ -19,6 +19,10 @@ namespace SPBSU.Dynamic {
 			get;
 			set;
 		}
+		public List<Button> ColorButtons {
+			get;
+			set;
+		}
 		List<string> Keys {
 			get;
 			set;
@@ -28,14 +32,18 @@ namespace SPBSU.Dynamic {
 
 		private int PosX = 20;
 		private int DeltaPosX = 60;
-		public SetOfInitialsForm ( List<string> keys,List<Dictionary<string , double>> setOfInitials) {
+		public SetOfInitialsForm ( List<string> keys,List<Dictionary<string , double>> setOfInitials,List<Color> Colors) {
 			InitializeComponent ();
 			this.Keys = keys;
 			this.SetOfInitialsTextBoxes = new List<Dictionary<string , TextBox>> ();
 			if ( setOfInitials != null ) {
+				this.ColorButtons = new List<Button> ();
 				this.SetOfInitials = setOfInitials;
 				foreach ( var ini in setOfInitials ) {
 					AddInitial ();
+				}
+				for ( var i = 0 ; i < this.ColorButtons.Count ; i++ ) {
+					this.ColorButtons.ElementAt ( i ).BackColor = Colors.ElementAt ( i );
 				}
 
 				for ( int i=0;i< this.SetOfInitials.Count;i++ ) {
@@ -46,11 +54,12 @@ namespace SPBSU.Dynamic {
 
 			}
 			else {
+				this.ColorButtons = new List<Button> ();
 				AddInitial ();
 			}
-			this.buttonClose.Location =new Point(this.buttonClose.Location.X, ( keys.Count ) * this.DeltaPsY + this.InitPosY);
-			this.buttonSaveClose.Location = new Point ( this.buttonSaveClose.Location.X , ( keys.Count  ) * this.DeltaPsY + this.InitPosY );
-			this.buttonCalculate.Location = new Point ( this.buttonCalculate.Location.X , ( keys.Count  ) * this.DeltaPsY + this.InitPosY );
+			this.buttonClose.Location =new Point(this.buttonClose.Location.X, ( keys.Count +1) * this.DeltaPsY + this.InitPosY);
+			this.buttonSaveClose.Location = new Point ( this.buttonSaveClose.Location.X , ( keys.Count +1 ) * this.DeltaPsY + this.InitPosY );
+			this.buttonCalculate.Location = new Point ( this.buttonCalculate.Location.X , ( keys.Count+1  ) * this.DeltaPsY + this.InitPosY );
 		}
 
 		
@@ -66,8 +75,23 @@ namespace SPBSU.Dynamic {
 				this.Controls.Add ( box );
 				initials.Add ( key,box );
 			}
+			Button colorButton = new Button ();
+			colorButton.Text = "Color";
+			colorButton.Size = new Size ( 50 , 20 );
+			colorButton.Location = new Point ( this.PosX , posY );
+
+			colorButton.Click += colorButton_Click;
+			this.ColorButtons.Add ( colorButton );
+			this.Controls.Add ( colorButton );
 			this.SetOfInitialsTextBoxes.Add ( initials );
+
 			this.PosX+=this.DeltaPosX;
+		}
+
+		void colorButton_Click ( object sender , EventArgs e ) {
+			if ( colorDialog1.ShowDialog () == System.Windows.Forms.DialogResult.OK ) {
+				( sender as Button ).BackColor = colorDialog1.Color;
+			}
 		}
 
 		private void RemoveLast () {
