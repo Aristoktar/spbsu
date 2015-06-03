@@ -84,30 +84,30 @@ namespace Graph {
 		public void setYdata ( List<GraphData> data) {
 			this.XLabelLength = 15;
 			foreach(var sol in data){
-				double delta = Math.Abs ( sol.dataX[sol.dataX.Count- 1] - sol.dataX[sol.dataX.Count - 2] );
-				int max = (int) ( sol.dataX[sol.dataX.Count - 1] / delta );
-				bool lessZero;
-				if ( max < 0 ) {
-					lessZero = true;
-					max--;
+				//double delta = Math.Abs ( sol.dataX[sol.dataX.Count- 1] - sol.dataX[sol.dataX.Count - 2] );
+				//int max = (int) ( sol.dataX[sol.dataX.Count - 1] / delta );
+				//bool lessZero;
+				//if ( max < 0 ) {
+				//	lessZero = true;
+				//	max--;
 
-				}
-				else {
-					lessZero = false;
-					max++;
-				}
+				//}
+				//else {
+				//	lessZero = false;
+				//	max++;
+				//}
 
-				//this.dataY = data_Y;
-				List<double> data_X_temp = new List<double> ();
-				for ( int i = 0 ; i < sol.dataY.Count ; i++ ) {
-					data_X_temp.Insert ( 0 , max );
-					if ( lessZero ) max++;
-					else max--;
-				}
+				////this.dataY = data_Y;
+				//List<double> data_X_temp = new List<double> ();
+				//for ( int i = 0 ; i < sol.dataY.Count ; i++ ) {
+				//	data_X_temp.Insert ( 0 , max );
+				//	if ( lessZero ) max++;
+				//	else max--;
+				//}
 				//this.dataX = data_X_temp;
 				if ( this.Data == null ) this.Data = new List<GraphData> ();
 				this.Data.Add ( new GraphData {
-					dataX = data_X_temp ,
+					dataX = sol.dataX ,
 					dataY = sol.dataY ,
 					DataColor = sol.DataColor
 				} );
