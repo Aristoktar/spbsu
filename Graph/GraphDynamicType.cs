@@ -102,6 +102,7 @@ namespace Graph {
 						case Mathematics.Intergration.IntegrationType.EulerMethodSymplectic:
 							solution = RungeKutta.IntegrateEilerSymplectic( this.functionsD , t0 , f0 , this.IntergrationParameters , out calculationResults , Parameters , this );
 							break;
+						
 
 						default: break;
 					}

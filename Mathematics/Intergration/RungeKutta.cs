@@ -232,16 +232,31 @@ namespace Mathematics.Intergration {
 				if ( integrationParameters.PoincareParameters != null ) {
 
 					if ( right  ) {
-						if ( fR[integrationParameters.PoincareParameters.VariableForSection] > integrationParameters.PoincareParameters.PointOfSection &&
+						if ( integrationParameters.PoincareParameters.TimePeriodSection ) {
+							if ( (Math.Abs ( tR - t0 )%integrationParameters.PoincareParameters.PointOfSection) < integrationParameters.PoincareParameters.ThicknessOfLayer ) {
+								isAddR = true;
+							}
+						}
+						else {
+							if ( fR[integrationParameters.PoincareParameters.VariableForSection] > integrationParameters.PoincareParameters.PointOfSection &&
 										fR[integrationParameters.PoincareParameters.VariableForSection] < integrationParameters.PoincareParameters.PointOfSection + integrationParameters.PoincareParameters.ThicknessOfLayer ) {
-							isAddR = true;
-						} 
+								isAddR = true;
+							} 
+						}
+						
 					}
 					if ( left ) {
-						if ( fL[integrationParameters.PoincareParameters.VariableForSection] > integrationParameters.PoincareParameters.PointOfSection &&
-										fL[integrationParameters.PoincareParameters.VariableForSection] < integrationParameters.PoincareParameters.PointOfSection + integrationParameters.PoincareParameters.ThicknessOfLayer ) {
-							isAddL = true;
-						} 
+						if ( integrationParameters.PoincareParameters.TimePeriodSection ) {
+							if ( ( Math.Abs ( tL - t0 ) % integrationParameters.PoincareParameters.PointOfSection ) < integrationParameters.PoincareParameters.ThicknessOfLayer ) {
+								isAddL = true;
+							}
+						}
+						else {
+							if ( fL[integrationParameters.PoincareParameters.VariableForSection] > integrationParameters.PoincareParameters.PointOfSection &&
+											fL[integrationParameters.PoincareParameters.VariableForSection] < integrationParameters.PoincareParameters.PointOfSection + integrationParameters.PoincareParameters.ThicknessOfLayer ) {
+								isAddL = true;
+							}
+						}
 					}
 				}
 				else {
@@ -539,13 +554,32 @@ namespace Mathematics.Intergration {
 				bool isAddR = false;
 				if ( integrationParameters.PoincareParameters != null ) {
 
-					if ( fR[integrationParameters.PoincareParameters.VariableForSection] > integrationParameters.PoincareParameters.PointOfSection &&
-						fR[integrationParameters.PoincareParameters.VariableForSection] < integrationParameters.PoincareParameters.PointOfSection + integrationParameters.PoincareParameters.ThicknessOfLayer ) {
-						isAddR = true;
+					if ( right ) {
+						if ( integrationParameters.PoincareParameters.TimePeriodSection ) {
+							if ( ( Math.Abs ( tR - t0 ) % integrationParameters.PoincareParameters.PointOfSection ) < integrationParameters.PoincareParameters.ThicknessOfLayer ) {
+								isAddR = true;
+							}
+						}
+						else {
+							if ( fR[integrationParameters.PoincareParameters.VariableForSection] > integrationParameters.PoincareParameters.PointOfSection &&
+										fR[integrationParameters.PoincareParameters.VariableForSection] < integrationParameters.PoincareParameters.PointOfSection + integrationParameters.PoincareParameters.ThicknessOfLayer ) {
+								isAddR = true;
+							}
+						}
+
 					}
-					if ( fL[integrationParameters.PoincareParameters.VariableForSection] > integrationParameters.PoincareParameters.PointOfSection &&
-						fL[integrationParameters.PoincareParameters.VariableForSection] < integrationParameters.PoincareParameters.PointOfSection + integrationParameters.PoincareParameters.ThicknessOfLayer ) {
-						isAddL = true;
+					if ( left ) {
+						if ( integrationParameters.PoincareParameters.TimePeriodSection ) {
+							if ( ( Math.Abs ( tL - t0 ) % integrationParameters.PoincareParameters.PointOfSection ) < integrationParameters.PoincareParameters.ThicknessOfLayer ) {
+								isAddL = true;
+							}
+						}
+						else {
+							if ( fL[integrationParameters.PoincareParameters.VariableForSection] > integrationParameters.PoincareParameters.PointOfSection &&
+											fL[integrationParameters.PoincareParameters.VariableForSection] < integrationParameters.PoincareParameters.PointOfSection + integrationParameters.PoincareParameters.ThicknessOfLayer ) {
+								isAddL = true;
+							}
+						}
 					}
 				}
 				else {
@@ -689,15 +723,30 @@ namespace Mathematics.Intergration {
 				if ( integrationParameters.PoincareParameters != null ) {
 
 					if ( right ) {
-						if ( fR[integrationParameters.PoincareParameters.VariableForSection] > integrationParameters.PoincareParameters.PointOfSection &&
-										fR[integrationParameters.PoincareParameters.VariableForSection] < integrationParameters.PoincareParameters.PointOfSection + integrationParameters.PoincareParameters.ThicknessOfLayer ) {
-							isAddR = true;
+						if ( integrationParameters.PoincareParameters.TimePeriodSection ) {
+							if ( ( Math.Abs ( tR - t0 ) % integrationParameters.PoincareParameters.PointOfSection ) < integrationParameters.PoincareParameters.ThicknessOfLayer ) {
+								isAddR = true;
+							}
 						}
+						else {
+							if ( fR[integrationParameters.PoincareParameters.VariableForSection] > integrationParameters.PoincareParameters.PointOfSection &&
+										fR[integrationParameters.PoincareParameters.VariableForSection] < integrationParameters.PoincareParameters.PointOfSection + integrationParameters.PoincareParameters.ThicknessOfLayer ) {
+								isAddR = true;
+							}
+						}
+
 					}
 					if ( left ) {
-						if ( fL[integrationParameters.PoincareParameters.VariableForSection] > integrationParameters.PoincareParameters.PointOfSection &&
-										fL[integrationParameters.PoincareParameters.VariableForSection] < integrationParameters.PoincareParameters.PointOfSection + integrationParameters.PoincareParameters.ThicknessOfLayer ) {
-							isAddL = true;
+						if ( integrationParameters.PoincareParameters.TimePeriodSection ) {
+							if ( ( Math.Abs ( tL - t0 ) % integrationParameters.PoincareParameters.PointOfSection ) < integrationParameters.PoincareParameters.ThicknessOfLayer ) {
+								isAddL = true;
+							}
+						}
+						else {
+							if ( fL[integrationParameters.PoincareParameters.VariableForSection] > integrationParameters.PoincareParameters.PointOfSection &&
+											fL[integrationParameters.PoincareParameters.VariableForSection] < integrationParameters.PoincareParameters.PointOfSection + integrationParameters.PoincareParameters.ThicknessOfLayer ) {
+								isAddL = true;
+							}
 						}
 					}
 				}

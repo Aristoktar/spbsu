@@ -105,6 +105,11 @@
 			this.graphSystemBehavior1 = new Graph.GraphDynamicType();
 			this.buttonSetOfInitials = new System.Windows.Forms.Button();
 			this.buttonCalcSet = new System.Windows.Forms.Button();
+			this.checkBoxTime = new System.Windows.Forms.CheckBox();
+			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+			this.buttonSaveData = new System.Windows.Forms.Button();
+			this.buttonLoadData = new System.Windows.Forms.Button();
 			this.panel1.SuspendLayout();
 			this.tabControlIntegrationParameters.SuspendLayout();
 			this.tabPagePoincare.SuspendLayout();
@@ -424,6 +429,7 @@
 			// panel1
 			// 
 			this.panel1.BackColor = System.Drawing.SystemColors.ControlLight;
+			this.panel1.Controls.Add(this.checkBoxTime);
 			this.panel1.Controls.Add(this.label3);
 			this.panel1.Controls.Add(this.label2);
 			this.panel1.Controls.Add(this.checkBoxHDet);
@@ -936,12 +942,54 @@
 			this.buttonCalcSet.UseVisualStyleBackColor = true;
 			this.buttonCalcSet.Click += new System.EventHandler(this.buttonCalcSet_Click);
 			// 
+			// checkBoxTime
+			// 
+			this.checkBoxTime.AutoSize = true;
+			this.checkBoxTime.Location = new System.Drawing.Point(252, 78);
+			this.checkBoxTime.Name = "checkBoxTime";
+			this.checkBoxTime.Size = new System.Drawing.Size(29, 17);
+			this.checkBoxTime.TabIndex = 62;
+			this.checkBoxTime.Text = "t";
+			this.checkBoxTime.UseVisualStyleBackColor = true;
+			this.checkBoxTime.CheckedChanged += new System.EventHandler(this.checkBoxTime_CheckedChanged);
+			// 
+			// openFileDialog1
+			// 
+			this.openFileDialog1.FileName = "openFileDialog1";
+			this.openFileDialog1.Filter = "Equatins Set (*.eqset)|*.eqset";
+			// 
+			// saveFileDialog1
+			// 
+			this.saveFileDialog1.Filter = "Equatins Set (*.eqset)|*.eqset";
+			// 
+			// buttonSaveData
+			// 
+			this.buttonSaveData.Location = new System.Drawing.Point(338, 601);
+			this.buttonSaveData.Name = "buttonSaveData";
+			this.buttonSaveData.Size = new System.Drawing.Size(75, 23);
+			this.buttonSaveData.TabIndex = 64;
+			this.buttonSaveData.Text = "Sava Data";
+			this.buttonSaveData.UseVisualStyleBackColor = true;
+			this.buttonSaveData.Click += new System.EventHandler(this.buttonSaveData_Click_1);
+			// 
+			// buttonLoadData
+			// 
+			this.buttonLoadData.Location = new System.Drawing.Point(513, 601);
+			this.buttonLoadData.Name = "buttonLoadData";
+			this.buttonLoadData.Size = new System.Drawing.Size(75, 23);
+			this.buttonLoadData.TabIndex = 65;
+			this.buttonLoadData.Text = "LoadData";
+			this.buttonLoadData.UseVisualStyleBackColor = true;
+			this.buttonLoadData.Click += new System.EventHandler(this.buttonLoadData_Click);
+			// 
 			// FormDynamicEquations
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoScroll = true;
 			this.ClientSize = new System.Drawing.Size(1370, 724);
+			this.Controls.Add(this.buttonLoadData);
+			this.Controls.Add(this.buttonSaveData);
 			this.Controls.Add(this.buttonCalcSet);
 			this.Controls.Add(this.buttonSetOfInitials);
 			this.Controls.Add(this.buttonColor);
@@ -1087,6 +1135,11 @@
 		private System.Windows.Forms.Button buttonColor;
 		private System.Windows.Forms.Button buttonSetOfInitials;
 		private System.Windows.Forms.Button buttonCalcSet;
+		private System.Windows.Forms.CheckBox checkBoxTime;
+		private System.Windows.Forms.OpenFileDialog openFileDialog1;
+		private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+		private System.Windows.Forms.Button buttonSaveData;
+		private System.Windows.Forms.Button buttonLoadData;
 	}
 }
 

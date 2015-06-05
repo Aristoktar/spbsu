@@ -19,7 +19,15 @@ namespace Mathematics {
 			get;
 			set;
 		}
+
+		/// <summary>
+		/// in case of time section this variable play role of period
+		/// </summary>
 		public double PointOfSection {
+			get;
+			set;
+		}
+		public string PointOfSectionString {
 			get;
 			set;
 		}
@@ -36,6 +44,11 @@ namespace Mathematics {
 			set;
 		}
 		public bool CheckDetH {
+			get;
+			set;
+		}
+
+		public bool TimePeriodSection {
 			get;
 			set;
 		}

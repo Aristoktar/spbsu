@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\Equation.cs" />
+    <Compile Include="Data\EquationSetWithData.cs" />
     <Compile Include="Data\EquationsSet.cs" />
     <Compile Include="Data\Serializer.cs" />
     <Compile Include="EditPatameterValuesArea.cs">

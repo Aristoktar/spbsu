@@ -35,7 +35,7 @@ namespace SPBSU.Dynamic {
 				MessageBox.Show ( "name already exsist!" );
 				return;
 			}
-			if(this.textBox1.Text != "")	ser.SerializeObject ( "EquationsSets/" + this.textBox1.Text + ".equation" , this.Set );
+			if(this.textBox1.Text != "")	ser.SerializeObjectEquationsSet ( "EquationsSets/" + this.textBox1.Text + ".equation" , this.Set );
 			else
 			{
 				MessageBox.Show("empty input!");

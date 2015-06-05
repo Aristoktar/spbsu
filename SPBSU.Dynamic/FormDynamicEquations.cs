@@ -365,13 +365,23 @@ namespace SPBSU.Dynamic {
 						this.label3.Text = newDetVar.ToString ();
 					}
 					if ( this.checkBoxPoincare.Checked ) {
+						double pointOfSection;
+						if ( this.textBoxSectionPoint.Text.Contains ( "pi" ) ) {
+							var param = this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble(b.Value.Text));
+							Compilator c = new Compilator ( new Dictionary<string , string> { { "var" , this.textBoxSectionPoint.Text.Replace ( "pi" , "Math.PI" ) } } , param );
+							pointOfSection= c.GetFuncs ()["var"].Invoke (0,new Dictionary<string,double>(),param);
 
+						}
+						else {
+							pointOfSection=Convert.ToDouble(this.textBoxSectionPoint.Text);
+						}
 
 						integrParam.PoincareParameters = new PoincareSectionParameters {
 							VariableForSection = this.comboBoxVarForPoincare.SelectedItem.ToString () ,
 							HitPointsCount = Convert.ToInt32 ( this.textBoxHitCount.Text ) ,
 							ThicknessOfLayer = Convert.ToDouble ( this.textBoxThicknessOfLayer.Text ),
-							PointOfSection = Convert.ToDouble(this.textBoxSectionPoint.Text)
+							PointOfSection = pointOfSection,
+							TimePeriodSection = this.checkBoxTime.Checked
 						};
 					}
 					else {
@@ -553,48 +563,53 @@ namespace SPBSU.Dynamic {
 					this.checkBoxPoincare.Checked = false;
 					break;
 				default:
-					var set = new Serializer ().DeSerializeObject ( "EquationsSets/" + ( sender as ListBox ).SelectedItem.ToString () + ".equation" );
-					foreach ( var param in set.Parameters ) {
-						this.ParamterTextBoxes[param.Key].Text = param.Value.ToString();
-					}
-					SetEquationsCount ( set.Equations.Count );
-					for ( int i = 0 ; i < this.Equations.Count ; i++ ) {
-						this.Equations.ElementAt ( i ).Value.Text = set.Equations.ElementAt ( i ).Value.Text;
-						this.Initials.ElementAt ( i ).Value.Text = set.Equations.ElementAt ( i ).Value.Var0.ToString();
-						this.Variables.ElementAt ( i ).Value.Text = set.Equations.ElementAt ( i ).Value.Var.ToString ();
-					}
-					this.textBoxt0.Text = set.t0.ToString ();
-					if ( set.IntegrationParameters.PoincareParameters != null ) {
-						this.checkBoxPoincare.Checked = true;
-						this.textBoxThicknessOfLayer.Text = set.IntegrationParameters.PoincareParameters.ThicknessOfLayer.ToString ();
-						this.textBoxVarEquation.Text = set.IntegrationParameters.PoincareParameters.HForDetEquation;
-						this.textBoxH.Text = set.IntegrationParameters.PoincareParameters.H;
-						this.comboBoxVarForPoincare.SelectedIndex = this.comboBoxVarForPoincare.Items.IndexOf ( set.IntegrationParameters.PoincareParameters.VariableForSection );
-						this.comboBoxVarForDetH.SelectedIndex = this.comboBoxVarForDetH.Items.IndexOf ( set.IntegrationParameters.PoincareParameters.HForDet );
-						this.textBoxHitCount.Text = set.IntegrationParameters.PoincareParameters.HitPointsCount.ToString ();
-						this.textBoxSectionPoint.Text = set.IntegrationParameters.PoincareParameters.PointOfSection.ToString ();
-
-						this.checkBoxHDet.Checked = set.IntegrationParameters.PoincareParameters.CheckDetH;
-					}
-					else {
-						this.checkBoxPoincare.Checked = false;
-						this.checkBoxHDet.Checked = false;
-					}
-					if ( set.SetOfInitials != null ) {
-						this.SetOfInitials = set.SetOfInitials;
-					}
-					this.textBoxStep.Text = set.IntegrationParameters.Step.ToString ();
-					this.textBoxIterations.Text = set.IntegrationParameters.IterationsCount.ToString ();
-					this.checkBoxDirectionLeft.Checked = set.IntegrationParameters.LeftDirection;
-					this.checkBoxDirectionRight.Checked = set.IntegrationParameters.RightDirection;
-					this.textBoxHamiltonian.Text = set.Hamiltonian;
-					this.ColorsOfInitials = set.Colors;
-					
-
+					var set = new Serializer ().DeSerializeObjectEquationsSet ( "EquationsSets/" + ( sender as ListBox ).SelectedItem.ToString () + ".equation" );
+					LoadEquations ( set );
 					break;
 			}
 			//this.graphSystemBehavior1.Redraw ();
 		}
+
+		private void LoadEquations ( EquationsSet set ) {
+			foreach ( var param in set.Parameters ) {
+				this.ParamterTextBoxes[param.Key].Text = param.Value.ToString ();
+			}
+			SetEquationsCount ( set.Equations.Count );
+			for ( int i = 0 ; i < this.Equations.Count ; i++ ) {
+				this.Equations.ElementAt ( i ).Value.Text = set.Equations.ElementAt ( i ).Value.Text;
+				this.Initials.ElementAt ( i ).Value.Text = set.Equations.ElementAt ( i ).Value.Var0.ToString ();
+				this.Variables.ElementAt ( i ).Value.Text = set.Equations.ElementAt ( i ).Value.Var.ToString ();
+			}
+			this.textBoxt0.Text = set.t0.ToString ();
+			if ( set.IntegrationParameters.PoincareParameters != null ) {
+				this.checkBoxPoincare.Checked = true;
+				this.textBoxThicknessOfLayer.Text = set.IntegrationParameters.PoincareParameters.ThicknessOfLayer.ToString ();
+				this.textBoxVarEquation.Text = set.IntegrationParameters.PoincareParameters.HForDetEquation;
+				this.textBoxH.Text = set.IntegrationParameters.PoincareParameters.H;
+				this.comboBoxVarForPoincare.SelectedIndex = this.comboBoxVarForPoincare.Items.IndexOf ( set.IntegrationParameters.PoincareParameters.VariableForSection );
+				this.comboBoxVarForDetH.SelectedIndex = this.comboBoxVarForDetH.Items.IndexOf ( set.IntegrationParameters.PoincareParameters.HForDet );
+				this.textBoxHitCount.Text = set.IntegrationParameters.PoincareParameters.HitPointsCount.ToString ();
+
+				this.textBoxSectionPoint.Text = set.IntegrationParameters.PoincareParameters.TimePeriodSection ? set.IntegrationParameters.PoincareParameters.PointOfSectionString : set.IntegrationParameters.PoincareParameters.PointOfSection.ToString ();
+				this.checkBoxTime.Checked = set.IntegrationParameters.PoincareParameters.TimePeriodSection;
+
+				this.checkBoxHDet.Checked = set.IntegrationParameters.PoincareParameters.CheckDetH;
+			}
+			else {
+				this.checkBoxPoincare.Checked = false;
+				this.checkBoxHDet.Checked = false;
+			}
+			if ( set.SetOfInitials != null ) {
+				this.SetOfInitials = set.SetOfInitials;
+			}
+			this.textBoxStep.Text = set.IntegrationParameters.Step.ToString ();
+			this.textBoxIterations.Text = set.IntegrationParameters.IterationsCount.ToString ();
+			this.checkBoxDirectionLeft.Checked = set.IntegrationParameters.LeftDirection;
+			this.checkBoxDirectionRight.Checked = set.IntegrationParameters.RightDirection;
+			this.textBoxHamiltonian.Text = set.Hamiltonian;
+			this.ColorsOfInitials = set.Colors;
+		}
+		
 
 		public void SetEquationsCount ( int count ) {
 			if ( this.Equations.Count == count ) return;
@@ -730,6 +745,8 @@ namespace SPBSU.Dynamic {
 				this.textBoxHitCount.Enabled = true;
 				this.textBoxSectionPoint.Enabled = true;
 				this.textBoxIterations.Enabled = false;
+
+				this.checkBoxTime.Enabled = true;
 			}
 			else {
 				this.textBoxThicknessOfLayer.Enabled = false;
@@ -737,6 +754,8 @@ namespace SPBSU.Dynamic {
 				this.textBoxHitCount.Enabled = false;
 				this.textBoxSectionPoint.Enabled = false;
 				this.textBoxIterations.Enabled = true;
+
+				this.checkBoxTime.Enabled = false;
 			}
 		}
 
@@ -791,23 +810,30 @@ namespace SPBSU.Dynamic {
 		}
 
 		private void buttonSaveSystem_Click ( object sender , EventArgs e ) {
+			SaveSystemForm form = new SaveSystemForm ( this.PickEquationsData(),this );
+			form.Show ();
+		}
+
+		private EquationsSet PickEquationsData () {
 			Dictionary<string , Equation> eques = new Dictionary<string , Equation> ();
 			IntegrationParameters param = new IntegrationParameters {
 				Error = Convert.ToDouble ( this.textBoxError.Text ) ,
 				IterationsCount = Convert.ToInt32 ( this.textBoxIterations.Text ) ,
 				LeftDirection = this.checkBoxDirectionLeft.Checked ,
 				RightDirection = this.checkBoxDirectionRight.Checked ,
-				Step = Convert.ToDouble ( this.textBoxStep.Text ),
-				PoincareParameters = this.checkBoxPoincare.Checked?new PoincareSectionParameters{
+				Step = Convert.ToDouble ( this.textBoxStep.Text ) ,
+				PoincareParameters = this.checkBoxPoincare.Checked ? new PoincareSectionParameters {
 					VariableForSection = this.comboBoxVarForPoincare.SelectedItem.ToString () ,
 					HitPointsCount = Convert.ToInt32 ( this.textBoxHitCount.Text ) ,
-					ThicknessOfLayer = Convert.ToDouble ( this.textBoxThicknessOfLayer.Text ),
-					PointOfSection = Convert.ToDouble(this.textBoxSectionPoint.Text),
-					H = this.textBoxH.Text,
-					HForDet =this.comboBoxVarForDetH.Text,
-					HForDetEquation = this.textBoxVarEquation.Text,
-					CheckDetH = this.checkBoxHDet.Checked
-				}:null
+					ThicknessOfLayer = Convert.ToDouble ( this.textBoxThicknessOfLayer.Text ) ,
+					PointOfSection = this.checkBoxTime.Checked ? 0 : Convert.ToDouble ( this.textBoxSectionPoint.Text ) ,
+					PointOfSectionString = this.checkBoxTime.Checked ? this.textBoxSectionPoint.Text : "" ,
+					H = this.textBoxH.Text ,
+					HForDet = this.comboBoxVarForDetH.Text ,
+					HForDetEquation = this.textBoxVarEquation.Text ,
+					CheckDetH = this.checkBoxHDet.Checked ,
+					TimePeriodSection = this.checkBoxTime.Checked
+				} : null
 			};
 			foreach ( var var in this.Variables ) {
 				eques.Add ( var.Value.Text , new Equation {
@@ -817,16 +843,15 @@ namespace SPBSU.Dynamic {
 				} );
 			}
 			EquationsSet set = new EquationsSet {
-				t0 = Convert.ToDouble ( this.textBoxt0.Text ),
-				Equations = eques,
-				Parameters = this.ParamterTextBoxes.ToDictionary(a=>a.Key,a=>Convert.ToDouble(a.Value.Text)),
-				IntegrationParameters = param,
-				Hamiltonian = this.textBoxHamiltonian.Text,
-				SetOfInitials = this.SetOfInitials==null?null:this.SetOfInitials,
-				Colors = this.ColorsOfInitials==null?null:this.ColorsOfInitials
+				t0 = Convert.ToDouble ( this.textBoxt0.Text ) ,
+				Equations = eques ,
+				Parameters = this.ParamterTextBoxes.ToDictionary ( a => a.Key , a => Convert.ToDouble ( a.Value.Text ) ) ,
+				IntegrationParameters = param ,
+				Hamiltonian = this.textBoxHamiltonian.Text ,
+				SetOfInitials = this.SetOfInitials == null ? null : this.SetOfInitials ,
+				Colors = this.ColorsOfInitials == null ? null : this.ColorsOfInitials
 			};
-			SaveSystemForm form = new SaveSystemForm ( set,this );
-			form.Show ();
+			return set;
 		}
 
 		private void buttonFullScreen_Click ( object sender , EventArgs e ) {
@@ -907,6 +932,56 @@ namespace SPBSU.Dynamic {
 			this.Invoke ( new Action ( () => {
 				this.buttonCalc_Click ( null , null );
 			} ) );
+		}
+
+		private void checkBoxTime_CheckedChanged ( object sender , EventArgs e ) {
+			this.labelSectionPoint.Text = ( sender as CheckBox ).Checked ? "Period" : "Point for section";
+		}
+
+		private void buttonSaveData_Click ( object sender , EventArgs e ) {
+			if ( this.saveFileDialog1.ShowDialog () == System.Windows.Forms.DialogResult.OK ) {
+				Serializer ser = new Serializer ();
+				var te = this.graphSystemBehavior1.Data;
+				ser.SerializeObjectEquationsSetData ( this.saveFileDialog1.FileName , new EquationSetWithData {
+					Data = this.graphSystemBehavior1.Data ,
+					EqSet = this.PickEquationsData(),
+					IntegrType = this.graphSystemBehavior1.IntegrationType
+				} );
+
+			}
+		}
+
+		private void button1_Click_1 ( object sender , EventArgs e ) {
+			if ( this.openFileDialog1.ShowDialog () == System.Windows.Forms.DialogResult.OK ) {
+				Serializer ser = new Serializer();
+				var set = ser.DeSerializeObjectEquationsSetData ( this.openFileDialog1.FileName );
+				this.LoadEquations ( set.EqSet );
+				this.graphSystemBehavior1.Data = set.Data;
+			}
+		}
+
+		
+
+		private void buttonSaveData_Click_1 ( object sender , EventArgs e ) {
+			if ( this.saveFileDialog1.ShowDialog () == System.Windows.Forms.DialogResult.OK ) {
+				Serializer ser = new Serializer ();
+				var te = this.graphSystemBehavior1.Data;
+				ser.SerializeObjectEquationsSetData ( this.saveFileDialog1.FileName , new EquationSetWithData {
+					Data = this.graphSystemBehavior1.Data ,
+					EqSet = this.PickEquationsData () ,
+					IntegrType = this.graphSystemBehavior1.IntegrationType
+				} );
+
+			}
+		}
+
+		private void buttonLoadData_Click ( object sender , EventArgs e ) {
+			if ( this.openFileDialog1.ShowDialog () == System.Windows.Forms.DialogResult.OK ) {
+				Serializer ser = new Serializer ();
+				var set = ser.DeSerializeObjectEquationsSetData ( this.openFileDialog1.FileName );
+				this.LoadEquations ( set.EqSet );
+				this.graphSystemBehavior1.Data = set.Data;
+			}
 		}
 
 

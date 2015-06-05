@@ -20,7 +20,7 @@ namespace Mathematics.Intergration {
 				output[func.Key].Add ( f[func.Key] );
 			}
 			List<double> tOut = new List<double> ();
-
+			tOut.Add ( t );
 			for ( int i = 0 ; i < iterationsCount ; i++ ) {
 				Dictionary<string , double> temp = new Dictionary<string,double>(output.ToDictionary(a=>a.Key,a=>a.Value.Last()));
 				
