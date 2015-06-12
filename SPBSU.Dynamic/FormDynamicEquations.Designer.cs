@@ -57,6 +57,7 @@
 			this.comboBoxVarForPoincare = new System.Windows.Forms.ComboBox();
 			this.splitter1 = new System.Windows.Forms.Splitter();
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.checkBoxTime = new System.Windows.Forms.CheckBox();
 			this.label3 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.checkBoxHDet = new System.Windows.Forms.CheckBox();
@@ -102,19 +103,21 @@
 			this.colorDialog1 = new System.Windows.Forms.ColorDialog();
 			this.checkBoxSavePastValues = new System.Windows.Forms.CheckBox();
 			this.buttonColor = new System.Windows.Forms.Button();
-			this.graphSystemBehavior1 = new Graph.GraphDynamicType();
 			this.buttonSetOfInitials = new System.Windows.Forms.Button();
 			this.buttonCalcSet = new System.Windows.Forms.Button();
-			this.checkBoxTime = new System.Windows.Forms.CheckBox();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
 			this.buttonSaveData = new System.Windows.Forms.Button();
 			this.buttonLoadData = new System.Windows.Forms.Button();
+			this.numericUpDownBrush = new System.Windows.Forms.NumericUpDown();
+			this.labelBrush = new System.Windows.Forms.Label();
+			this.graphSystemBehavior1 = new Graph.GraphDynamicType();
 			this.panel1.SuspendLayout();
 			this.tabControlIntegrationParameters.SuspendLayout();
 			this.tabPagePoincare.SuspendLayout();
 			this.tabPageBasic.SuspendLayout();
 			this.groupBoxCalculationsResult.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownBrush)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// buttonAddEquation
@@ -452,6 +455,17 @@
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(323, 318);
 			this.panel1.TabIndex = 48;
+			// 
+			// checkBoxTime
+			// 
+			this.checkBoxTime.AutoSize = true;
+			this.checkBoxTime.Location = new System.Drawing.Point(252, 78);
+			this.checkBoxTime.Name = "checkBoxTime";
+			this.checkBoxTime.Size = new System.Drawing.Size(29, 17);
+			this.checkBoxTime.TabIndex = 62;
+			this.checkBoxTime.Text = "t";
+			this.checkBoxTime.UseVisualStyleBackColor = true;
+			this.checkBoxTime.CheckedChanged += new System.EventHandler(this.checkBoxTime_CheckedChanged);
 			// 
 			// label3
 			// 
@@ -874,7 +888,7 @@
 			this.checkBoxSavePastValues.AutoSize = true;
 			this.checkBoxSavePastValues.Checked = true;
 			this.checkBoxSavePastValues.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBoxSavePastValues.Location = new System.Drawing.Point(238, 388);
+			this.checkBoxSavePastValues.Location = new System.Drawing.Point(171, 390);
 			this.checkBoxSavePastValues.Name = "checkBoxSavePastValues";
 			this.checkBoxSavePastValues.Size = new System.Drawing.Size(110, 17);
 			this.checkBoxSavePastValues.TabIndex = 60;
@@ -891,35 +905,6 @@
 			this.buttonColor.Text = "Select Color";
 			this.buttonColor.UseVisualStyleBackColor = true;
 			this.buttonColor.Click += new System.EventHandler(this.buttonColor_Click);
-			// 
-			// graphSystemBehavior1
-			// 
-			this.graphSystemBehavior1.Animate = false;
-			this.graphSystemBehavior1.AnimatePeriod = 1;
-			this.graphSystemBehavior1.AxisXlabel = "x";
-			this.graphSystemBehavior1.AxisYlabel = "y";
-			this.graphSystemBehavior1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-			this.graphSystemBehavior1.ColorForNewData = System.Drawing.Color.Empty;
-			this.graphSystemBehavior1.Data = null;
-			this.graphSystemBehavior1.f0 = null;
-			this.graphSystemBehavior1.functionsD = null;
-			this.graphSystemBehavior1.GraphHist = false;
-			this.graphSystemBehavior1.IntegrationType = Mathematics.Intergration.IntegrationType.EulerMethod;
-			this.graphSystemBehavior1.IntergrationParameters = null;
-			this.graphSystemBehavior1.IsAxisVisible = true;
-			this.graphSystemBehavior1.Location = new System.Drawing.Point(12, 12);
-			this.graphSystemBehavior1.MoveButtonsExist = true;
-			this.graphSystemBehavior1.Name = "graphSystemBehavior1";
-			this.graphSystemBehavior1.Parameters = null;
-			this.graphSystemBehavior1.SavePastValues = false;
-			this.graphSystemBehavior1.Scatter = true;
-			this.graphSystemBehavior1.Size = new System.Drawing.Size(464, 363);
-			this.graphSystemBehavior1.Solutions = null;
-			this.graphSystemBehavior1.t0 = 0D;
-			this.graphSystemBehavior1.TabIndex = 0;
-			this.graphSystemBehavior1.UseDynamicFunctions = false;
-			this.graphSystemBehavior1.ZoomButtonsExist = true;
-			this.graphSystemBehavior1.CalculationFinished += new Graph.Events.CalculationFinishedHandler(this.graphSystemBehavior1_CalculationFinished);
 			// 
 			// buttonSetOfInitials
 			// 
@@ -941,17 +926,6 @@
 			this.buttonCalcSet.Text = "Calc set";
 			this.buttonCalcSet.UseVisualStyleBackColor = true;
 			this.buttonCalcSet.Click += new System.EventHandler(this.buttonCalcSet_Click);
-			// 
-			// checkBoxTime
-			// 
-			this.checkBoxTime.AutoSize = true;
-			this.checkBoxTime.Location = new System.Drawing.Point(252, 78);
-			this.checkBoxTime.Name = "checkBoxTime";
-			this.checkBoxTime.Size = new System.Drawing.Size(29, 17);
-			this.checkBoxTime.TabIndex = 62;
-			this.checkBoxTime.Text = "t";
-			this.checkBoxTime.UseVisualStyleBackColor = true;
-			this.checkBoxTime.CheckedChanged += new System.EventHandler(this.checkBoxTime_CheckedChanged);
 			// 
 			// openFileDialog1
 			// 
@@ -982,12 +956,75 @@
 			this.buttonLoadData.UseVisualStyleBackColor = true;
 			this.buttonLoadData.Click += new System.EventHandler(this.buttonLoadData_Click);
 			// 
+			// numericUpDownBrush
+			// 
+			this.numericUpDownBrush.Location = new System.Drawing.Point(361, 387);
+			this.numericUpDownBrush.Maximum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+			this.numericUpDownBrush.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.numericUpDownBrush.Name = "numericUpDownBrush";
+			this.numericUpDownBrush.Size = new System.Drawing.Size(34, 20);
+			this.numericUpDownBrush.TabIndex = 66;
+			this.numericUpDownBrush.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.numericUpDownBrush.ValueChanged += new System.EventHandler(this.numericUpDownBrush_ValueChanged);
+			// 
+			// labelBrush
+			// 
+			this.labelBrush.AutoSize = true;
+			this.labelBrush.Location = new System.Drawing.Point(320, 391);
+			this.labelBrush.Name = "labelBrush";
+			this.labelBrush.Size = new System.Drawing.Size(37, 13);
+			this.labelBrush.TabIndex = 67;
+			this.labelBrush.Text = "Brush:";
+			// 
+			// graphSystemBehavior1
+			// 
+			this.graphSystemBehavior1.Animate = false;
+			this.graphSystemBehavior1.AnimatePeriod = 1;
+			this.graphSystemBehavior1.AxisXlabel = "x";
+			this.graphSystemBehavior1.AxisYlabel = "y";
+			this.graphSystemBehavior1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+			this.graphSystemBehavior1.ColorForNewData = System.Drawing.Color.Empty;
+			this.graphSystemBehavior1.Data = null;
+			this.graphSystemBehavior1.f0 = null;
+			this.graphSystemBehavior1.functionsD = null;
+			this.graphSystemBehavior1.GraphHist = false;
+			this.graphSystemBehavior1.IntegrationType = Mathematics.Intergration.IntegrationType.EulerMethod;
+			this.graphSystemBehavior1.IntergrationParameters = null;
+			this.graphSystemBehavior1.IsAxisVisible = true;
+			this.graphSystemBehavior1.Location = new System.Drawing.Point(12, 12);
+			this.graphSystemBehavior1.MoveButtonsExist = true;
+			this.graphSystemBehavior1.Name = "graphSystemBehavior1";
+			this.graphSystemBehavior1.Parameters = null;
+			this.graphSystemBehavior1.SavePastValues = false;
+			this.graphSystemBehavior1.Scatter = true;
+			this.graphSystemBehavior1.Size = new System.Drawing.Size(464, 363);
+			this.graphSystemBehavior1.Solutions = null;
+			this.graphSystemBehavior1.t0 = 0D;
+			this.graphSystemBehavior1.TabIndex = 0;
+			this.graphSystemBehavior1.UseDynamicFunctions = false;
+			this.graphSystemBehavior1.ZoomButtonsExist = true;
+			this.graphSystemBehavior1.CalculationFinished += new Graph.Events.CalculationFinishedHandler(this.graphSystemBehavior1_CalculationFinished);
+			// 
 			// FormDynamicEquations
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoScroll = true;
 			this.ClientSize = new System.Drawing.Size(1370, 724);
+			this.Controls.Add(this.labelBrush);
+			this.Controls.Add(this.numericUpDownBrush);
 			this.Controls.Add(this.buttonLoadData);
 			this.Controls.Add(this.buttonSaveData);
 			this.Controls.Add(this.buttonCalcSet);
@@ -1046,6 +1083,7 @@
 			this.tabPageBasic.PerformLayout();
 			this.groupBoxCalculationsResult.ResumeLayout(false);
 			this.groupBoxCalculationsResult.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownBrush)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1140,6 +1178,8 @@
 		private System.Windows.Forms.SaveFileDialog saveFileDialog1;
 		private System.Windows.Forms.Button buttonSaveData;
 		private System.Windows.Forms.Button buttonLoadData;
+		private System.Windows.Forms.NumericUpDown numericUpDownBrush;
+		private System.Windows.Forms.Label labelBrush;
 	}
 }
 

@@ -157,7 +157,7 @@ namespace Mathematics.Intergration {
 				FuncInvoked = 0
 			};
 
-			bool left = integrationParameters.LeftDirection;
+			bool left = false;//integrationParameters.LeftDirection;
 			bool right = integrationParameters.RightDirection;
 			Dictionary<string , List<double>> outputR = new Dictionary<string , List<double>> ();
 			Dictionary<string , List<double>> outputL = new Dictionary<string , List<double>> ();

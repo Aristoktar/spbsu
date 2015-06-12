@@ -141,6 +141,8 @@ namespace Graph
 		public int XLabelLength = 4;
 		public int YLabelLength = 4;
 
+		public int BrushThickness = 1;
+
         public Graph()
         {
             this.InitializeComponent();
@@ -448,52 +450,45 @@ namespace Graph
         protected virtual void CreateGraphImage()
         {
             this.ImgGraph = new Bitmap(this.Width, this.Height);
-            if (this.dataArrayOfArrays.Length > 2)
-            {
-                
-                if (this.GraphHist)
-                {
-                    int[][] histedArr = this.hist();
-                    Graphics g = Graphics.FromImage(this.ImgGraph);
-                    for (int i = 0; i < this.dataArrayOfArrays.Length; i++)
-                    {
-                        for (int j = 0; j < this.countYs; j++)
-                        {
-                            double yValue = (double)this.YMinValue + j * this.deltaYs;
+			#region arreyOfArrey
+			if ( this.dataArrayOfArrays.Length > 2 ) {
 
-                            float y = (float)this.UsersToPixel(yValue, Axes.y);
-                            float x = (float)this.UsersToPixel((double)this.XMinValue + i * this.deltaXs, Axes.x);
+				if ( this.GraphHist ) {
+					int[][] histedArr = this.hist ();
+					Graphics g = Graphics.FromImage ( this.ImgGraph );
+					for ( int i = 0 ; i < this.dataArrayOfArrays.Length ; i++ ) {
+						for ( int j = 0 ; j < this.countYs ; j++ ) {
+							double yValue = (double) this.YMinValue + j * this.deltaYs;
 
-                            if (y < this.Height * 1000 && y > -this.Height * 1000)
-                            {
-                                int colorVal = histedArr[i][j];
-                                if (colorVal > 0)
-                                {
-                                    Pen p = new Pen(Color.FromArgb(colorVal,0,0,0));
-                                    g.DrawEllipse(p, x, y, 1, 1);
-                                }
-                            }
-                        }
-                    }
-                    g.Save();
-                }
-                else
-                {
-                    Graphics g = Graphics.FromImage(this.ImgGraph);
-                    for (int i = 0; i < this.dataArrayOfArrays.Length; i++)
-                    {
-                        for (int j = 0; j < this.dataArrayOfArrays[i].Length; j++)
-                        {
-                            float y = (float)this.UsersToPixel(this.dataArrayOfArrays[i][j], Axes.y);
-                            float x = (float)this.UsersToPixel((double)this.XMinValue + i * this.deltaXs, Axes.x);
-                            if (y < this.Height * 1000 && y > -this.Height * 1000)
-                                g.DrawEllipse(Pens.Red, x, y, 1, 1);
-                        }
-                    }
-                    g.Save();
-                }
-                
-            }
+							float y = (float) this.UsersToPixel ( yValue , Axes.y );
+							float x = (float) this.UsersToPixel ( (double) this.XMinValue + i * this.deltaXs , Axes.x );
+
+							if ( y < this.Height * 1000 && y > -this.Height * 1000 ) {
+								int colorVal = histedArr[i][j];
+								if ( colorVal > 0 ) {
+									Pen p = new Pen ( Color.FromArgb ( colorVal , 0 , 0 , 0 ) );
+									g.DrawEllipse ( p , x , y , 1 , 1 );
+								}
+							}
+						}
+					}
+					g.Save ();
+				}
+				else {
+					Graphics g = Graphics.FromImage ( this.ImgGraph );
+					for ( int i = 0 ; i < this.dataArrayOfArrays.Length ; i++ ) {
+						for ( int j = 0 ; j < this.dataArrayOfArrays[i].Length ; j++ ) {
+							float y = (float) this.UsersToPixel ( this.dataArrayOfArrays[i][j] , Axes.y );
+							float x = (float) this.UsersToPixel ( (double) this.XMinValue + i * this.deltaXs , Axes.x );
+							if ( y < this.Height * 1000 && y > -this.Height * 1000 )
+								g.DrawEllipse ( Pens.Red , x , y , 1 , 1 );
+						}
+					}
+					g.Save ();
+				}
+
+			} 
+			#endregion
 
 			
             if (this.Data!=null) {
@@ -518,7 +513,7 @@ namespace Graph
 								x < this.Width * 1000 &&
 								x > -this.Width * 1000 ) {
 
-									g.DrawEllipse ( new Pen ( dataVal.DataColor) , x , y , 1 , 1 );
+									g.FillEllipse ( new SolidBrush ( dataVal.DataColor ) , x - this.BrushThickness / 2 , y - this.BrushThickness / 2 , this.BrushThickness , this.BrushThickness );
 							} if ( Animate && i % delay == 0 ) {
 
 								Thread.Sleep ( AnimatePeriod );
@@ -544,7 +539,7 @@ namespace Graph
 								) {
 								PointF p1 = new PointF ( xPast , xPast );
 								PointF p2 = new PointF ( x , y );
-								g.DrawLine ( new Pen(dataVal.DataColor) , x , y , xPast , yPast );
+								g.DrawLine ( new Pen ( dataVal.DataColor , this.BrushThickness ) , x , y , xPast , yPast );
 							}
 							if ( Animate && i % delay == 0 ) {
 

@@ -829,7 +829,7 @@ namespace Mathematics.Intergration {
 				}
 				tR = tR + hR;
 				tL = tL + hL;
-				if ( integrationParameters == null ) {
+				if ( integrationParameters.PoincareParameters == null ) {
 					progress.NextValue ( iter );
 				}
 				else {
