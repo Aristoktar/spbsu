@@ -12,7 +12,9 @@ namespace SPBSU.Dynamic {
 	public partial class GraphFullScreen : Form {
 		public GraphFullScreen () {
 			InitializeComponent ();
-			this.WindowState = FormWindowState.Maximized;
+			//this.WindowState = FormWindowState.Maximized;
+			this.Height = 1000;
+			this.Width = 1300;
 		}
 
 		private void GraphFullScreen_SizeChanged ( object sender , EventArgs e ) {

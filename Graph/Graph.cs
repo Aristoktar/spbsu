@@ -143,6 +143,8 @@ namespace Graph
 
 		public int BrushThickness = 1;
 
+		public bool expotentialY = false;
+
         public Graph()
         {
             this.InitializeComponent();
@@ -591,12 +593,19 @@ namespace Graph
 				for ( int j = 0 ; j < this.XLabelLength ; j++ ) {
 					xPattern += "#";
 				}
+				
 				for ( int j = 0 ; j < this.XLabelLength ; j++ ) {
 					yPattern += "#";
 				}
 
-				eGraphics.DrawString ( ( this.YMaxValue - deltaY * i ).ToString ( yPattern ) , Font , Brushes.Black , new PointF ( this.WidthBorderLeft - 34 , ( this.HeightBorderUp - 8 ) + i * ( ( this.Height - this.HeightBorderUp - this.HeightBorderDown ) / 4 ) ) );
-                eGraphics.DrawString((this.XMinValue + deltaX * i).ToString(xPattern), Font, Brushes.Black, new PointF((this.WidthBorderLeft - 6) + i * ((this.Width - this.WidthBorderLeft - this.WidthBorderRight) / 4), this.Height - this.HeightBorderDown + 6));
+				if ( expotentialY ) {
+					eGraphics.DrawString ( ( this.YMaxValue - deltaY * i ).ToString () , Font , Brushes.Black , new PointF ( this.WidthBorderLeft - 34 , ( this.HeightBorderUp - 8 ) + i * ( ( this.Height - this.HeightBorderUp - this.HeightBorderDown ) / 4 ) ) );
+				
+				}
+				else {
+					eGraphics.DrawString ( ( this.YMaxValue - deltaY * i ).ToString (yPattern) , Font , Brushes.Black , new PointF ( this.WidthBorderLeft - 34 , ( this.HeightBorderUp - 8 ) + i * ( ( this.Height - this.HeightBorderUp - this.HeightBorderDown ) / 4 ) ) );
+				}
+				eGraphics.DrawString ( ( this.XMinValue + deltaX * i ).ToString ( xPattern ) , Font , Brushes.Black , new PointF ( ( this.WidthBorderLeft - 6 ) + i * ( ( this.Width - this.WidthBorderLeft - this.WidthBorderRight ) / 4 ) , this.Height - this.HeightBorderDown + 6 ) );
 
             }
             eGraphics.DrawString(this.AxisXlabel, Font, Brushes.Red, this.Width / 2, this.Height - 15);

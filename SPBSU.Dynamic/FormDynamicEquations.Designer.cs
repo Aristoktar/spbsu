@@ -112,6 +112,7 @@
 			this.numericUpDownBrush = new System.Windows.Forms.NumericUpDown();
 			this.labelBrush = new System.Windows.Forms.Label();
 			this.graphSystemBehavior1 = new Graph.GraphDynamicType();
+			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.panel1.SuspendLayout();
 			this.tabControlIntegrationParameters.SuspendLayout();
 			this.tabPagePoincare.SuspendLayout();
@@ -1017,12 +1018,23 @@
 			this.graphSystemBehavior1.ZoomButtonsExist = true;
 			this.graphSystemBehavior1.CalculationFinished += new Graph.Events.CalculationFinishedHandler(this.graphSystemBehavior1_CalculationFinished);
 			// 
+			// checkBox1
+			// 
+			this.checkBox1.AutoSize = true;
+			this.checkBox1.Location = new System.Drawing.Point(594, 607);
+			this.checkBox1.Name = "checkBox1";
+			this.checkBox1.Size = new System.Drawing.Size(45, 17);
+			this.checkBox1.TabIndex = 68;
+			this.checkBox1.Text = "Add";
+			this.checkBox1.UseVisualStyleBackColor = true;
+			// 
 			// FormDynamicEquations
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoScroll = true;
 			this.ClientSize = new System.Drawing.Size(1370, 724);
+			this.Controls.Add(this.checkBox1);
 			this.Controls.Add(this.labelBrush);
 			this.Controls.Add(this.numericUpDownBrush);
 			this.Controls.Add(this.buttonLoadData);
@@ -1180,6 +1192,7 @@
 		private System.Windows.Forms.Button buttonLoadData;
 		private System.Windows.Forms.NumericUpDown numericUpDownBrush;
 		private System.Windows.Forms.Label labelBrush;
+		private System.Windows.Forms.CheckBox checkBox1;
 	}
 }
 

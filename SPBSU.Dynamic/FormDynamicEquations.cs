@@ -678,6 +678,7 @@ namespace SPBSU.Dynamic {
 				HamiltonianPlot form = new HamiltonianPlot ();
 				form.graphSystemOscillogram1.setData ( 0 , 0 , 0 , 0 );
 				form.Activate ();
+				form.graphSystemOscillogram1.expotentialY = true;
 				Dictionary<string , string> eques = new Dictionary<string , string> ();
 				Dictionary<string , double> initials = new Dictionary<string , double> ();
 				List<GraphData> data = new List<GraphData> ();
@@ -695,8 +696,9 @@ namespace SPBSU.Dynamic {
 						List<double> data_Y = new List<double> ();
 						List<double> data_Y1 = new List<double> ();
 						for ( int i = 0 ; i < sol.Solution["t"].Count ;i++ ) {
+							//----absolete----
 							if ( variable == "p" ) {
-								data_Y.Add ( corrector*Math.Abs(sol.Solution[variable][i] - ( Math.Cos ( sol.Solution["t"][i]-t0 ) - 2 * Math.Sin ( sol.Solution["t"][i] -t0) )) );
+								data_Y.Add ( corrector*(sol.Solution[variable][i] - ( Math.Cos ( sol.Solution["t"][i]-t0 ) - 2 * Math.Sin ( sol.Solution["t"][i] -t0) )) );
 							}
 							else {
 								if ( variable == "q" ) {
@@ -733,40 +735,77 @@ namespace SPBSU.Dynamic {
 					}
 				}
 				else {
+					if ( this.textBoxHamiltonian.Text.Contains ( "error" ) ) {
+						string variable = this.textBoxHamiltonian.Text.Split ( ' ' )[1];
 
-					foreach ( var key in this.Equations.Keys ) {
-						eques.Add ( Variables[key].Text , Equations[key].Text );
-					}
-					Compilator compilator = new Compilator ( new Dictionary<string , string> { { "H" , this.textBoxHamiltonian.Text } } ,
-															this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble ( b.Value.Text ) ) ,
-															eques.Keys );
-					var temt = compilator.GetFuncs ();
+						double corrector = 1;
+						foreach ( var sol in this.graphSystemBehavior1.Data ) {
+							List<double> data_Y = new List<double> ();
+							List<double> data_Y1 = new List<double> ();
+							for ( int i = 0 ; i < sol.Solution["t"].Count ; i++ ) {
+
+								data_Y.Add ( Math.Abs ( sol.Solution[variable][i] - sol.Solution[variable][0] ) / sol.Solution[variable][0] );
 
 
-					foreach ( var sol in this.graphSystemBehavior1.Data ) {
-						var dic = new Dictionary<string , List<double>> ();
-						dic.Add ( "p" , new List<double> () );
-						dic.Add ( "q" , new List<double> () );
-						for(int i=0; i< sol.dataX.Count;i++){
-							dic["p"].Add (  Math.Cos ( sol.Solution["t"][i] - t0 ) - 2 * Math.Sin ( sol.Solution["t"][i] - t0 )  );
-							dic["q"].Add (  2 * Math.Cos ( sol.Solution["t"][i] - t0 ) + Math.Sin ( sol.Solution["t"][i] - t0 )   );
+							}
+							data.Add ( new GraphData {
+								DataColor = sol.DataColor ,
+								dataY = data_Y ,
+								dataX = sol.Solution["t"]
+
+							} );
+							if ( data_Y1.Count != 0 ) {
+								data.Add ( new GraphData {
+									DataColor = Color.Blue ,
+									dataY = data_Y1 ,
+									dataX = sol.Solution["t"]
+
+								} );
+							}
+							corrector *= -1;
 						}
-						dic.Add ( "t" , sol.Solution["t"] );
-						//var uio = Hamiltonian.Calc ( temt , sol.Solution , this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble ( b.Value.Text ) ) );
-						var uio = Hamiltonian.Calc ( temt , dic , this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble ( b.Value.Text ) ) );
-						data.Add ( new GraphData {
-							DataColor = sol.DataColor ,
-							dataY = uio["H"] ,
-							dataX = sol.Solution["t"]
+					}
+					else {
+						form.graphSystemOscillogram1.AxisXlabel = "t";
+						form.graphSystemOscillogram1.AxisYlabel = "%";
+						foreach ( var key in this.Equations.Keys ) {
+							eques.Add ( Variables[key].Text , Equations[key].Text );
+						}
+						Compilator compilator = new Compilator ( new Dictionary<string , string> { { "H" , this.textBoxHamiltonian.Text } } ,
+																this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble ( b.Value.Text ) ) ,
+																eques.Keys );
+						var temt = compilator.GetFuncs ();
 
-						} );
-						var uio1 = Hamiltonian.Calc ( temt , sol.Solution , this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble ( b.Value.Text ) ) );
-						data.Add ( new GraphData {
-							DataColor = Color.Red ,
-							dataY = uio1["H"] ,
-							dataX = sol.Solution["t"]
 
-						} );
+						foreach ( var sol in this.graphSystemBehavior1.Data ) {
+							var dic = new Dictionary<string , List<double>> ();
+							dic.Add ( "p" , new List<double> () );
+							dic.Add ( "q" , new List<double> () );
+							for ( int i = 0 ; i < sol.dataX.Count ; i++ ) {
+								dic["p"].Add ( Math.Cos ( sol.Solution["t"][i] - t0 ) - 2 * Math.Sin ( sol.Solution["t"][i] - t0 ) );
+								dic["q"].Add ( 2 * Math.Cos ( sol.Solution["t"][i] - t0 ) + Math.Sin ( sol.Solution["t"][i] - t0 ) );
+							}
+							dic.Add ( "t" , sol.Solution["t"] );
+							//var uio = Hamiltonian.Calc ( temt , sol.Solution , this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble ( b.Value.Text ) ) );
+							//var uio = Hamiltonian.Calc ( temt , dic , this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble ( b.Value.Text ) ) );
+							//data.Add ( new GraphData {
+							//	DataColor = sol.DataColor ,
+							//	dataY = uio["H"] ,
+							//	dataX = sol.Solution["t"]
+
+							//} );
+							var uio1 = Hamiltonian.Calc ( temt , sol.Solution , this.ParamterTextBoxes.ToDictionary ( a => a.Key , b => Convert.ToDouble ( b.Value.Text ) ) );
+							double initial = uio1["H"][0];
+							for ( int i = 0 ; i < uio1["H"].Count ; i++ ) {
+								uio1["H"][i] = Math.Abs(uio1["H"][i]-initial) / initial;
+							}
+							data.Add ( new GraphData {
+								DataColor = sol.DataColor ,
+								dataY = uio1["H"] ,
+								dataX = sol.Solution["t"]
+
+							} );
+						}
 					}
 				}
 				form.graphSystemOscillogram1.setYdata ( data);
@@ -945,6 +984,8 @@ namespace SPBSU.Dynamic {
 			form.graphDynamicType.checkBoxZoomrRecalc.Checked = this.graphSystemBehavior1.checkBoxZoomrRecalc.Checked;
 
 			form.graphDynamicType.Data = this.graphSystemBehavior1.Data;
+
+			form.graphDynamicType.BrushThickness = this.graphSystemBehavior1.BrushThickness;
 			
 			form.Show ();
 			form.graphDynamicType.Redraw ();
@@ -1055,7 +1096,14 @@ namespace SPBSU.Dynamic {
 				Serializer ser = new Serializer ();
 				var set = ser.DeSerializeObjectEquationsSetData ( this.openFileDialog1.FileName );
 				this.LoadEquations ( set.EqSet );
-				this.graphSystemBehavior1.Data = set.Data;
+				if ( this.checkBox1.Checked ) {
+
+					this.graphSystemBehavior1.Data.AddRange ( set.Data );
+				}
+				else {
+					this.graphSystemBehavior1.Data =set.Data ;
+					}
+				this.graphSystemBehavior1.RedrawWithChangeData ( this.listBoxX.SelectedItem.ToString () , this.listBoxY.SelectedItem.ToString ());
 			}
 		}
 
